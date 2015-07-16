@@ -1,0 +1,32 @@
+<!-- target: logList -->
+<div class="list-page">
+    <div class="page-crumb">
+        <!-- content: crumb -->
+        <!-- import: logListCrumb -->
+        <!-- /content -->
+    </div>
+    <div class="list-view">
+        <div class="log-list-page-content">
+            <!-- content: main -->
+            <ul class="tab-choose-panel">
+                <li <!-- if: ${logType} ==='user' -->class="active-item"<!-- /if -->><a href="#/log/user/list">权限日志</a></li>
+                <li <!-- if: ${logType} ==='review' -->class="active-item"<!-- /if -->><a href="#/log/audit/list">审核日志</a></li>
+            </ul>
+            <!-- import: logListMain -->
+            <!-- /content -->
+            <!-- import: listPager -->
+        </div>
+    </div>
+</div>
+
+<!-- target : logListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <span>操作日志</span>
+    <span><!-- if: ${logType} ==='user' -->权限操作日志<!-- else -->审核操作日志<!-- /if --></span>
+<!-- /content -->
+
+<!-- target: logListMain -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->

@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("account/schema",["require"],function(){return{oldPass:["string","原密码",{required:!0}],newPass:["string","新密码",{required:!0}],newAgainPass:["string","再输一次",{required:!0,sameAs:!0}]}});

@@ -1,0 +1,95 @@
+<!-- target: auditList(master=listPage) -->
+<!-- content: crumb -->
+<!-- import: auditListCrumb -->
+<!-- /content -->
+<!-- content: main -->
+<!-- import: auditListMain -->
+<!-- /content -->
+
+
+<!-- target : auditListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <span>审核任务</span>
+<!-- /content -->
+
+
+<!-- target: auditListMain -->
+<div class="list-view">
+    <div class="list-meta">
+        <!-- if: ${data.canCreateAudit} -->
+            <div class="list-action">
+                <a data-ui-type="Link" data-ui-id="create" data-ui-skin="add" data-ui-href="#/audit/create~fromPath=create">+ 新增审核任务</a>
+            </div>
+        <!-- /if -->
+        <div class="list-filter <!-- if: !${data.canCreateAudit} -->list-filter-without-action<!-- /if -->">
+            <div class="list-batch-operation  <!-- if: !${data.canCreateAudit} -->list-batch-operation-without-action<!-- /if -->">
+                <!-- if: ${data.canBatchDownload} -->
+                <a data-ui-type="Link"
+                    data-ui-id="download"
+                    target="_blank" class="ui-button state-disabled batch-download-link">下载</a>
+                <!-- /if -->
+                <!-- if: ${data.canBatchDelete} -->
+                <esui-button class="list-download" data-ui-id="delete" data-ui-width="53"
+                 data-ui-group="batch" data-ui-data-status="0"
+                 data-ui-extension-data-type="CustomData" data-ui-skin="link">删除</esui-button>
+                <!-- /if -->
+            </div>
+            <div class="list-filter-fields">
+                <esui-button data-ui-id="filter-switch" data-ui-skin="select">查询</esui-button>
+            </div>
+
+        </div>
+    </div>
+    <!-- import: auditListFilter -->
+    <!-- use: listTable(useCommand = true) -->
+    <!-- import: listPager -->
+</div>
+
+
+<!-- target: auditListFilter(master=listFilter) -->
+<!-- content: filters -->
+    <div class="list-filter-field">
+        <esui-label class="form-field-label" data-ui-for-target="time">创建时间：</esui-label>
+        <div class="form-field-value">
+            <esui-range-calendar
+                data-ui-id="time">
+            </esui-range-calendar>
+        </div>
+    </div>
+    <!-- use: listFilterSelect(title = "任务状态：", name = "status", datasource = "statuses", field = "status") -->
+    <div class="list-filter-field">
+        <esui-label class="form-field-label" data-ui-for-target="id">任务ID：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-value="@id"
+                name="id">
+            </esui-text-box>
+        </div>
+    </div>
+    <div class="list-filter-field">
+        <esui-label class="form-field-label" data-ui-for-target="taskName">任务名称：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-value="@taskName"
+                name="taskName">
+            </esui-text-box>
+        </div>
+    </div>
+    <div class="list-filter-field list-filter-add-user">
+        <esui-label class="form-field-label" data-ui-for-target="addUser">创建人：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-value="@addUser"data-ui-id="addUser"
+                name="addUser" data-ui-extension-command-type="Command"
+                data-command="name-fetch" data-ui-extension-command-events="keyup,focus">
+            </esui-text-box>
+        </div>
+        <esui-panel data-ui-id="nameContainer" class="name-panel-container"></esui-panel>
+    </div>
+<!-- /content -->
+<!-- content: filterResults -->    
+    <!-- use: filterResult(title = "开始时间: ", filter = ${filtersInfo.filters.beginTime}) -->
+    <!-- use: filterResult(title = "结束时间: ", filter = ${filtersInfo.filters.endTime}) -->
+    <!-- use: filterResult(title = "任务状态: ", filter = ${filtersInfo.filters.status}) -->
+    <!-- use: filterResult(title = "任务ID: ", filter = ${filtersInfo.filters.id}) -->
+    <!-- use: filterResult(title = "创建名称: ", filter = ${filtersInfo.filters.taskName}) -->
+    <!-- use: filterResult(title = "创建人: ", filter = ${filtersInfo.filters.addUser}) -->
+<!-- /content -->

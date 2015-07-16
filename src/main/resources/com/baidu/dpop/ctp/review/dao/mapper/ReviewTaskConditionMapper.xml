@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.review.dao.mapper.ReviewTaskConditionMapper">
+
+	<sql id="tradeColumns">
+		tag.id AS id,
+		tag.ref_id AS refId,
+		tag.ref_group_id AS refGroupId,
+		tag.task_id AS taskId,
+		tag.data_type AS dataType,
+		tag.ad_tag AS adTag,
+		tag.ad_trade_id_level3 AS adTradeIdLevel3,
+		tag.comment AS comment,
+		tag.update_time AS updateTime,
+		tag.update_user AS updateUser,
+		tag.general_wuliao_type AS generalWuliaoType,
+		trade.full_name AS adTradeNameLevel3
+	</sql>
+	
+	<sql id="testAdTradeType">
+		AND (1=0
+		<if test="adTradeLevel1!=null">
+			OR floor(tag.ad_trade_id_level3/10000) IN
+			<foreach collection="adTradeLevel1" item="item" index="index"
+				open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="adTradeLevel2!=null">
+			OR floor(tag.ad_trade_id_level3/100) IN
+			<foreach collection="adTradeLevel2" item="item" index="index"
+				open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="adTradeLevel3!=null">
+			OR tag.ad_trade_id_level3 IN
+			<foreach collection="adTradeLevel3" item="item" index="index"
+				open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		)
+	</sql>
+
+	<select id="selectLastInsertId" resultType="java.lang.Long">
+		SELECT
+		LAST_INSERT_ID()
+	</select>
+
+	<select id="selectGroupCountCreateReviewTask" parameterType="com.baidu.dpop.ctp.review.vo.BasicTaskQueryVo"
+		resultType="java.lang.Long">
+		SELECT ref_group_id FROM tb_ad_tag tag
+		<where>
+			<if test="tasks!=null">
+				AND tag.task_id IN
+				<foreach collection="tasks" item="item" index="index" open="("
+					close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+			<if test="dataType!=99">
+				AND tag.data_type=#{dataType}
+			</if>
+			<if test="wuliaoType!=null">
+				AND tag.general_wuliao_type IN
+				<foreach collection="wuliaoType" item="item" index="index"
+					open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+			<if test="tagInfos!=null">
+				<foreach collection="tagInfos.entrySet()" item="element"
+					index="index" separator=" ">
+					AND SUBSTRING(tag.ad_tag, #{element.key}, 1) IN
+					<foreach collection="element.value" item="item" index="index"
+						separator="," open="(" close=")">
+						#{item}
+					</foreach>
+				</foreach>
+			</if>
+			<if test="hasAdType">
+				<include
+					refid="testAdTradeType" />
+			</if>
+		</where>
+		LIMIT #{maxReviewTasks,jdbcType=BIGINT}
+	</select>
+	
+	<select id="selectAdTagWhenCreateReviewTask" parameterType="com.baidu.dpop.ctp.review.vo.BasicTaskQueryVo"
+		resultType="com.baidu.dpop.ctp.adtag.bo.AdTag">
+		SELECT
+		<include refid="tradeColumns"/>
+		FROM tb_ad_tag tag,
+		tb_new_trade_type trade
+		<where>
+			<if test="tasks!=null">
+				AND tag.task_id IN
+				<foreach collection="tasks" item="item" index="index" open="("
+					close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+			<if test="dataType!=99">
+				AND tag.data_type=#{dataType}
+			</if>
+			<if test="wuliaoType!=null">
+				AND tag.general_wuliao_type IN
+				<foreach collection="wuliaoType" item="item" index="index"
+					open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+			<if test="tagInfos!=null">
+				<foreach collection="tagInfos.entrySet()" item="element"
+					index="index" separator=" ">
+					AND SUBSTRING(tag.ad_tag, #{element.key}, 1) IN
+					<foreach collection="element.value" item="item" index="index"
+						separator="," open="(" close=")">
+						#{item}
+					</foreach>
+				</foreach>
+			</if>
+			<if test="hasAdType">
+				<include
+					refid="testAdTradeType" />
+			</if>
+			AND tag.ad_trade_id_level3=trade.full_id
+		</where>
+		LIMIT #{maxReviewTasks,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

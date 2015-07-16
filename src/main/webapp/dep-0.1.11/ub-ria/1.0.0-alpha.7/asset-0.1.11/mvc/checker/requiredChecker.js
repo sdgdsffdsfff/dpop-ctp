@@ -1,0 +1,1 @@
+define("ub-ria/mvc/checker/requiredChecker",["require","underscore"],function(require){function e(e){return!t.isEmpty(e)||t.isNumber(e)||t.isBoolean(e)}var t=require("underscore"),n={name:"required",errorMessage:"${title}不能为空",priority:1,check:e};return n});

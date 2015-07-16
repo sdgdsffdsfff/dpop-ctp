@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("audit/statistics/auditResult/RightListModel",["require","common/ListModel","eoo"],function(require){var exports={};exports.getQuery=function(){var e={reviewTaskId:this.get("reviewTaskId")||"",size:this.get("size"),page:this.get("page")||1,tabType:2};return e};var e=require("common/ListModel"),t=require("eoo").create(e,exports);return t});

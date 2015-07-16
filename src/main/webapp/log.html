@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>查看记录</title>
+		<style>
+			body {
+				width: 100%;
+			}
+			.half-section {
+				width: 45%;
+				float: left;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="half-section">
+			<input type="text" id="taskId" placeholder="输入TaskID"></input>
+			<button id="search">点击查询</button>
+			<p>共<span id="total">0</span>条</p>
+			<table border="1">
+			  <tr>
+			    <th>跟进人名称</th>
+			    <th>Group ID</th>
+			    <th>任务ID</th>
+			    <th>分配时间</th>
+			  </tr>
+			  <tbody id="logTable"></tbody>
+			</table>
+		</div>
+		<div class="half-section">
+			<input type="text" id="status" placeholder="输入要更改的状态"></input>
+			<button id="change">点击更改</button>
+			<button id="deleteTask">删除任务</button>
+			<table border="1" style="margin-top:50px;">
+			  <tr>
+			    <th><input type="hidden" id="selectValues"></th>
+			    <th>任务ID</th>
+			    <th>任务名称</th>
+			    <th>任务状态</th>
+			  </tr>
+			  <tbody id="tasksTable"></tbody>
+			</table>
+		</div>
+		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script>
+		$(document).ready(function(){
+			$.ajax({
+			    url: 'ctp/task/getPagedTasks.do',
+			    type: 'POST',
+			    data: JSON.stringify({page: 1, size: 1000}),
+			    dataType:'json',
+			    contentType:"application/json",
+			    success: function(response){
+					var list = response.data.list;
+					list.forEach(function (item) {
+						var tpl = '<tr data-id="' + item.id + '">' +
+									'<td><input class="singleSelect" type="checkbox" data-id="' + item.id + '"></td>' +
+									'<td>' + item.id + '</td>' +
+									'<td>' + item.taskName + '</td>' +
+									'<td>' + item.status + '</td>' +
+								   '</tr>';
+						$('#tasksTable').append(tpl);
+					});
+					$('.singleSelect').change(function (event) {
+						var value = $('#selectValues').val().split(',');
+						if (event.target.checked) {
+							value.push($(event.target).attr('data-id'));
+							$('#selectValues').val(value.join(','));
+						}
+						else {
+							value.splice(value.indexOf($(event.target).attr('data-id')), 1);
+							$('#selectValues').val(value.join(','));
+						}
+					});
+			    }
+			});
+			// 更改任务状态
+			$('#change').click(function (event) {
+				var status = $('#status').val();
+				var value = $('#selectValues').val().split(',');
+				value.splice(value.indexOf(''), 1);
+				$.ajax({
+				    url: 'ctp/task/changeTaskStatusForced.do',
+				    type: 'POST',
+				    data: JSON.stringify({status: status, tasks: value}),
+				    dataType:'json',
+				    contentType:"application/json",
+				    success: function(response){
+						location.reload();
+				    }
+				});
+			});
+			// 删除任务
+			$('#deleteTask').click(function (event) {
+				var value = $('#selectValues').val().split(',');
+				value.splice(value.indexOf(''), 1);
+				$.ajax({
+				    url: '/ctp/task/deleteTasksByIdList.do',
+				    type: 'POST',
+				    data: JSON.stringify({ids: value, isCompletely: 1}),
+				    dataType:'json',
+				    contentType:"application/json",
+				    success: function(response){
+						location.reload();
+				    }
+				});
+			});
+			$('#search').click(function (event) {
+				var id = $('#taskId').val();
+				$('#logTable').empty();
+				$.get("ctp/generalTask/getTagFollowInfo.do?taskId=" + id, function(response){
+					var list = response.data;
+					list.forEach(function (item) {
+						var tpl = '<tr>' + 
+									'<td>' + item.userName + '</td>' + 
+									'<td>' + item.groupId + '</td>' + 
+									'<td>' + item.taskId + '</td>' + 
+									'<td>' + item.assignTime + '</td>' + 
+								   '</tr>';
+						$('#logTable').append(tpl);
+					});
+					$('#total').text(list.length);
+				});
+			});
+		});
+		</script>
+	</body>
+</html>

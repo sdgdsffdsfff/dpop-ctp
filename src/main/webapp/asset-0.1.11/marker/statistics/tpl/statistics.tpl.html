@@ -1,0 +1,111 @@
+<!-- target: markerStatisticsView -->
+<div class="page-crumb">
+    <!-- content: crumb -->
+    <!-- import: markerStatisticsListCrumb -->
+    <!-- /content -->
+</div>
+<div class="statistics-list-page-content">
+    <!-- content: main -->
+    <!-- import: markerStatisticsListMain -->
+    <!-- /content -->
+</div>
+
+<!-- target : markerStatisticsListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <a href="#/marker/list">标注任务</a>
+    <span>任务统计</span>
+<!-- /content -->
+
+<!-- target: markerStatisticsListMain -->
+<div class="statistics-title">
+    <h2>标注任务统计</h2>
+    <a data-ui-type="Link" data-ui-href="#/marker/list">返回任务列表</a>
+</div>
+<esui-panel class="statistics-basic-info" data-ui-id="statisticsBasicInfo" data-ui-datasource="@basicInfo">
+    <!-- import: markerStatisticsTaskInfo -->
+    <!-- import: markerTaskProgress-->
+</esui-panel>
+<esui-tab
+ data-ui-id="statisticsTab" data-ui-orientation="horizontal" class="statistics-tab">
+    <ul data-role="navigator">
+        <li data-for="dimensions">维度统计</li>
+        <li data-for="members">人员统计</li>
+    </ul>
+    <div data-ui-id="dimensions" id="dimensions" data-ui-type="ActionPanel" data-ui-url="/marker/statistics/dimension~taskId=${basicInfo.taskId}"></div>
+    <div data-ui-id="members" id="members" data-ui-type="ActionPanel" data-ui-url="/marker/statistics/rank~taskId=${basicInfo.taskId}"></div>
+</esui-tab>
+
+<!-- target: markerStatisticsTaskInfo -->
+<div class="statistics-task-info">
+    <div class="statistics-basic-info-row">
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="任务名称">任务名称：</esui-label>
+            <span class="statistics-basic-info-name">${basicInfo.taskName}</span>
+        </div>
+    </div>
+    <div class="statistics-basic-info-row">
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="任务状态">任务状态：</esui-label>
+            <span class="statistics-basic-info-status status-${basicInfo.statusPrefix}">${basicInfo.taskStatusDesc}</span>
+        </div>
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="任务ID">任务ID：</esui-label>
+            <span>${basicInfo.taskId}</span>
+        </div>
+    </div>
+    <div class="statistics-basic-info-row">
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="创建时间">创建时间：</esui-label>
+            <span>${basicInfo.addTime}</span>
+        </div>
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="创建人">创建人：</esui-label>
+            <span>${basicInfo.addUser}</span>
+        </div>
+    </div>
+</div>
+
+<!-- target: markerTaskProgress -->
+<div class="statistics-progress statistics-task-progress">
+    <div class="statistics-progress-info">
+        <h3 class="left-header">标注推广组进度（总数：${basicInfo.totalGroups}）</h3>
+        <div class="statistics-progress-content statistics-groups-content">
+            <div class="statistics-content-info">
+                <div class="left-info">
+                    <p class="dark-blue">已完成推广组：${basicInfo.isDoneGroups}</p>
+                    <p class="light-blue">未完成推广组：${basicInfo.notDoneGroups}</p>
+                    <p>总推广组：${basicInfo.totalGroups}</p>
+                </div>
+                <div class="right-info">
+                    <p class="dark-blue complete-title">完成度</p>
+                    <p class="dark-blue complete-num">${basicInfo.doneGroupsRate}</p>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar-left" style="width: ${basicInfo.doneGroupsRate}">${basicInfo.isDoneGroups}</div>
+                <div class="progress-bar-right" style="width: ${basicInfo.notDoneGroupsRate}">${basicInfo.notDoneGroups}</div>
+            </div>
+        </div>
+    </div>
+    <div class="statistics-progress-info">
+        <h3 class="right-header">标注创意进度（总数：${basicInfo.totalAds}）</h3>
+        <div class="statistics-progress-content statistics-ads-content">
+            <div class="statistics-content-info">
+               <div class="left-info">
+                    <p class="dark-blue">已标记创意：${basicInfo.isDoneAds}</p>
+                    <p class="light-blue">未标注创意：${basicInfo.notDoneAds}</p>
+                    <p>总创意数：${basicInfo.totalAds}</p>
+                </div>
+                <div class="right-info">
+                    <p class="dark-blue complete-title">完成度</p>
+                    <p class="dark-blue complete-num">${basicInfo.doneAdsRate}</p>
+                </div> 
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar-left" style="width: ${basicInfo.doneAdsRate}">${basicInfo.isDoneAds}</div>
+                <div class="progress-bar-right" style="width: ${basicInfo.notDoneAdsRate}">${basicInfo.notDoneAds}</div>
+            </div>
+        </div>
+    </div>
+</div>

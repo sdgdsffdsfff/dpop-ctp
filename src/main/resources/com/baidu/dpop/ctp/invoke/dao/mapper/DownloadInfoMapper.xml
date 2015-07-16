@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.invoke.dao.mapper.DownloadInfoMapper" >
+
+    <!-- =========================SELECT========================= -->
+    
+    <select id="selectByUserAndTime" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM tb_download_info
+        <where>
+            AND start_time=#{startTime}
+            AND start_user=#{startUser}
+        </where>
+    </select>
+    
+    <!-- =========================INSERT========================= -->
+    
+    <!-- =========================UPDATE========================= -->
+    
+    <!-- =========================DELETE========================= -->
+ 
+</mapper>

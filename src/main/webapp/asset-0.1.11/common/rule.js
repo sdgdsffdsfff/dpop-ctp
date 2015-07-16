@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("common/rule",["require","ub-ria/mvc/rule","common/util"],function(require){var e=require("ub-ria/mvc/rule"),t=require("common/util");return t.deepClone(e)});

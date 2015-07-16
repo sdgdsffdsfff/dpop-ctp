@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.review.dao.mapper.ReviewTaskMapper">
+
+	<select id="selectLastInsertId" resultType="java.lang.Long">
+		SELECT LAST_INSERT_ID()
+	</select>
+	
+	<select id="selectTaskByTaskInfo" parameterType="com.baidu.dpop.ctp.mainTask.vo.TaskQueryInfo"
+		resultMap="BaseResultMap">
+		SELECT *
+		FROM `tb_review_task`
+		WHERE 1=1
+		<if test="null != taskQueryInfo.id">
+			AND id = #{taskQueryInfo.id}
+		</if>
+		<if test="null != taskQueryInfo.taskName">
+			AND task_name like '%${taskQueryInfo.taskName}%'
+		</if>
+		<if test="null != taskQueryInfo.addUser">
+			AND add_user like '%${taskQueryInfo.addUser}%'
+		</if>
+		<if test="null != taskQueryInfo.beginTime">
+			AND add_time <![CDATA[   >=  ]]>
+			#{taskQueryInfo.beginTimeString}
+		</if>
+		<if test="null != taskQueryInfo.endTime">
+			AND add_time <![CDATA[   <  ]]>
+			DATE_ADD(#{taskQueryInfo.endTimeString}, INTERVAL 1 DAY)
+		</if>
+		<if test="null != taskQueryInfo.status and taskQueryInfo.status &lt; 10">
+			AND status = #{taskQueryInfo.status}
+		</if>
+		<if test="null != taskQueryInfo.status and taskQueryInfo.status &gt;= 10">
+			AND status <![CDATA[   >=  ]]> 10
+		</if>
+		ORDER BY
+		<if test='taskQueryInfo.orderBy.equals("addTime")'>
+			add_time
+		</if>
+		<if test='taskQueryInfo.orderBy.equals("id")'>
+			id
+		</if>
+		<if test='taskQueryInfo.isOrder()'>
+			desc
+		</if>
+	</select>
+
+</mapper>

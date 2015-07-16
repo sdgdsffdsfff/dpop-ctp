@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("common/mask",["require"],function(){var e=null;return{show:function(){if(e)clearTimeout(e);e=setTimeout(function(){document.getElementById("global-mask").className=""},200)},hide:function(){if(e)clearTimeout(e);document.getElementById("global-mask").className="hide"}}});

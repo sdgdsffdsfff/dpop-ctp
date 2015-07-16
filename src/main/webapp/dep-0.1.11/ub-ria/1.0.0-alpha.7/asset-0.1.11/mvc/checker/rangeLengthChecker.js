@@ -1,0 +1,1 @@
+define("ub-ria/mvc/checker/rangeLengthChecker",["require"],function(){function e(e,t){var n=t[2].minLength,i=t[2].maxLength;if(n>i){var a=i;i=n,n=a}return!e||0===e.length||e.length>=n&&e.length<=i}var t={name:"rangeLength",errorMessage:{array:"${title}不能小于${minLength}个，且不能超过${maxLength}个",string:"${title}不能小于${minLength}个字符，且不能超过${maxLength}个字符"},priority:20,check:e};return t});

@@ -1,0 +1,159 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    height: 100%;
+}
+body {
+    position: relative;
+    font: 12px 'Microsoft Yahei', Helvetica, Arial, sans-serif;
+    background:  url(../img/background.jpg) no-repeat 0 15%;
+    background-size: 100% auto;
+    height: 100%;
+    width: 100%;
+}
+
+/*layout*/
+#page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#header {
+    height: 10%;
+    background-color: #000;
+}
+
+#logo {
+    height: 100%;
+    background: url(../../common/img/logo.png) no-repeat 5% 70%;
+}
+
+#header span {
+    color: #fff;
+    font-size: 30px;
+}
+
+#main {
+    position: relative;
+    z-index: 3;
+}
+
+#form-container {
+    width: 240px;
+    height: 350px;
+    margin-top: 5%;
+    margin-left: 15%;
+    background-color: rgba(111, 107, 103, 0.6);
+    color: #fff;
+}
+
+.form-input-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.form-input-container h1 {
+    color: #fff;
+    font-weight: normal;
+    margin-top: 15px;
+}
+
+#login {
+    padding-top: 20px;
+}
+
+.form-input-area {
+    margin-top: 15px;
+}
+.form-input-area-no-top {
+    margin-top: 0;
+}
+
+.form-input-area-input {
+    background: url() no-repeat 5% center;
+    background-size: 10%;
+    padding-left: 18%;
+    margin: 15px 0;
+    width: 82%;
+    height: 30px;
+    background-color: #242221;
+    opacity: .5;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    outline: none;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 1) inset;
+}
+
+#verify-login {
+    width: 30%;
+}
+
+#kaptchaImage {
+      width: 50%;
+      height: 30px;
+      float: right;
+      margin-top: 15px;
+      cursor: pointer;
+}
+
+#mask {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    height: 90%;
+    background-color: #000;
+    z-index: 2;
+    opacity: .7;
+}
+
+.submit {
+    width: 90%;
+    height: 30px;
+    margin: 10px 5%;
+    background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#fff), to(#fff));
+    border-radius: 5px;
+    color: #4682B4;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.form-input-container-link {
+    margin-top: 15px;
+    width: 70px;
+    height: 20px;
+    background-color: #98a7a9;
+    border-radius: 2px;
+    text-align: center;
+}
+
+#innerSubmit {
+    cursor: pointer;
+    color: white;
+    height: 20px;
+    background-color: #98a7a9;
+    border: none;
+    line-height: 20px;
+}
+
+.error-message {
+    color: #f00;
+    margin-top: -10px;
+}
+
+#error-login {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+#userType-login {
+    display: none;
+}

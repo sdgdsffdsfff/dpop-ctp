@@ -1,0 +1,101 @@
+<!-- target: toBeginListMain -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- import: listPager -->
+
+<!-- target: rightListMain -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- import: listPager -->
+
+<!-- target: wrongListMain -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- import: listPager -->
+<!-- import: auditDetailPanel -->
+
+<!-- target: auditDetailPanel -->
+<esui-panel data-ui-id="auditDetail" class="audit-detail-panel">
+<esui-button class="close-button" data-ui-id="detailCloseButton"></esui-button>
+<esui-panel data-ui-id="allInfoContainer"></esui-panel>
+</esui-panel>
+
+<!-- target: wrongInfo -->
+<!-- var: wrongTradeInfoList = ${wrongTradeInfoList} || null -->
+<!-- var: wrongTagInfoList = ${wrongTagInfoList} || null-->
+<!-- if: ${wrongTradeInfoList} -->
+<div class="tradeInfo">
+	<div class="form-field-label" title="行业">【行业】</div>
+	<div class="info-container">
+		<!-- for: ${wrongTradeInfoList} as ${info} -->
+			<!-- if: ${info.beforeTrade1} != ${info.afterTrade1}-->
+				<p>
+					<span class="before-icon">前</span>
+					<span class="before-color">
+						${info.beforeTrade1}-${info.beforeTrade2}-${info.beforeTrade3}
+					</span>
+				</p>
+				<p>
+					<span class="after-icon">后</span>
+					<span class="after-color">
+						${info.afterTrade1}-${info.afterTrade2}-${info.afterTrade3}
+					</span>
+				</p>
+				<!-- else -->
+				<!-- if: ${info.beforeTrade2} != ${info.afterTrade2}-->
+					<p>
+						<span class="before-color">${info.beforeTrade1}-</span>
+						<span class="before-icon">前</span>
+						<span class="before-color">
+							${info.beforeTrade2}-${info.beforeTrade3}
+						</span>
+					</p>
+					<p>
+						<span class="before-color">${info.afterTrade1}-</span>
+						<span class="after-icon">后</span>
+						<span class="after-color">
+							${info.afterTrade2}-${info.afterTrade3}
+						</span>
+					</p>
+					<!-- else -->
+					<!-- if: ${info.beforeTrade3} != ${info.afterTrade3}-->
+						<p>
+							<span class="before-color">${info.beforeTrade1}-${info.beforeTrade2}-</span>
+							<span class="before-icon">前</span>
+							<span class="before-color">
+								${info.beforeTrade3}
+							</span>
+						</p>
+						<p>
+							<span class="before-color">${info.afterTrade1}-${info.afterTrade2}-</span>
+							<span class="after-icon">后</span>
+							<span class="after-color">
+								${info.afterTrade3}
+							</span>
+						</p>
+					<!-- /if -->
+				<!-- /if -->
+			<!-- /if -->
+		<!-- /for -->
+	</div>
+</div>
+<!-- /if -->
+<!-- if: ${wrongTagInfoList} -->
+<div class="tagInfo">
+	<div class="form-field-label" title="标签">【标签】</div>
+	<div class="info-container">
+		<!-- for: ${wrongTagInfoList} as ${info} -->
+		<p>
+			<span>${info.tagInfo}：</span>
+			<span class="before-icon">前</span>
+			<span class="before-color">${info.before}</span>
+			<span class="after-icon">后</span>
+			<span class="after-color">${info.after}</span>
+		</p>
+		<!-- /for -->
+	</div>
+</div>
+<!-- /if -->

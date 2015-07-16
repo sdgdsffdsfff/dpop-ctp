@@ -1,0 +1,1 @@
+define("ub-ria/mvc/ReadAction",["require","er/util","./BaseAction"],function(require){function e(){n.apply(this,arguments)}function t(){this.back("/"+this.getEntityName()+"/list")}var i=require("er/util"),n=require("./BaseAction");return i.inherits(e,n),e.prototype.category="read",e.prototype.initBehavior=function(){this.view.on("return",t,this)},e});

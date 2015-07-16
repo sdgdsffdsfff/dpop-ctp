@@ -1,0 +1,1 @@
+define("ub-ria/mvc/checker/minLengthChecker",["require"],function(){function e(e,t){var n=t[2].minLength;return!(e&&0!==e.length&&e.length<n)}var t={name:"minLength",errorMessage:{array:"${title}不能小于${minLength}个",string:"${title}不能小于${minLength}个字符"},priority:20,check:e};return t});

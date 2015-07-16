@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("text",["require"],function(){return{load:function(e,t,i){var n=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP");n.open("GET",t.toUrl(e),!0),n.onreadystatechange=function(){if(4===+n.readyState){if(n.status>=200&&n.status<300)i(n.responseText);n.onreadystatechange=new Function,n=null}},n.send(null)}}}),define("common/text",["text"],function(e){return e});

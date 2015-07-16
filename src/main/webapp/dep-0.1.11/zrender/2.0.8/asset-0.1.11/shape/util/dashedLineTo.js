@@ -1,0 +1,1 @@
+define("zrender/shape/util/dashedLineTo",[],function(){var e=[5,5];return function(t,i,n,a,r,o){if(t.setLineDash)return e[0]=e[1]=o,t.setLineDash(e),t.moveTo(i,n),void t.lineTo(a,r);o="number"!=typeof o?5:o;var s=a-i,l=r-n,h=Math.floor(Math.sqrt(s*s+l*l)/o);s/=h,l/=h;for(var d=!0,u=0;h>u;++u){if(d)t.moveTo(i,n);else t.lineTo(i,n);d=!d,i+=s,n+=l}t.lineTo(a,r)}});

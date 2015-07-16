@@ -1,0 +1,1 @@
+define("ub-ria/mvc/filterHelper",["require","underscore"],function(require){var e=require("underscore"),t={},n=t.select={};return n.getText=function(t){var n=e.find(t.datasource,function(e){return e.value==t.value});return n&&n.text||""},t});

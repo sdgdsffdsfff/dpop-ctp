@@ -1,0 +1,144 @@
+<!-- target: auditDimensionViewMain -->
+<h2>任务准确率</h2>
+<div class="bar-chart-cell-container">
+	<div class="bar-chart-cell bar-chart-cell-left">
+		<esui-panel class="bar-chart-title" data-ui-datasource="@reviewTaskAccuracy">
+			<div class="bar-chart-title-row">
+				<p>创意标注准确率</p>
+				<p>文字类准确率</p>
+				<p>非文字类准确率</p>
+			</div>
+			<div class="bar-chart-title-row">
+				<p>${reviewTaskAccuracy.taskAccuracy}</p>
+				<p>${reviewTaskAccuracy.textAdAccuracy}</p>
+				<p>${reviewTaskAccuracy.otherAdAccuracy}</p>
+			</div>
+		</esui-panel>
+		<div data-ui-type="BarChart" data-ui-id="tradeRate" data-ui-height="140px"
+			data-ui-datasource="@reviewTaskAccuracy.wuliao" data-ui-color="#fcb893, #8ed9ff, #9baefb"></div>
+	</div>
+	<div class="bar-chart-cell bar-chart-cell-right">
+		<esui-panel class="bar-chart-title" data-ui-datasource="@reviewTaskAccuracy">
+			<div class="bar-chart-title-row">
+				<p>所属行业准确率</p>
+				<p>美观准确率</p>
+				<p>低俗度准确率</p>
+				<p>欺诈度准确率</p>
+				<p>高危度准确率</p>
+			</div>
+			<div class="bar-chart-title-row">
+				<p>${reviewTaskAccuracy.tradeAccuracy}</p>
+				<p>${reviewTaskAccuracy.beautyAccuracy}</p>
+				<p>${reviewTaskAccuracy.vulgarAccuracy}</p>
+				<p>${reviewTaskAccuracy.cheatAccuracy}</p>
+				<p>${reviewTaskAccuracy.highDangerAccuracy}</p>
+			</div>
+		</esui-panel>
+		<div data-ui-type="BarChart" data-ui-id="tagRate" data-ui-height="140px"
+			data-ui-datasource="@reviewTaskAccuracy.tag" data-ui-color="#abdd96, #65c3f9, #ffc86b, #dbb1d5, #ffad97"></div>
+	</div>	
+</div>
+<h2>标签统计</h2>
+<esui-panel class="statistics-dimension-row"  data-ui-datasource="@reviewTagAccuracy">
+	<div class="statistics-single-dimension">
+		<h3>创意美观度:</h3>
+        <!-- use:
+            auditCheckbox(id = 'beautyShowBefore', targetChart = 'beautyChart', targetTable = 'beauty-table')
+        -->
+		<div class="statistics-single-dimension-body"
+		data-ui-type="PieChart" data-ui-id="beautyChart" data-ui-prefix="beauty"
+		data-ui-title="创意美观度" data-ui-height="300px" data-ui-color="#38b1e0,#65c3f9,#8ed9ff"
+		data-ui-subTitle="数据统计" data-ui-datasource="@reviewTagAccuracy.beauty"></div>
+		<!-- use:
+            compareTable(
+                id = 'beauty-table', beforeData = ${reviewTagAccuracy.beautyRate.before}, afterData = ${reviewTagAccuracy.beautyRate.after}
+            )
+        -->
+	</div>
+	<div class="statistics-single-dimension statistics-single-separate"></div>
+	<div class="statistics-single-dimension">
+		<h3>创意低俗度:</h3>
+        <!-- use:
+            auditCheckbox(id = 'vulgarShowBefore', targetChart = 'vulgarChart', targetTable = 'vulgar-table')
+        -->
+		<div class="statistics-single-dimension-body"
+		data-ui-type="PieChart" data-ui-id="vulgarChart" data-ui-prefix="vulgar"
+		data-ui-title="创意低俗度" data-ui-height="300px" data-ui-color="#ffb03f,#ffc86b,#ffdeb5"
+		data-ui-subTitle="数据统计" data-ui-datasource="@reviewTagAccuracy.vulgar"></div>
+		<!-- use:
+            compareTable(
+                id = 'vulgar-table', beforeData = ${reviewTagAccuracy.vulgarRate.before}, afterData = ${reviewTagAccuracy.vulgarRate.after}
+            )
+        -->
+	</div>
+</div>
+<div class="statistics-dimension-row">
+	<div class="statistics-single-dimension">
+		<h3>创意高危度:</h3>
+        <!-- use:
+            auditCheckbox(id = 'dangerShowBefore', targetChart = 'dangerChart', targetTable = 'danger-table')
+        -->
+		<div class="statistics-single-dimension-body"
+		data-ui-type="PieChart" data-ui-id="dangerChart" data-ui-prefix="danger"
+		data-ui-title="创意高危度" data-ui-height="300px" data-ui-color="#ff7546,#ffad97"
+		data-ui-subTitle="数据统计" data-ui-datasource="@reviewTagAccuracy.danger"></div>
+		<!-- use:
+            compareTable(
+                id = 'danger-table', beforeData = ${reviewTagAccuracy.dangerRate.before}, afterData = ${reviewTagAccuracy.dangerRate.after}, titleData = ['是', '否']
+            )
+        -->
+	</div>
+	<div class="statistics-single-dimension statistics-single-separate"></div>
+	<div class="statistics-single-dimension">
+		<h3>创意欺诈度:</h3>
+        <!-- use:
+            auditCheckbox(id = 'cheatShowBefore', targetChart = 'cheatChart', targetTable = 'cheat-table')
+        -->
+		<div class="statistics-single-dimension-body"
+		data-ui-type="PieChart" data-ui-id="cheatChart" data-ui-prefix="cheat"
+		data-ui-title="创意欺诈度" data-ui-height="300px" data-ui-color="#b562aa,#dbb1d5"
+		data-ui-subTitle="数据统计" data-ui-datasource="@reviewTagAccuracy.cheat"></div>
+		<!-- use:
+            compareTable(
+                id = 'cheat-table', beforeData = ${reviewTagAccuracy.cheatRate.before}, afterData = ${reviewTagAccuracy.cheatRate.after}, titleData = ['是', '否']
+            )
+        -->
+	</div>
+</esui-panel>
+
+<!-- target: auditCheckbox-->
+<!-- var: id = ${id} -->
+<!-- var: targetChart = ${targetChart} -->
+<!-- var: targetTable = ${targetTable} -->
+<div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="${id}" data-ui-box-type="checkbox"
+data-ui-name="${id}" data-ui-value="1" data-ui-target-chart="${targetChart}"  data-ui-target-table="${targetTable}">
+    <div data-ui-box-type="checkbox" data-ui-value="1"/>显示审核对比数据</div>
+</div>
+
+
+<!-- target: compareTable-->
+<!-- var: id= ${id} -->
+<!-- var: beforeData = ${beforeData} || []-->
+<!-- var: afterData = ${afterData} || []-->
+<!-- var: titleData = ${titleData} || ['高', '中', '低']-->
+<esui-panel class="compare-table" data-ui-id="${id}">
+	<div class="compare-row compare-table-title">
+		<span class="compare-cell">维度</span>
+		<!-- for: ${titleData} as ${data} -->
+		<span class="compare-cell">${data}</span>
+		<!-- /for -->
+	</div>
+	<div class="compare-row">
+		<span class="compare-cell">审核后</span>
+		<!-- for: ${afterData} as ${data} -->
+		<span class="compare-cell">${data}%</span>
+		<!-- /for -->
+	</div>
+	<div class="compare-row">
+		<span class="compare-cell">审核前</span>
+		<!-- for: ${beforeData} as ${data} -->
+		<span class="compare-cell">${data}%</span>
+		<!-- /for -->
+	</div>
+</esui-panel>
+

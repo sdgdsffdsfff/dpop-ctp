@@ -1,0 +1,36 @@
+DELETE FROM tb_tag_type;
+
+INSERT INTO tb_tag_type
+(trade_id, tag_type)
+VALUES
+(820000, 'falseInfo'),
+(780400, 'falseInfo'),
+(670000, 'falseInfo'),
+(690000, 'falseInfo'),
+(820000, 'falseEffect'),
+(780400, 'falseEffect'),
+(670000, 'falseEffect'),
+(690000, 'falseEffect'),
+(820000, 'cureRate'),
+(780400, 'cureRate'),
+(820000, 'falseService'),
+(780400, 'falseService'),
+(670000, 'falseService'),
+(820000, 'viciousCompetition'),
+(780400, 'viciousCompetition'),
+(670000, 'viciousCompetition'),
+(690000, 'viciousCompetition'),
+(820000, 'falseDescription'),
+(780400, 'falseDescription'),
+(670000, 'falseDescription'),
+(690000, 'falseDescription'),
+(820000, 'licensing'),
+(780400, 'licensing'),
+(820000, 'portrait'),
+(780400, 'portrait'),
+(670000, 'portrait'),
+(820000, 'recommendation'),
+(780400, 'recommendation'),
+(670000, 'recommendation'),
+(690000, 'recommendation'),
+(670000, 'propaganda');

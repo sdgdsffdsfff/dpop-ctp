@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.adtag.dao.mapper.AdTagMapper">
+
+	<sql id="tradeColumns">
+		tag.id AS id,
+		tag.ref_id AS refId,
+		tag.ref_group_id AS
+		refGroupId,
+		tag.task_id AS taskId,
+		tag.data_type AS dataType,
+		tag.ad_tag
+		AS adTag,
+		tag.ad_trade_id_level3 AS adTradeIdLevel3,
+		tag.comment AS
+		comment,
+		tag.update_time AS updateTime,
+		tag.update_user AS updateUser,
+		tag.general_wuliao_type AS generalWuliaoType,
+		trade.full_name AS
+		adTradeNameLevel3
+	</sql>
+
+	<!-- =========================SELECT========================= -->
+
+	<select id="selectByGroup" parameterType="java.lang.Long"
+		resultType="com.baidu.dpop.ctp.adtag.bo.AdTag">
+		SELECT
+		<include refid="tradeColumns" />
+		FROM tb_ad_tag tag,
+		tb_new_trade_type trade
+		<where>
+			AND tag.ref_group_id=#{groupId,jdbcType=BIGINT}
+			AND
+			tag.ad_trade_id_level3=trade.full_id
+		</where>
+	</select>
+
+
+	<select id="selectByRefId" parameterType="com.baidu.dpop.ctp.adtag.vo.AdTagGetVo"
+		resultType="com.baidu.dpop.ctp.adtag.bo.AdTag">
+		SELECT
+		<include refid="tradeColumns" />
+		FROM tb_ad_tag tag,
+		tb_new_trade_type trade
+		where tag.ad_trade_id_level3
+		= trade.full_id
+		AND tag.ref_id = #{refId,jdbcType=BIGINT}
+		AND
+		tag.data_type = #{dataType,jdbcType=INTEGER}
+		Limit 1
+	</select>
+
+	<select id="batchSelect" parameterType="com.baidu.dpop.ctp.adtag.vo.AdTagGetVo"
+		resultType="com.baidu.dpop.ctp.adtag.bo.AdTag">
+		SELECT
+		<include refid="tradeColumns" />
+		FROM tb_ad_tag tag,
+		tb_new_trade_type trade
+		WHERE ref_id IN
+		<foreach collection="list" separator="," index="index" item="item"
+			open="(" close=")">
+			#{item,jdbcType=BIGINT}
+		</foreach>
+		AND tag.data_type=#{dataType,jdbcType=INTEGER}
+		AND
+		tag.ad_trade_id_level3=trade.full_id
+	</select>
+
+	<select id="selectTestedAdTagByRefId" resultType="java.lang.Long">
+		SELECT ref_id
+		FROM tb_ad_tag
+		<where>
+			AND data_type=#{dataType}
+			AND ref_id IN
+			<foreach collection="list" item="item" index="index"
+				separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		</where>
+	</select>
+
+	<select id="selectTagedtags" parameterType="com.baidu.dpop.ctp.task.vo.GeneralTaskQueryVo"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_ad_tag
+		<where>
+			<if test="taskIdList != null">
+				AND task_id IN
+				<foreach collection="taskIdList" separator="," index="index"
+					item="item" open="(" close=")">
+					#{item,jdbcType=INTEGER}
+				</foreach>
+			</if>
+			<if test="startTimeString != null">
+				AND update_time <![CDATA[>=]]>
+				#{startTimeString}
+			</if>
+			<if test="endTimeString != null">
+				AND update_time <![CDATA[<=]]>
+				#{endTimeString}
+			</if>
+			AND data_type=#{dataType}
+		</where>
+	</select>
+
+	<select id="selectAdTag" resultType="java.lang.String">
+		SELECT ad_tag FROM tb_ad_tag
+		WHERE task_id=#{taskId,jdbcType=INTEGER}
+		ORDER BY id LIMIT
+		#{page,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectTagedCount" parameterType="com.baidu.dpop.ctp.task.vo.GeneralTaskQueryVo"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM tb_ad_tag
+		<where>
+			<if test="taskIdList != null">
+				AND task_id IN
+				<foreach collection="taskIdList" separator="," index="index"
+					item="item" open="(" close=")">
+					#{item,jdbcType=INTEGER}
+				</foreach>
+			</if>
+			<if test="startTimeString != null">
+				AND update_time <![CDATA[>=]]>
+				#{startTimeString}
+			</if>
+			<if test="endTimeString != null">
+				AND update_time <![CDATA[<=]]>
+				#{endTimeString}
+			</if>
+			<if test="dataType != null">
+				AND data_type=#{dataType,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+
+	<!-- =========================INSERT========================= -->
+
+	<insert id="batchInsert">
+		INSERT INTO tb_ad_tag
+		(ref_id,ref_group_id,task_id,data_type,ad_tag,ad_trade_id_level3,comment,general_wuliao_type,update_time,update_user)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.refId,jdbcType=BIGINT},#{item.refGroupId,jdbcType=BIGINT},#{item.taskId,jdbcType=INTEGER},#{item.dataType,jdbcType=INTEGER},#{item.adTag,jdbcType=VARCHAR},#{item.adTradeIdLevel3,jdbcType=INTEGER},#{item.comment,jdbcType=VARCHAR},#{item.generalWuliaoType,jdbcType=INTEGER},#{item.updateTime,jdbcType=TIMESTAMP},#{item.updateUser,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+
+	<!-- =========================UPDATE======================== -->
+
+	<update id="updateAssigned" parameterType="com.baidu.dpop.ctp.adtag.vo.AdTagAssignedVo">
+		UPDATE tb_ad_tag
+		SET assigned=1
+		<where>
+			AND task_id=#{taskId,jdbcType=INTEGER}
+			AND
+			data_type=#{dataType,jdbcType=INTEGER}
+			AND ref_id IN
+			<foreach collection="ids" index="index" item="item"
+				separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		</where>
+	</update>
+
+	<update id="batchUpdate" parameterType="com.baidu.dpop.ctp.adtag.vo.AdTagSubmitVo">
+		UPDATE tb_ad_tag
+		SET
+		ad_tag = CASE id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.id,jdbcType=BIGINT}
+			THEN
+			#{item.adTag,jdbcType=VARCHAR}
+		</foreach>
+		END,
+		ad_trade_id_level3 = CASE id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.id,jdbcType=BIGINT}
+			THEN
+			#{item.adTradeIdLevel3,jdbcType=INTEGER}
+		</foreach>
+		END,
+		comment = CASE id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.id,jdbcType=BIGINT}
+			THEN
+			#{item.comment,jdbcType=VARCHAR}
+		</foreach>
+		END,
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		update_user =
+		#{updateUser,jdbcType=VARCHAR}
+		WHERE id IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item.id,jdbcType=BIGINT}
+		</foreach>
+	</update>
+
+	<!-- =========================DELETE======================== -->
+
+	<delete id="deleteAdDetail" parameterType="java.lang.Integer">
+		DELETE FROM tb_ad_tag
+		WHERE task_id=#{taskId,jdbcType=INTEGER}
+	</delete>
+</mapper>

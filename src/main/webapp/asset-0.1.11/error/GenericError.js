@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("error/GenericError",["require","./Action","./View","tpl!b1c6f6b6.tpl.html","er/util"],function(require){function e(){t.apply(this,arguments)}var t=require("./Action"),i=require("./View");return require("tpl!b1c6f6b6.tpl.html"),e.prototype.createView=function(){var e=new i;return e.name="generic-error",e.template="genericError",e},require("er/util").inherits(e,t),e});

@@ -1,0 +1,1 @@
+define("mini-event/lib",["require"],function(){var e={};return e.extend=function(e){for(var t=1;t<arguments.length;t++){var i=arguments[t];if(i){for(var n in i)if(i.hasOwnProperty(n))e[n]=i[n]}else;}return e},e});

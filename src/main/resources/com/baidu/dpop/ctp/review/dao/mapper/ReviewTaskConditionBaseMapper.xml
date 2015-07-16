@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.review.dao.mapper.ReviewTaskConditionMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.review.bo.ReviewTaskCondition">
+			<id     column="id"		jdbcType="INTEGER"		property="id" />
+	 		<result column="data_type"		jdbcType="INTEGER"		property="dataType" />
+			<result column="ad_tag_condition"		jdbcType="VARCHAR"		property="adTagCondition" />
+			<result column="wuliao_type"		jdbcType="VARCHAR"		property="wuliaoType" />
+			<result column="ad_trade_type"		jdbcType="VARCHAR"		property="adTradeType" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	id,data_type,ad_tag_condition,wuliao_type,ad_trade_type  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_review_task_condition
+    where 1=1  and id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_review_task_condition
+    where 1=1 and id = #{id,jdbcType=INTEGER}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.review.bo.ReviewTaskCondition" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_review_task_condition 
+	(id, data_type, ad_tag_condition, wuliao_type, ad_trade_type)
+    values 
+	( #{id,jdbcType=INTEGER},#{dataType,jdbcType=INTEGER},#{adTagCondition,jdbcType=VARCHAR},#{wuliaoType,jdbcType=VARCHAR},#{adTradeType,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.review.bo.ReviewTaskCondition" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_review_task_condition
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="id != null">
+        id,
+      </if>
+				
+	  <if test="dataType != null">
+        data_type,
+      </if>
+			
+	  <if test="adTagCondition != null">
+        ad_tag_condition,
+      </if>
+			
+	  <if test="wuliaoType != null">
+        wuliao_type,
+      </if>
+			
+	  <if test="adTradeType != null">
+        ad_trade_type,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="id != null">
+         #{id,jdbcType=INTEGER},
+      </if>
+				
+	  <if test="dataType != null">
+         #{dataType,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adTagCondition != null">
+         #{adTagCondition,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="wuliaoType != null">
+         #{wuliaoType,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="adTradeType != null">
+         #{adTradeType,jdbcType=VARCHAR},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.review.bo.ReviewTaskCondition">
+    update tb_review_task_condition
+    <set>      <if test="dataType != null">
+        data_type = #{dataType,jdbcType=INTEGER},
+      </if>
+	        <if test="adTagCondition != null">
+        ad_tag_condition = #{adTagCondition,jdbcType=VARCHAR},
+      </if>
+	        <if test="wuliaoType != null">
+        wuliao_type = #{wuliaoType,jdbcType=VARCHAR},
+      </if>
+	        <if test="adTradeType != null">
+        ad_trade_type = #{adTradeType,jdbcType=VARCHAR},
+      </if>
+	      </set>
+    where 1=1 and id = #{id,jdbcType=INTEGER}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.review.bo.ReviewTaskCondition">
+    update tb_review_task_condition
+    set 
+     	data_type = #{dataType,jdbcType=INTEGER},
+    	ad_tag_condition = #{adTagCondition,jdbcType=VARCHAR},
+    	wuliao_type = #{wuliaoType,jdbcType=VARCHAR},
+    	ad_trade_type = #{adTradeType,jdbcType=VARCHAR}
+        where 1=1 and id = #{id,jdbcType=INTEGER}  
+  </update>
+
+</mapper>

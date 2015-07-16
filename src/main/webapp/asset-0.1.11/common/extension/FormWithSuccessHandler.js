@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("common/extension/FormWithSuccessHandler",["require","underscore","ub-ria/mvc/handler/SubmitHandler","eoo"],function(require){var e=(require("underscore"),require("ub-ria/mvc/handler/SubmitHandler")),exports={};exports.handle=function(e,t){t.redirectAfterSubmit(e),this.next(e,t)};var t=require("eoo").create(e,exports);return t});

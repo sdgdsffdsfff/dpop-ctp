@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>创意标注平台</title>
+    <link rel="stylesheet" type="text/css" href="asset-0.1.11/static/css/index.css">
+    <link rel="icon" href="http://www.baidu.com/favicon.ico" />
+    <script src="asset-0.1.11/external/esl.js"></script>
+</head>
+<body>
+    <!-- TODO: 请自行在action参数后补全使用的UC登录地址 -->
+    <div id="page">
+        <div id="header">
+            <div id="logo"></div>
+            <!-- <span>创意标注平台</span> -->
+        </div>
+        <div id="main">
+            <div id="form-container">
+                <form id="login" class="form-input-container" action="ctp/login.action" method="POST">
+                    <h1>登录帐号</h1>
+                    <div class="form-input-area">
+                        <input id="username-login" class="form-input-area-input" name="loginName" type="text" placeholder="用户名" tabIndex="1">
+                    </div>
+                    <p class="error-message" id="error-username"></p>
+                    <div class="form-input-area form-input-area-no-top">
+                        <input id="password-login" class="form-input-area-input" name="loginPwd" type="password" placeholder="密码" tabIndex="2">
+                    </div>
+                    <p class="error-message" id="error-password"></p>
+                    <div class="form-input-area form-input-area-no-top">
+                        <input id="verify-login" class="form-input-area-input" name="receiveCode" type="text" placeholder="验证码" tabIndex="3">
+                        <img src="kaptcha.do" id="kaptchaImage"/>
+                    </div>
+                    <p class="error-message" id="error-verify"></p>
+                    <input id="userType-login" type="text" value="1" name="loginType">
+                    <button class="submit" id="outerSubmit" type="submit"  tabIndex="4">登录</button>
+                    <div class="form-input-container form-input-container-link" ><button type="submit" id="innerSubmit">员工登录</button></div>
+                </form>
+                <p class="error-message" id="error-login"></p>
+            </div>
+        </div>
+        <div id="mask"></div>
+    </div>
+    <script>
+        require.config({
+        'baseUrl': 'asset-0.1.11',
+        'paths': {},
+        'packages': [
+            {
+                'name': 'ef',
+                'location': '../dep-0.1.11/ef/3.1.0-beta.2/asset-0.1.11',
+                'main': 'main'
+            },
+            {
+                'name': 'eoo',
+                'location': '../dep-0.1.11/eoo/0.1.1/asset-0.1.11',
+                'main': 'main'
+            },
+            {
+                'name': 'er',
+                'location': '../dep-0.1.11/er/3.1.0-beta.6/asset-0.1.11',
+                'main': 'main'
+            },
+            {
+                'name': 'esui',
+                'location': '../dep-0.1.11/esui/3.1.0-beta.6/asset-0.1.11',
+                'main': 'main'
+            },
+            {
+                'name': 'etpl',
+                'location': '../dep-0.1.11/etpl/2.1.2/asset-0.1.11',
+                'main': 'main'
+            },
+            {
+                'name': 'mini-event',
+                'location': '../dep-0.1.11/mini-event/1.0.2/asset-0.1.11',
+                'main': 'main'
+            },
+            {
+                'name': 'moment',
+                'location': '../dep-0.1.11/moment/2.7.0/asset-0.1.11',
+                'main': 'moment'
+            },
+            {
+                'name': 'ub-ria',
+                'location': '../dep-0.1.11/ub-ria/1.0.0-alpha.7/asset-0.1.11',
+                'main': 'main'
+            },
+            {
+                'name': 'underscore',
+                'location': '../dep-0.1.11/underscore/1.6.0/asset-0.1.11',
+                'main': 'underscore'
+            },
+            {
+                'name': 'est',
+                'location': '../dep-0.1.11/est/1.3.0/asset-0.1.11'
+            },
+            {
+                'name': 'er-track',
+                'location': '../dep-0.1.11/er-track/0.9.1/asset-0.1.11',
+                'main': 'main'
+            },
+            {
+                'name': 'esl',
+                'location': '../dep-0.1.11/esl/1.2.0/asset-0.1.11'
+            },
+            {
+                'name': 'ub-ria-sidebar',
+                'location': '../dep-0.1.11/ub-ria-sidebar/0.0.3/asset-0.1.11',
+                'main': 'Sidebar'
+            },
+            {
+                'name': 'esui-flat-theme',
+                'location': '../dep-0.1.11/esui-flat-theme/1.0.0-alpha.3/asset-0.1.11'
+            },
+            {
+                'name': 'echarts',
+                'location': '../dep-0.1.11/echarts/2.2.1/asset-0.1.11',
+                'main': 'echarts'
+            },
+            {
+                'name': 'zrender',
+                'location': '../dep-0.1.11/zrender/2.0.8/asset-0.1.11',
+                'main': 'zrender'
+            },
+            {
+                'name': 'uioc',
+                'location': '../dep-0.1.11/uioc/0.2.1/asset-0.1.11',
+                'main': 'main'
+            }
+        ]
+    });
+        require(['static/Index'], function (Index) {
+            window.DEBUG = false;
+            Index.enter();
+        });
+    </script>
+</body>
+</html>

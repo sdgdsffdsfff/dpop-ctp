@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("account/Data",["require","common/util","common/BaseData","eoo","ub-ria/mvc/RequestManager"],function(require){var e=require("common/util"),t=require("common/BaseData"),exports={},i=require("eoo").create(t,exports),n={},r=require("ub-ria/mvc/RequestManager");return e.each(n,function(e){r.register(i,e.name,e)}),i});

@@ -1,0 +1,15 @@
+<!-- target: memberRankListMain -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- import: listPager -->
+<esui-panel data-ui-id="member-chart" class="member-chart-panel">
+	<div class="member-panel-header">
+		<h3>趋势图</h3>
+		<div class="form-field-value">
+	        <esui-label class="form-field-label" data-ui-for-target="memberName" data-ui-title="人员维度">人员维度：</esui-label>
+	        <esui-select data-ui-id="memberName" data-ui-name="memberName" data-ui-datasource="@data.memberList"  data-ui-value=""></esui-select>
+	    </div>
+	</div>
+	<div class="member-panel-body" data-ui-type="LineChart" data-ui-id="memberChart" data-ui-width="1000px" data-ui-height="300px" data-ui-datasource="@memberDimenson"></div>
+</esui-panel>

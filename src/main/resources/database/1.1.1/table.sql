@@ -1,0 +1,1 @@
+ALTER TABLE tb_ad_tag ADD INDEX `idx_update_time`(`update_time`);

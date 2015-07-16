@@ -1,0 +1,24 @@
+<!-- target: dimensionViewMain -->
+<esui-panel data-ui-datasource="@dimensionInfo">
+	<esui-panel data-ui-id="dimesionSelect">
+		<ul class="dimension-select-container">
+			<!-- for: ${dimensionInfo.tabData} as ${data} -->
+			<li <!-- if: ${data.value} === ${dimensionInfo.index}-->class="active-dimension"<!-- /if --> data-index="${data.value}">${data.text}</li>
+			<!-- /for -->
+		</ul>
+	</esui-panel>
+	<!-- for: ${dimensionInfo.showData.data} as ${data} -->
+		<div class="statistics-dimension-row">
+			<!-- for: ${data} as ${singleData} -->
+					<div class="statistics-single-dimension">
+						<h3>创意${singleData.text}:</h3>
+						<div class="statistics-single-dimension-body"
+						data-ui-type="PieChart"
+						data-ui-title="创意${singleData.text}" data-ui-height="440px" data-ui-color="${singleData.color}"
+						data-ui-subTitle="数据统计" data-ui-datasource="@dimensionInfo.${singleData.name}"></div>
+					</div>
+					<div class="statistics-single-dimension statistics-single-separate"></div>
+			<!-- /for -->
+		</div>
+    <!-- /for -->
+</esui-panel>

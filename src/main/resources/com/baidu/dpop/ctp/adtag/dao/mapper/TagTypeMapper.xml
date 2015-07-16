@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.adtag.dao.mapper.TagTypeMapper">
+
+	<!-- =========================SELECT========================= -->
+
+	<select id="selectByTradeId" parameterType="java.lang.Integer"
+		resultType="java.lang.String">
+		SELECT tag_type FROM tb_tag_type
+		<where>
+			OR FLOOR(#{tradeId,jdbcType=INTEGER}/10000)*10000=trade_id
+			OR
+			FLOOR(#{tradeId,jdbcType=INTEGER}/100)*100=trade_id
+			OR
+			#{tradeId,jdbcType=INTEGER}=trade_id
+		</where>
+	</select>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		SELECT * FROM tb_tag_type order
+		by tag_type, trade_id
+	</select>
+
+	<!-- =========================INSERT========================= -->
+
+	<insert id="batchInsertTagTypes">
+		INSERT INTO tb_tag_type (trade_id, tag_type) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.tradeId}, #{item.tagType})
+		</foreach>
+	</insert>
+
+	<!-- =========================UPDATE========================= -->
+
+	<!-- =========================DELETE========================= -->
+
+	<delete id="deleteByIds">
+		DELETE FROM tb_tag_type
+		WHERE id IN
+		<foreach collection="list" item="item" index="index"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+</mapper>

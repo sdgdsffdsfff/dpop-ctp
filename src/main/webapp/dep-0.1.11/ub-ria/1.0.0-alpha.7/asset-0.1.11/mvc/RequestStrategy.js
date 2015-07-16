@@ -1,0 +1,1 @@
+define("ub-ria/mvc/RequestStrategy",["require"],function(){function e(){}return e.prototype.formatName=function(e){return e},e.prototype.formatURL=function(e){return e},e.prototype.formatOptions=function(e){if(!e.dataType)e.dataType="json";return e},e});

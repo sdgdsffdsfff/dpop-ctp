@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.baidu.dpop.ctp.industrytype.dao.mapper.NewIndustryTypeMapper">
+
+	<!-- =========================SELECT========================= -->
+
+	<select id="selectLevel3Data" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_new_trade_type
+		<where>
+			AND first_id>0
+			AND second_id>0
+			AND third_id>0
+		</where>
+		ORDER BY full_id
+	</select>
+
+	<select id="batchSelect" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_new_trade_type
+		WHERE full_id IN
+		<foreach collection="list" item="item" index="index"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="selectAllFirstTradeType" resultType="java.lang.Integer">
+	   SELECT full_id FROM tb_new_trade_type
+	   <where>
+	       AND second_id=0
+	       AND first_id > 0
+	   </where>
+	</select>
+
+	<!-- =========================INSERT========================= -->
+
+	<!-- =========================UPDATE========================= -->
+
+	<update id="batchUpdateLevel2IdAndName">
+		UPDATE tb_new_trade_type
+		SET level2_id=CASE full_id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.fullId}
+			THEN #{item.level2Id}
+		</foreach>
+		END,
+		level2_name=CASE full_id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.fullId}
+			THEN #{item.level2Name}
+		</foreach>
+		END
+		WHERE full_id IN
+		<foreach collection="list" item="item" index="index"
+			separator="," open="(" close=")">
+			#{item.fullId}
+		</foreach>
+	</update>
+
+	<!-- =========================DELETE========================= -->
+
+</mapper>

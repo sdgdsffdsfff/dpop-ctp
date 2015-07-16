@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>标注题目答题时间</title>
+		<style>
+			input {
+				margin-top: 10px;	
+			}
+			.submit-area {
+				margin-top: 20px;
+			}
+			section {
+				margin-top: 100px;
+			}
+			section span {
+				font-size: 12px;
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="text" id="groupId" placeholder="输入GroupId"></input>
+		<input type="text" id="taskId" placeholder="输入TaskID"></input>
+		<input type="text" id="newAdTradeId" placeholder="输入NewAdTradeId"></input>
+		<input type="text" id="wNumMin" placeholder="输入组内最低创意数量"></input>
+		<input type="text" id="wNumMax" placeholder="输入组内最高创意数量"></input>
+		<input type="text" id="markerTime" placeholder="输入标注时间"></input>
+		<input type="text" id="submitTime" placeholder="输入提交时间"></input>
+		<input type="text" id="name" placeholder="输入标注人"></input>
+		<div class="submit-area">
+			<button id="search">获取下载ID</button>
+		</div>
+		<input type="text" id="number" placeholder="输入下载ID"></input>
+		<div class="submit-area">
+			<button id="download">下载</button>
+		</div>
+		<section>
+			<input type="text" id="tradeId" placeholder="输入要添加的行业，以英文逗号分隔"></input><span>（输入0则表示为全行业添加此配置）</span>
+			<input type="text" id="tagType" placeholder="输入要添加的标签类型"></input>
+			<button id="addConfig">添加配置</button>
+			<button id="deleteConfig">删除配置</button>
+			<table border="1" style="margin-top:50px;">
+			  <tr>
+				<th><input type="hidden" id="selectValues"></th>
+				<th>ID</th>
+				<th>标签类型</th>
+				<th>行业ID</th>
+			  </tr>
+			  <tbody id="configsTable"></tbody>
+			</table>
+		</section>
+		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script>
+		$(document).ready(function(){
+			// 初始化配置列表
+			$.get("/ctp/tagType/getAll.do", function(response){
+				var list = response.data;
+				list.forEach(function (item) {
+					var tpl = '<tr data-id="' + item.id + '">' +
+								'<td><input class="singleSelect" type="checkbox" data-id="' + item.id + '"></td>' +
+								'<td>' + item.id + '</td>' +
+								'<td>' + item.tagType + '</td>' +
+								'<td>' + item.tradeId + '</td>' +
+							   '</tr>';
+					$('#configsTable').append(tpl);
+				});
+				// 配置勾选框的勾选事件
+				$('.singleSelect').change(function (event) {
+					var value = $('#selectValues').val().split(',');
+					if (event.target.checked) {
+						value.push($(event.target).attr('data-id'));
+						$('#selectValues').val(value.join(','));
+					}
+					else {
+						value.splice(value.indexOf($(event.target).attr('data-id')), 1);
+						$('#selectValues').val(value.join(','));
+					}
+				});
+			});
+			// 删除配置项
+			$('#deleteConfig').click(function (event) {
+				var value = $('#selectValues').val().split(',');
+				value.splice(value.indexOf(''), 1);
+				$.ajax({
+					url: '/ctp/tagType/delete.do',
+					type: 'POST',
+					data: JSON.stringify({list: value.map(function (item) {return parseInt(item, 10);})}),
+					dataType:'json',
+					contentType:"application/json",
+					success: function(response){
+						location.reload();
+					}
+				});
+			});
+			// 添加配置项
+			$('#addConfig').click(function (event) {
+				var tradeId = $('#tradeId').val().split(',');
+				var tagType = $('#tagType').val();
+				$.ajax({
+					url: '/ctp/tagType/add.do',
+					type: 'POST',
+					data: JSON.stringify({tradeIds: tradeId.map(function (item) {return parseInt(item, 10);}), tagType: tagType}),
+					dataType:'json',
+					contentType:"application/json",
+					success: function(response){
+						location.reload();
+					}
+				});
+			});
+			function getDefaultValue (val) {
+				return val.length === 0 ? null : val;
+			}
+			var getQuery = function () {
+				return {
+					groupId: getDefaultValue($('#groupId').val()),
+					taskId: getDefaultValue($('#taskId').val()),
+					newAdTradeId: getDefaultValue($('#newAdTradeId').val()),
+					wNumMin: getDefaultValue($('#wNumMin').val()),
+					wNumMax: getDefaultValue($('#wNumMax').val()),
+					markerTime: getDefaultValue($('#markerTime').val()),
+					submitTime: getDefaultValue($('#submitTime').val()),
+					name: getDefaultValue($('#name').val()),
+				};
+			};
+			// 查询
+			$('#search').click(function (event) {
+				$.ajax({
+					url: '/ctp/task/group/downloadGroupInfo.do',
+					type: 'POST',
+					data: JSON.stringify(getQuery()),
+					dataType:'json',
+					contentType:"application/json",
+					success: function(response){
+						$('#number').val(response.data);
+					}
+				});
+			});
+			// 下载
+			$('#download').click(function (event) {
+				$.get("/ctp/task/group/getDownloadInfo.do?id=" + $('#number').val(), function(response){
+					if (response.hasSuccess) {
+						window.open(response.data)
+					}
+					else {
+						alert(response.resultInfo);
+					}
+				});
+			});
+		});
+		</script>
+	</body>
+</html>

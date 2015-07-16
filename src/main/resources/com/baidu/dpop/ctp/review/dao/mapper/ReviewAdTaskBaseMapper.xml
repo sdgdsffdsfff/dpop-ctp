@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.review.dao.mapper.ReviewAdTaskMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.review.bo.ReviewAdTask">
+			<id     column="id"		jdbcType="BIGINT"		property="id" />
+	 		<result column="data_type"		jdbcType="TINYINT"		property="dataType" />
+			<result column="ref_ad_id"		jdbcType="BIGINT"		property="refAdId" />
+			<result column="group_id"		jdbcType="BIGINT"		property="groupId" />
+			<result column="group_id_review"		jdbcType="BIGINT"		property="groupIdReview" />
+			<result column="task_id"		jdbcType="BIGINT"		property="taskId" />
+			<result column="wuliao_type"		jdbcType="INTEGER"		property="wuliaoType" />
+			<result column="ad_trade_id_level3"		jdbcType="INTEGER"		property="adTradeIdLevel3" />
+			<result column="ad_trade_id_level3_review"		jdbcType="INTEGER"		property="adTradeIdLevel3Review" />
+			<result column="ad_tag"		jdbcType="VARCHAR"		property="adTag" />
+			<result column="ad_tag_review"		jdbcType="VARCHAR"		property="adTagReview" />
+			<result column="comment"		jdbcType="VARCHAR"		property="comment" />
+			<result column="comment_review"		jdbcType="VARCHAR"		property="commentReview" />
+			<result column="add_time"		jdbcType="TIMESTAMP"		property="addTime" />
+			<result column="add_user"		jdbcType="VARCHAR"		property="addUser" />
+			<result column="update_time"		jdbcType="TIMESTAMP"		property="updateTime" />
+			<result column="update_user"		jdbcType="VARCHAR"		property="updateUser" />
+			<result column="tag_user"		jdbcType="VARCHAR"		property="tagUser" />
+			<result column="tag_time"		jdbcType="TIMESTAMP"		property="tagTime" />
+			<result column="assigned"		jdbcType="TINYINT"		property="assigned" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	id,data_type,ref_ad_id,group_id,group_id_review,task_id,wuliao_type,ad_trade_id_level3,ad_trade_id_level3_review,ad_tag,ad_tag_review,comment,comment_review,add_time,add_user,update_time,update_user,tag_user,tag_time,assigned  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_review_ad_task
+    where 1=1  and id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_review_ad_task
+    where 1=1 and id = #{id,jdbcType=BIGINT}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.review.bo.ReviewAdTask" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_review_ad_task 
+	(id, data_type, ref_ad_id, group_id, group_id_review, task_id, wuliao_type, ad_trade_id_level3, ad_trade_id_level3_review, ad_tag, ad_tag_review, comment, comment_review, add_time, add_user, update_time, update_user, tag_user, tag_time, assigned)
+    values 
+	( #{id,jdbcType=BIGINT},#{dataType,jdbcType=TINYINT},#{refAdId,jdbcType=BIGINT},#{groupId,jdbcType=BIGINT},#{groupIdReview,jdbcType=BIGINT},#{taskId,jdbcType=BIGINT},#{wuliaoType,jdbcType=INTEGER},#{adTradeIdLevel3,jdbcType=INTEGER},#{adTradeIdLevel3Review,jdbcType=INTEGER},#{adTag,jdbcType=VARCHAR},#{adTagReview,jdbcType=VARCHAR},#{comment,jdbcType=VARCHAR},#{commentReview,jdbcType=VARCHAR},#{addTime,jdbcType=TIMESTAMP},#{addUser,jdbcType=VARCHAR},#{updateTime,jdbcType=TIMESTAMP},#{updateUser,jdbcType=VARCHAR},#{tagUser,jdbcType=VARCHAR},#{tagTime,jdbcType=TIMESTAMP},#{assigned,jdbcType=TINYINT})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.review.bo.ReviewAdTask" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_review_ad_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="id != null">
+        id,
+      </if>
+				
+	  <if test="dataType != null">
+        data_type,
+      </if>
+			
+	  <if test="refAdId != null">
+        ref_ad_id,
+      </if>
+			
+	  <if test="groupId != null">
+        group_id,
+      </if>
+			
+	  <if test="groupIdReview != null">
+        group_id_review,
+      </if>
+			
+	  <if test="taskId != null">
+        task_id,
+      </if>
+			
+	  <if test="wuliaoType != null">
+        wuliao_type,
+      </if>
+			
+	  <if test="adTradeIdLevel3 != null">
+        ad_trade_id_level3,
+      </if>
+			
+	  <if test="adTradeIdLevel3Review != null">
+        ad_trade_id_level3_review,
+      </if>
+			
+	  <if test="adTag != null">
+        ad_tag,
+      </if>
+			
+	  <if test="adTagReview != null">
+        ad_tag_review,
+      </if>
+			
+	  <if test="comment != null">
+        comment,
+      </if>
+			
+	  <if test="commentReview != null">
+        comment_review,
+      </if>
+			
+	  <if test="addTime != null">
+        add_time,
+      </if>
+			
+	  <if test="addUser != null">
+        add_user,
+      </if>
+			
+	  <if test="updateTime != null">
+        update_time,
+      </if>
+			
+	  <if test="updateUser != null">
+        update_user,
+      </if>
+			
+	  <if test="tagUser != null">
+        tag_user,
+      </if>
+			
+	  <if test="tagTime != null">
+        tag_time,
+      </if>
+			
+	  <if test="assigned != null">
+        assigned,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="id != null">
+         #{id,jdbcType=BIGINT},
+      </if>
+				
+	  <if test="dataType != null">
+         #{dataType,jdbcType=TINYINT},
+      </if>
+			
+	  <if test="refAdId != null">
+         #{refAdId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="groupId != null">
+         #{groupId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="groupIdReview != null">
+         #{groupIdReview,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="taskId != null">
+         #{taskId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="wuliaoType != null">
+         #{wuliaoType,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adTradeIdLevel3 != null">
+         #{adTradeIdLevel3,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adTradeIdLevel3Review != null">
+         #{adTradeIdLevel3Review,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adTag != null">
+         #{adTag,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="adTagReview != null">
+         #{adTagReview,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="comment != null">
+         #{comment,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="commentReview != null">
+         #{commentReview,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="addTime != null">
+         #{addTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="addUser != null">
+         #{addUser,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="updateTime != null">
+         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="updateUser != null">
+         #{updateUser,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="tagUser != null">
+         #{tagUser,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="tagTime != null">
+         #{tagTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="assigned != null">
+         #{assigned,jdbcType=TINYINT},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.review.bo.ReviewAdTask">
+    update tb_review_ad_task
+    <set>      <if test="dataType != null">
+        data_type = #{dataType,jdbcType=TINYINT},
+      </if>
+	        <if test="refAdId != null">
+        ref_ad_id = #{refAdId,jdbcType=BIGINT},
+      </if>
+	        <if test="groupId != null">
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+	        <if test="groupIdReview != null">
+        group_id_review = #{groupIdReview,jdbcType=BIGINT},
+      </if>
+	        <if test="taskId != null">
+        task_id = #{taskId,jdbcType=BIGINT},
+      </if>
+	        <if test="wuliaoType != null">
+        wuliao_type = #{wuliaoType,jdbcType=INTEGER},
+      </if>
+	        <if test="adTradeIdLevel3 != null">
+        ad_trade_id_level3 = #{adTradeIdLevel3,jdbcType=INTEGER},
+      </if>
+	        <if test="adTradeIdLevel3Review != null">
+        ad_trade_id_level3_review = #{adTradeIdLevel3Review,jdbcType=INTEGER},
+      </if>
+	        <if test="adTag != null">
+        ad_tag = #{adTag,jdbcType=VARCHAR},
+      </if>
+	        <if test="adTagReview != null">
+        ad_tag_review = #{adTagReview,jdbcType=VARCHAR},
+      </if>
+	        <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+	        <if test="commentReview != null">
+        comment_review = #{commentReview,jdbcType=VARCHAR},
+      </if>
+	        <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="addUser != null">
+        add_user = #{addUser,jdbcType=VARCHAR},
+      </if>
+	        <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+	        <if test="tagUser != null">
+        tag_user = #{tagUser,jdbcType=VARCHAR},
+      </if>
+	        <if test="tagTime != null">
+        tag_time = #{tagTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="assigned != null">
+        assigned = #{assigned,jdbcType=TINYINT},
+      </if>
+	      </set>
+    where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.review.bo.ReviewAdTask">
+    update tb_review_ad_task
+    set 
+     	data_type = #{dataType,jdbcType=TINYINT},
+    	ref_ad_id = #{refAdId,jdbcType=BIGINT},
+    	group_id = #{groupId,jdbcType=BIGINT},
+    	group_id_review = #{groupIdReview,jdbcType=BIGINT},
+    	task_id = #{taskId,jdbcType=BIGINT},
+    	wuliao_type = #{wuliaoType,jdbcType=INTEGER},
+    	ad_trade_id_level3 = #{adTradeIdLevel3,jdbcType=INTEGER},
+    	ad_trade_id_level3_review = #{adTradeIdLevel3Review,jdbcType=INTEGER},
+    	ad_tag = #{adTag,jdbcType=VARCHAR},
+    	ad_tag_review = #{adTagReview,jdbcType=VARCHAR},
+    	comment = #{comment,jdbcType=VARCHAR},
+    	comment_review = #{commentReview,jdbcType=VARCHAR},
+    	add_time = #{addTime,jdbcType=TIMESTAMP},
+    	add_user = #{addUser,jdbcType=VARCHAR},
+    	update_time = #{updateTime,jdbcType=TIMESTAMP},
+    	update_user = #{updateUser,jdbcType=VARCHAR},
+    	tag_user = #{tagUser,jdbcType=VARCHAR},
+    	tag_time = #{tagTime,jdbcType=TIMESTAMP},
+    	assigned = #{assigned,jdbcType=TINYINT}
+        where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+
+</mapper>

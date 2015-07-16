@@ -1,0 +1,1 @@
+define("ub-ria/mvc/checker/minChecker",["require"],function(){function e(e,t){if(!e&&0!==e)return!0;var n=t[2].min;return e>=n}var t={name:"min",errorMessage:"${title}不能小于${min}",priority:20,check:e};return t});

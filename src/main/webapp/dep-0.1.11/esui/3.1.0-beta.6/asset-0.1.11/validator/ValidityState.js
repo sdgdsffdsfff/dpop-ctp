@@ -1,0 +1,1 @@
+define("esui/validator/ValidityState",[],function(){function e(e,t){this.state=e,this.message=t||""}return e.prototype.getMessage=function(){return this.message},e.prototype.getState=function(){return this.state},e.prototype.setMessage=function(e){this.message=e},e.prototype.setState=function(e){this.state=e},e});

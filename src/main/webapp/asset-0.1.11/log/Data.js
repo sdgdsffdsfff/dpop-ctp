@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("log/Data",["require","common/util","common/BaseData","eoo","ub-ria/mvc/RequestManager"],function(require){var e=require("common/util"),t=require("common/BaseData"),exports={};exports.search=function(e){return this.request("log/search",e,{method:"GET",url:"/getAllOperationRecord.do",urlPrefix:"ctp/operationRecord"})};var i=require("eoo").create(t,exports),n={search:{name:"log/search",scope:"instance",policy:"auto"}},r=require("ub-ria/mvc/RequestManager");return e.each(n,function(e){r.register(i,e.name,e)}),i});

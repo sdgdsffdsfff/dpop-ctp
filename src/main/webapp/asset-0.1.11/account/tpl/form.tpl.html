@@ -1,0 +1,64 @@
+<!-- target: accountForm(master=formPage) -->
+<!-- content: crumb -->
+    <!-- import: accountFormCrumb -->
+<!-- /content -->
+<!-- content: formMain -->
+    <!-- import: accountFormMain -->
+<!-- /content -->
+
+
+<!-- target: accountFormCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <span>修改密码</span>
+<!-- /content -->
+
+
+<!-- target: accountFormMain -->
+<div class="form-view account-form">
+    <form data-ui-type="Form" data-ui-id="form" novalidate="novalidate">
+        <!-- import: accountFormBasicSection -->
+        <!-- import: accountFormSubmitSection -->
+    </form>
+</div>
+
+<!-- target: accountFormBasicSection -->
+<section class="form-section">
+    <div class="form-field">
+        <esui-label class="form-field-label" data-ui-for-target="userName">用户名称：</esui-label>
+        <div class="form-field-value">
+            <esui-label class="form-field-label" data-ui-id="userName"></esui-label>
+        </div>
+    </div>
+    <div class="form-field">
+        <esui-label class="form-field-label" data-ui-for-target="old-password">原密码：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-id="old-password" data-ui-value="@oldPass"
+                name="oldPass" data-ui-placeholder="" data-ui-mode="password">
+            </esui-text-box>
+            <div class="form-field-description">填写你现有的密码</div>
+        </div>
+    </div>
+    <div class="form-field">
+        <esui-label class="form-field-label" data-ui-for-target="new-password">新密码：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-id="new-password" data-ui-value="@newPass"
+                name="newPass" data-ui-placeholder="" data-ui-mode="password">
+            </esui-text-box>
+            <div class="form-field-description">请输入6~16位半角字符（由数字，字母，字符组成）</div>
+        </div>
+    </div>
+    <div class="form-field">
+        <esui-label class="form-field-label" data-ui-for-target="new-again-password">再输一次：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-id="new-again-password" data-ui-value="@newAgainPass"
+                name="newAgainPass"  data-ui-placeholder="" data-ui-mode="password">
+            </esui-text-box>
+            <div class="form-field-description">再次输入新密码</div>
+        </div>
+    </div>
+</section>
+
+<!-- target: accountFormSubmitSection -->
+    <button type="submit" data-ui-type="Button" data-ui-id="submit" class="submit-button">确定</button>
+    <div type="button" data-ui-type="Button" data-ui-id="cancel" class="cancel-button">取消</div>

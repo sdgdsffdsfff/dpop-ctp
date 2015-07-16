@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("log/config",["require","common/ActionFactory","er/controller"],function(require){var e=require("common/ActionFactory"),t=[{path:"/log/user/list",type:new e("log/List"),title:"权限操作日志",authority:["managerRole"],args:{logType:"user"}},{path:"/log/audit/list",type:new e("log/List"),title:"审核操作日志",authority:["managerRole"],args:{logType:"review"}}];require("er/controller").registerAction(t)});

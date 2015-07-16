@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+
+<body>
+	<h1>标注平台测试文件上传</h1>
+	<form method="post" action="ctp/invoke/loadDataByThread.do"
+		enctype="multipart/form-data">
+		<input type="file" name="upLoadFile"> <input type="text"
+			name="token" value="QxRbUmoiNyvrXWAcEsftedtsftSr"> <input
+			type="text" name="dataType" value="0"> <input type="submit"
+			value="Submit">
+	</form>
+
+	<h1>标注平台测试更新标签数据</h1>
+	<form method="post" action="ctp/tagType/addTagType.do"
+		enctype="multipart/form-data">
+		<input type="file" name="upLoadFile"> <input type="text"
+			name="token" value="QxRbUmoiNyvrXWAcEsftedtsftSr"> <input
+			type="submit" value="Submit">
+	</form>
+	
+	<h1>标注平台测试更新三级行业二级映射</h1>
+    <form method="post" action="ctp/tagType/addTradeType.do"
+        enctype="multipart/form-data">
+        <input type="file" name="upLoadFile"> <input type="text"
+            name="token" value="QxRbUmoiNyvrXWAcEsftedtsftSr"> <input
+            type="submit" value="Submit">
+    </form>
+</body>
+</html>

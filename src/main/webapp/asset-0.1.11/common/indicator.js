@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("common/indicator",["require","er/events"],function(require){function e(){var e=require("er/events");e.on("forwardaction",function(e){!e.isChildAction&&t()}),e.on("enteractioncomplete",function(e){!e.isChildAction&&i()}),e.on("enteractionfail",function(e){if(!e.isChildAction)i()})}function t(){document.getElementById("global-indicator").style.display="block"}function i(){document.getElementById("global-indicator").style.display="none"}return{enable:e,show:t,hide:i}});

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.demo.dao.mapper.DemoTestBoMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.demo.bo.DemoTestBo">
+			<id     column="id"		jdbcType="BIGINT"		property="id" />
+	 		<result column="demo_name"		jdbcType="VARCHAR"		property="demoName" />
+			<result column="add_time"		jdbcType="TIMESTAMP"		property="addTime" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	id,demo_name,add_time  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from demo
+    where 1=1  and id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from demo
+    where 1=1 and id = #{id,jdbcType=BIGINT}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.demo.bo.DemoTestBo" useGeneratedKeys="true" keyProperty="id">
+    insert into demo 
+	(id, demo_name, add_time)
+    values 
+	( #{id,jdbcType=BIGINT},#{demoName,jdbcType=VARCHAR},#{addTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.demo.bo.DemoTestBo" useGeneratedKeys="true" keyProperty="id">
+    insert into demo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="id != null">
+        id,
+      </if>
+				
+	  <if test="demoName != null">
+        demo_name,
+      </if>
+			
+	  <if test="addTime != null">
+        add_time,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="id != null">
+         #{id,jdbcType=BIGINT},
+      </if>
+				
+	  <if test="demoName != null">
+         #{demoName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="addTime != null">
+         #{addTime,jdbcType=TIMESTAMP},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.demo.bo.DemoTestBo">
+    update demo
+    <set>      <if test="demoName != null">
+        demo_name = #{demoName,jdbcType=VARCHAR},
+      </if>
+	        <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+	      </set>
+    where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.demo.bo.DemoTestBo">
+    update demo
+    set 
+     	demo_name = #{demoName,jdbcType=VARCHAR},
+    	add_time = #{addTime,jdbcType=TIMESTAMP}
+        where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+
+</mapper>

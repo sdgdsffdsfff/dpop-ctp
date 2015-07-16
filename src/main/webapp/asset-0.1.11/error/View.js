@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("error/View",["require","ef/UIView","er/util"],function(require){function e(){t.apply(this,arguments)}var t=require("ef/UIView"),i=require("er/util");return e.prototype.uiEvents={"reload:click":function(){this.fire("reload")}},i.inherits(e,t),e});

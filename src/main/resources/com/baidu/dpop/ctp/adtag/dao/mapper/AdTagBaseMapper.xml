@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.adtag.dao.mapper.AdTagMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.adtag.bo.AdTag">
+			<id     column="id"		jdbcType="BIGINT"		property="id" />
+	 		<result column="ref_id"		jdbcType="BIGINT"		property="refId" />
+			<result column="ref_group_id"		jdbcType="BIGINT"		property="refGroupId" />
+			<result column="task_id"		jdbcType="INTEGER"		property="taskId" />
+			<result column="data_type"		jdbcType="INTEGER"		property="dataType" />
+			<result column="ad_tag"		jdbcType="VARCHAR"		property="adTag" />
+			<result column="ad_trade_id_level3"		jdbcType="INTEGER"		property="adTradeIdLevel3" />
+			<result column="comment"		jdbcType="VARCHAR"		property="comment" />
+			<result column="update_time"		jdbcType="TIMESTAMP"		property="updateTime" />
+			<result column="update_user"		jdbcType="VARCHAR"		property="updateUser" />
+			<result column="general_wuliao_type"		jdbcType="INTEGER"		property="generalWuliaoType" />
+			<result column="ASSIGNED"		jdbcType="TINYINT"		property="assigned" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	id,ref_id,ref_group_id,task_id,data_type,ad_tag,ad_trade_id_level3,comment,update_time,update_user,general_wuliao_type,ASSIGNED  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_ad_tag
+    where 1=1  and id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_ad_tag
+    where 1=1 and id = #{id,jdbcType=BIGINT}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.adtag.bo.AdTag" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_ad_tag 
+	(id, ref_id, ref_group_id, task_id, data_type, ad_tag, ad_trade_id_level3, comment, update_time, update_user, general_wuliao_type, ASSIGNED)
+    values 
+	( #{id,jdbcType=BIGINT},#{refId,jdbcType=BIGINT},#{refGroupId,jdbcType=BIGINT},#{taskId,jdbcType=INTEGER},#{dataType,jdbcType=INTEGER},#{adTag,jdbcType=VARCHAR},#{adTradeIdLevel3,jdbcType=INTEGER},#{comment,jdbcType=VARCHAR},#{updateTime,jdbcType=TIMESTAMP},#{updateUser,jdbcType=VARCHAR},#{generalWuliaoType,jdbcType=INTEGER},#{assigned,jdbcType=TINYINT})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.adtag.bo.AdTag" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_ad_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="id != null">
+        id,
+      </if>
+				
+	  <if test="refId != null">
+        ref_id,
+      </if>
+			
+	  <if test="refGroupId != null">
+        ref_group_id,
+      </if>
+			
+	  <if test="taskId != null">
+        task_id,
+      </if>
+			
+	  <if test="dataType != null">
+        data_type,
+      </if>
+			
+	  <if test="adTag != null">
+        ad_tag,
+      </if>
+			
+	  <if test="adTradeIdLevel3 != null">
+        ad_trade_id_level3,
+      </if>
+			
+	  <if test="comment != null">
+        comment,
+      </if>
+			
+	  <if test="updateTime != null">
+        update_time,
+      </if>
+			
+	  <if test="updateUser != null">
+        update_user,
+      </if>
+			
+	  <if test="generalWuliaoType != null">
+        general_wuliao_type,
+      </if>
+			
+	  <if test="assigned != null">
+        ASSIGNED,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="id != null">
+         #{id,jdbcType=BIGINT},
+      </if>
+				
+	  <if test="refId != null">
+         #{refId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="refGroupId != null">
+         #{refGroupId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="taskId != null">
+         #{taskId,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="dataType != null">
+         #{dataType,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adTag != null">
+         #{adTag,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="adTradeIdLevel3 != null">
+         #{adTradeIdLevel3,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="comment != null">
+         #{comment,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="updateTime != null">
+         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="updateUser != null">
+         #{updateUser,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="generalWuliaoType != null">
+         #{generalWuliaoType,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="assigned != null">
+         #{assigned,jdbcType=TINYINT},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.adtag.bo.AdTag">
+    update tb_ad_tag
+    <set>      <if test="refId != null">
+        ref_id = #{refId,jdbcType=BIGINT},
+      </if>
+	        <if test="refGroupId != null">
+        ref_group_id = #{refGroupId,jdbcType=BIGINT},
+      </if>
+	        <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+	        <if test="dataType != null">
+        data_type = #{dataType,jdbcType=INTEGER},
+      </if>
+	        <if test="adTag != null">
+        ad_tag = #{adTag,jdbcType=VARCHAR},
+      </if>
+	        <if test="adTradeIdLevel3 != null">
+        ad_trade_id_level3 = #{adTradeIdLevel3,jdbcType=INTEGER},
+      </if>
+	        <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+	        <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+	        <if test="generalWuliaoType != null">
+        general_wuliao_type = #{generalWuliaoType,jdbcType=INTEGER},
+      </if>
+	        <if test="assigned != null">
+        ASSIGNED = #{assigned,jdbcType=TINYINT},
+      </if>
+	      </set>
+    where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.adtag.bo.AdTag">
+    update tb_ad_tag
+    set 
+     	ref_id = #{refId,jdbcType=BIGINT},
+    	ref_group_id = #{refGroupId,jdbcType=BIGINT},
+    	task_id = #{taskId,jdbcType=INTEGER},
+    	data_type = #{dataType,jdbcType=INTEGER},
+    	ad_tag = #{adTag,jdbcType=VARCHAR},
+    	ad_trade_id_level3 = #{adTradeIdLevel3,jdbcType=INTEGER},
+    	comment = #{comment,jdbcType=VARCHAR},
+    	update_time = #{updateTime,jdbcType=TIMESTAMP},
+    	update_user = #{updateUser,jdbcType=VARCHAR},
+    	general_wuliao_type = #{generalWuliaoType,jdbcType=INTEGER},
+    	ASSIGNED = #{assigned,jdbcType=TINYINT}
+        where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+
+</mapper>

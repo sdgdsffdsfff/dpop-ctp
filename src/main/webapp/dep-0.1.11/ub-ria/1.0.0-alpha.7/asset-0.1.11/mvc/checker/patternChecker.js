@@ -1,0 +1,1 @@
+define("ub-ria/mvc/checker/patternChecker",["require"],function(){function e(e,t){if(!e&&0!==e)return!0;var n=new RegExp(t[2].pattern);return n.test(e)}var t={name:"pattern",errorMessage:"${title}格式不符合要求",priority:30,check:e};return t});

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.task.dao.mapper.BeidouTaskMapper">
+
+	<resultMap id="taskCountResultMap" type="com.baidu.dpop.ctp.group.bo.Group">
+		<id column="group_id" jdbcType="INTEGER" property="groupId" />
+		<id column="task_id" jdbcType="INTEGER" property="taskId" />
+		<id column="count" jdbcType="INTEGER" property="adNum" />
+	</resultMap>
+
+	<resultMap id="taskTestResultMap" type="com.baidu.dpop.ctp.invoke.vo.TaskTestVo">
+		<id column="ad_id" jdbcType="INTEGER" property="adId" />
+		<id column="task_id" jdbcType="INTEGER" property="taskId" />
+	</resultMap>
+
+	<sql id="Full_Info_List">
+		task.id as id,
+		task.ad_id as adId,
+		task.group_id as groupId,
+		task.plan_id as planId,
+		task.user_id as userId,
+		task.wuliao_type as wuliaoType,
+		task.ad_type as adType,
+		task.company as company,
+		task.website as website,
+		task.show_url as showUrl,
+		task.target_url as targetUrl,
+		task.width as width,
+		task.height as height,
+		task.title as title,
+		task.description1 as description1,
+		task.description2 as description2,
+		task.ad_trade_id_level2 as adTradeIdLevel2,
+		task.ad_trade_id_level3 as adTradeIdLevel3,
+		task.ad_tag as adTag,
+		task.mc_id as mcId,
+		task.mc_version_id as mcVersionId,
+		task.priority as priority,
+		task.second_priority as secondPriority,
+		task.moduser_level as moduserLevel,
+		task.task_name as taskName,
+		task.task_type as taskType,
+		task.task_id as taskId,
+		task.chatime as chatime,
+		task.add_time as addTime,
+		task.add_user as addUser,
+		industry1.full_name as adTradeNameLevel2,
+		industry2.full_name as adTradeNameLevel3
+	</sql>
+
+	<!-- =========================SELECT========================= -->
+
+	<select id="selectBeidouTasksByGroup" resultType="com.baidu.dpop.ctp.task.bo.BeidouTask">
+		SELECT
+		<include refid="Full_Info_List"></include>
+		FROM
+		tb_beidou_task task,
+		tb_trade_type industry1,
+		tb_new_trade_type industry2
+		<where>
+			AND task.group_id=#{groupId, jdbcType=INTEGER}
+			AND task.task_id=#{taskId, jdbcType=INTEGER}
+			AND task.ad_trade_id_level2=industry1.full_id
+			AND task.ad_trade_id_level3=industry2.full_id
+		</where>
+	</select>
+
+	<select id="selectBeidouTasksByTaskId" parameterType="java.lang.Integer"
+		resultType="com.baidu.dpop.ctp.task.bo.BeidouTask">
+		SELECT
+		<include refid="Full_Info_List" />
+		FROM tb_beidou_task task, tb_trade_type industry1, tb_new_trade_type
+		industry2
+		<where>
+			AND task.task_id=#{taskId, jdbcType=INTEGER}
+			AND task.ad_trade_id_level2=industry1.full_id
+			AND task.ad_trade_id_level3=industry2.full_id
+		</where> 
+	</select>
+
+	<select id="selectBeidouTasksByQueryCondition" parameterType="com.baidu.dpop.ctp.task.vo.GeneralTaskQueryVo"
+		resultMap="BaseResultMap">
+		SELECT
+		bt.id, bt.ad_id, bt.group_id, bt.plan_id, bt.user_id,
+		bt.wuliao_type, bt.ad_type, bt.ad_trade_id_level3,
+		bt.chatime, bt.task_id, bt.task_name
+		FROM tb_beidou_task bt, tb_ad_tag tag
+		<where>
+			<if test="null != taskIdList">
+				AND bt.task_id in
+				<foreach collection="taskIdList" item="taskId" index="index"
+					open="(" close=")" separator=",">
+					#{taskId,jdbcType=INTEGER}
+				</foreach>
+			</if>
+			AND bt.id = tag.ref_id AND tag.data_type=0
+		</where>
+	</select>
+
+	<select id="selectTestedTasks" resultMap="taskTestResultMap">
+		SELECT ad_id, task_id
+		FROM tb_beidou_task
+		WHERE ad_id IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item.adId,jdbcType=INTEGER}
+		</foreach>
+	</select>
+
+	<select id="batchSelect" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Full_Info_List" />
+		FROM tb_beidou_task task,
+		tb_trade_type industry1,
+		tb_new_trade_type
+		industry2
+		<where>
+			task.id IN
+			<foreach collection="list" item="item" index="index" open="("
+				close=")" separator=",">
+				#{item}
+			</foreach>
+			AND task.ad_trade_id_level2=industry1.full_id
+			AND
+			task.ad_trade_id_level3=industry2.full_id
+		</where>
+	</select>
+
+	<select id="selectTaskCount" resultMap="taskCountResultMap">
+		SELECT group_id, task_id, COUNT(*) AS count
+		FROM tb_beidou_task WHERE
+		group_id IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item.groupId,jdbcType=BIGINT}
+		</foreach>
+		GROUP BY group_id, task_id
+	</select>
+
+	<select id="selectDownloadCount" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM tb_beidou_task
+		WHERE
+		task_id=#{taskId,jdbcType=INTEGER}
+	</select>
+
+	<!-- =========================INSERT========================= -->
+
+	<insert id="batchInsertTasks">
+		INSERT INTO tb_beidou_task (ad_id, group_id, plan_id, user_id,
+		wuliao_type, company, website, show_url, target_url, width, height,
+		title, description1, description2, ad_trade_id_level2,
+		ad_trade_id_level3, ad_tag, mc_id, mc_version_id, priority, second_priority,
+		moduser_level, task_name, task_id, task_type, ad_type, chatime, add_time,
+		add_user)
+		VALUES
+		<foreach collection="tasks" item="item" index="index"
+			separator=",">
+			(#{item.adId,jdbcType=INTEGER},
+			#{item.groupId,jdbcType=INTEGER},
+			#{item.planId,jdbcType=INTEGER},
+			#{item.userId,jdbcType=INTEGER},
+			#{item.wuliaoType,jdbcType=TINYINT},
+			#{item.company,jdbcType=VARCHAR},
+			#{item.website,jdbcType=VARCHAR},
+			#{item.showUrl,jdbcType=VARCHAR},
+			#{item.targetUrl,jdbcType=VARCHAR},
+			#{item.width,jdbcType=INTEGER},
+			#{item.height,jdbcType=INTEGER},
+			#{item.title,jdbcType=VARCHAR},
+			#{item.description1,jdbcType=VARCHAR},
+			#{item.description2,jdbcType=VARCHAR},
+			#{item.adTradeIdLevel2,jdbcType=INTEGER},
+			#{item.adTradeIdLevel3,jdbcType=INTEGER},
+			#{item.adTag,jdbcType=VARCHAR},
+			#{item.mcId,jdbcType=INTEGER},
+			#{item.mcVersionId,jdbcType=INTEGER},
+			#{item.priority,jdbcType=TINYINT},
+			#{item.secondPriority,jdbcType=TINYINT},
+			#{item.moduserLevel,jdbcType=TINYINT},
+			#{item.taskName,jdbcType=VARCHAR},
+			#{item.taskId,jdbcType=INTEGER},
+			#{item.taskType,jdbcType=TINYINT},
+			#{item.adType,jdbcType=TINYINT},
+			#{item.chatime,jdbcType=TIMESTAMP},
+			#{item.addTime,jdbcType=TIMESTAMP},
+			#{item.addUser,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+
+	<!-- =========================UPDATE======================== -->
+
+	<!-- =========================UPDATE======================== -->
+
+	<delete id="deleteAdDetail" parameterType="java.lang.Integer">
+		DELETE FROM tb_beidou_task
+		WHERE task_id=#{taskId,jdbcType=INTEGER}
+	</delete>
+
+</mapper>

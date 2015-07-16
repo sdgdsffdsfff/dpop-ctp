@@ -1,0 +1,1 @@
+define("ub-ria/mvc/checker/maxLengthChecker",["require"],function(){function e(e,t){var n=t[2].maxLength;return!(e&&0!==e.length&&e.length>n)}var t={name:"maxLength",errorMessage:{array:"${title}不能超过${maxLength}个",string:"${title}不能超过${maxLength}个字符"},priority:20,check:e};return t});

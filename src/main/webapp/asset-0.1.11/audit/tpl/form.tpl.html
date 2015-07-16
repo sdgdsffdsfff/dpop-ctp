@@ -1,0 +1,236 @@
+<!-- target: auditFormMain(master=formPage) -->
+<!-- content: crumb -->
+    <!-- import: auditFormCrumb -->
+<!-- /content -->
+<!-- content: formMain -->
+    <!-- import: auditFormMainView -->
+<!-- /content -->
+
+<!-- target: auditFormCrumb(master=crumb) -->
+<!-- content: path -->
+    <span>首页</span>
+    <span>审核任务</span>
+    <span>新建审核任务</span>
+<!-- /content -->
+
+
+
+<!-- target: auditFormMainView -->
+<div class="form-view audit-create-form">
+    <form data-ui-type="Form" data-ui-id="form" novalidate="novalidate">
+        <!-- import: auditFormBasicSection -->
+        <!-- import: auditFormSubmitSection -->
+    </form>
+</div>
+
+<!-- target: auditFormBasicSection -->
+    <!-- if: ${role} == 'all' -->
+        <!-- use:
+            textboxField(
+                title = '任务名称', field = 'taskName', required = true, length = 30, description = '请填写标注任务名称，最多30个中文字符。'
+            )
+        -->
+    <!-- else -->
+        <!-- use:
+            textboxField(
+                title = '任务名称', field = 'taskName', required = true, length = 30, description = '请填写标注任务名称，最多30个中文字符。', disabled = true
+            )
+        -->
+    <!-- /if -->
+    
+    <div class="form-field-required">
+        <esui-label class="form-field-label" data-ui-for-target="moduserLevel" data-ui-title="审核人类型">审核人类型：</esui-label>
+        <div class="form-field-value">
+            <span class="form-field-value-required-star">*</span>
+            <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="moduserLevel" data-ui-box-type="radio"
+            data-ui-name="moduserLevel"
+            <!-- if: ${role} == 'inner' -->data-ui-value="0"<!-- /if -->
+            <!-- if: ${role} == 'outer' -->data-ui-value="1"<!-- /if -->
+            <!-- if: ${role} == 'all' -->data-ui-value="2"<!-- /if -->
+            <!-- if: ${role} !== 'all' -->data-ui-disabled="true"<!-- /if -->>
+                <div data-ui-box-type="radio" data-ui-value="2" />全体人员</div>
+                <div data-ui-box-type="radio" data-ui-value="0" />内部人员</div>
+                <div data-ui-box-type="radio" data-ui-value="1" />外部人员</div>
+            </div>
+            <div class="form-field-description">请选择标注人员类型。</div>
+        </div>
+    </div>
+    <div class="form-field-required">
+        <esui-label class="form-field-label" data-ui-for-target="taskDimension" data-ui-title="任务维度">任务维度：</esui-label>
+        <div class="form-field-value">
+            <span class="form-field-value-required-star">*</span>
+            <!-- if: ${role} == 'all' -->
+                <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="taskDimension" data-ui-box-type="radio" data-ui-disabled="true"
+                <!-- if: ${fromPath} == 'create' -->data-ui-value="id"<!-- /if -->
+                <!-- if: ${fromPath} == 'marker' -->data-ui-value="id"<!-- /if -->>
+                    <div data-ui-box-type="radio" data-ui-value="time" />时间维度</div>
+                    <div data-ui-box-type="radio" data-ui-value="id" />标注任务维度</div>
+                </div>
+                <div class="form-field-description">请进行任务维度选择，（暂不支持时间维度）。</div>
+            <!-- else -->
+                <esui-label data-ui-id="selectIdDimesion" data-ui-text="${selectIdDimesion}"></esui-label>
+                <esui-text-box class="state-hidden" data-ui-id="id" data-ui-name="id" data-ui-value="${id}"></esui-text-box>
+            <!-- /if -->
+        </div>
+    </div>
+    <!-- if: ${role} == 'all' -->
+        <esui-panel class="task-operation-panel task-time-dimension-panel" data-ui-id="task-time-dimension">
+            <i></i>
+            <!-- use:
+                rangeCalendarField(
+                    title = '时间维度', name = 'timeDimension',  required = true, description = '请选择标注任务的有效时间范围。'
+                )
+            -->
+        </esui-panel>
+        <esui-panel class="task-operation-panel task-id-dimension-panel" data-ui-id="task-id-dimension">
+            <i></i>
+            <!-- use:
+                treeRichSelectorField(
+                    title = '待审标注任务', name = 'id-dimension',  required = false, fieldClasses='left-float',
+                    treetitle='全部标注任务', classname='rich-tree left-rich-tree', datasource='canUseTasks', ismulti = true, targetTree = 'id-selected-dimension'
+                )
+            -->
+            <!-- use:
+                treeRichSelector(name = 'id-selected-dimension',  required = false,
+                    treetitle='已选标注任务', classname='rich-tree right-rich-tree left-float', datasource='allSelectedTask', ismulti = true, targetTree = 'id-dimension'
+                )
+            -->
+        </esui-panel>
+    <!-- /if -->
+    <div class="form-field-required">
+        <esui-label class="form-field-label" data-ui-for-target="conditionType" data-ui-title="筛选条件">筛选条件：</esui-label>
+        <div class="form-field-value">
+            <span class="form-field-value-required-star">*</span>
+            <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="conditionType" data-ui-box-type="radio" data-ui-value="0"
+            data-ui-name="conditionType"
+            <!-- if: ${role} !== 'all' -->data-ui-disabled="true"<!-- /if -->>
+                <div data-ui-box-type="radio" data-ui-value="0" />随机抽选</div>
+                <div data-ui-box-type="radio" data-ui-value="1" />自定义</div>
+            </div>
+            <div class="form-field-description">请进行物料条件筛选。</div>
+        </div>
+    </div>
+    <!-- if: ${role} == 'all' -->
+        <esui-panel class="task-operation-panel task-custom-condition-panel" data-ui-id="task-custom-condition">
+            <i></i>
+            <div class="form-field">
+                <esui-label class="form-field-label" data-ui-for-target="dataType" data-ui-title="数据来源">数据来源：</esui-label>
+                <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="dataType" data-ui-box-type="radio" data-ui-name="dataType" data-ui-value="0">
+                    <div data-ui-box-type="radio" data-ui-value="0" />北斗</div>
+                    <div data-ui-box-type="radio" data-ui-value="1" />秋实</div>
+                    <div data-ui-box-type="radio" data-ui-value="2" />外部DSP</div>
+                    <div data-ui-box-type="radio" data-ui-value="3" />百度DSP</div>
+                </div>
+            </div>
+            <div class="form-field">
+                <esui-label class="form-field-label"  data-ui-title="物料类型">物料类型：</esui-label>
+                <div class="select-radio-group" data-ui-type="CustomAbstractBoxGroup" data-ui-id="beidouWuliaoType" data-ui-box-type="checkbox" data-ui-name="beidouWuliaoType" data-ui-value="0000" data-ui-hasallvalue="0000" data-ui-hasselfset="0">
+                    <div data-ui-box-type="checkbox" data-ui-value="0000"/>全部类型</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="1"/>文本</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="2"/>图片</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="3"/>FLASH</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="5"/>图文</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="9"/>智能创意</div>
+                </div>
+                <div class="select-radio-group" data-ui-type="CustomAbstractBoxGroup" data-ui-id="qiushiWuliaoType" data-ui-box-type="checkbox" data-ui-name="qiushiWuliaoType" data-ui-value="0000" data-ui-hasallvalue="0000" data-ui-hasselfset="0">
+                    <div data-ui-box-type="checkbox" data-ui-value="0000"/>全部类型</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="1"/>文本</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="2"/>图片</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="4"/>富媒体</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="5"/>图文</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="6"/>视频广告</div>
+                </div>
+                <div class="select-radio-group" data-ui-type="CustomAbstractBoxGroup" data-ui-id="dspWuliaoType" data-ui-box-type="checkbox" data-ui-name="dspWuliaoType" data-ui-value="0000" data-ui-hasallvalue="0000" data-ui-hasselfset="0">
+                    <div data-ui-box-type="checkbox" data-ui-value="0000"/>全部类型</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="2"/>图片</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="3"/>FLASH</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="6"/>视频广告</div>
+                </div>
+                <div class="select-radio-group" data-ui-type="CustomAbstractBoxGroup" data-ui-id="baidudspWuliaoType" data-ui-box-type="checkbox" data-ui-name="baidudspWuliaoType" data-ui-value="0000" data-ui-hasallvalue="0000" data-ui-hasselfset="0">
+                    <div data-ui-box-type="checkbox" data-ui-value="0000"/>全部类型</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="1"/>文本</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="5"/>图文</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="2"/>图片</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="3"/>FLASH</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="9"/>智能创意</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="6"/>视频广告</div>
+                </div>
+            </div>
+            <div class="form-field">
+                <esui-label class="form-field-label" data-ui-for-target="belongTrade" data-ui-title="所属行业">所属行业：</esui-label>
+                <div class="form-field-value form-field-without-padding">
+                    <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="belongTrade" data-ui-name="belongTrade" data-ui-box-type="radio" data-ui-value="0">
+                        <div data-ui-box-type="radio" data-ui-value="0"/>全部行业</div>
+                        <div data-ui-box-type="radio" data-ui-value="1"/>自定义</div>
+                    </div>
+                    <div class="form-field-description">请选择所属行业。</div>
+                </div>
+            </div>
+            <esui-panel class="form-field" data-ui-id="customTrade">
+                <esui-label class="form-field-label field-without-label" data-ui-title=""></esui-label>
+                <!-- use:
+                    treeRichSelector(name = 'trade-id',  required = false,
+                        treetitle='全部行业', classname='rich-tree left-rich-tree  field-without-label left-float',
+                        datasource='tradeList', ismulti = true, targetTree = 'trade-selected-id'
+                    )
+                -->
+                <!-- use:
+                    treeRichSelector(name = 'trade-selected-id',  required = false,
+                        treetitle='已选行业', classname='rich-tree right-rich-tree left-float widthout-margin',
+                        datasource='allSelectedTrade', ismulti = true, targetTree = 'trade-id'
+                    )
+                -->
+            </esui-panel>
+            <div class="form-field">
+                <esui-label class="form-field-label" data-ui-for-target="tagGroup" data-ui-title="物料标签">物料标签：</esui-label>
+                <esui-panel class="ad-tag-value-panel" data-ui-id="adTagValue">
+                    <div class="ad-tag-select-zone" data-ui-type="AttachTagBoxGroup" data-ui-id="tagGroup" data-ui-box-type="checkbox" 
+                        data-ui-datasource="@tagDatasource" data-ui-name="tagGroup" data-ui-hasallvalue="0" data-ui-hasselfset="0"  data-ui-value="@tagValue">
+                    </div>
+                </esui-panel>
+            </div>
+        </esui-panel>
+    <!-- /if -->
+    <div class="form-field-required">
+        <esui-label class="form-field-label" data-ui-for-target="groupNum" data-ui-title="标注数量">标注数量：</esui-label>
+        <div class="form-field-value">
+            <span class="form-field-value-required-star">*</span>
+            <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="groupNum" data-ui-box-type="radio" data-ui-name="groupNum"
+            <!-- if: ${fromPath} == 'create' -->data-ui-value="0"<!-- /if -->
+            <!-- if: ${fromPath} == 'marker' -->data-ui-value="1"<!-- /if -->>
+                <div data-ui-box-type="radio" data-ui-value="0" />全部数量</div>
+                <div data-ui-box-type="radio" data-ui-value="1" />自定义数量</div>
+            </div>
+            <!-- use:
+                textbox(
+                    name = 'customGroupNum', id = 'custom-group-num', width = '75', required = false
+                )
+            -->
+            <div class="form-field-description">请确定标注创意数量有效范围
+                <esui-label class="audit-available-num-des" data-ui-id="availableNum"></esui-label>
+            </div>
+        </div>
+    </div>
+    <div class="form-field-required">
+        <esui-label class="form-field-label" data-ui-for-target="isBlind" data-ui-title="审核方式">审核方式：</esui-label>
+        <div class="form-field-value">
+            <span class="form-field-value-required-star">*</span>
+            <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="isBlind"
+            data-ui-name="isBlind" data-ui-box-type="radio" data-ui-value="0"
+            <!-- if: ${role} !== 'all' -->data-ui-disabled="true"<!-- /if -->>
+                <div data-ui-box-type="radio" data-ui-value="0" />盲审</div>
+                <div data-ui-box-type="radio" data-ui-value="1" />明审</div>
+            </div>
+            <div class="form-field-description">请进行审核方式的选择。</div>
+        </div>
+    </div>
+
+<!-- target: auditFormSubmitSection -->
+<esui-panel class="form-submit-section" data-ui-id="submit-section">
+    <button type="submit" data-ui-type="Button" data-ui-id="submit" data-ui-group="submit" class="submit-button">新建</button>
+    <!-- if: ${role} == 'all' -->
+        <button type="button" data-ui-type="Button" data-ui-id="download" data-ui-group="submit" class="ui-button">下载</button>
+    <!-- /if -->
+    <div data-ui-type="Button" data-ui-id="cancel" data-ui-group="submit" data-ui-skin="link">取消</div>
+</esui-panel>
+

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.review.dao.mapper.ReviewAdTaskMapper">
+
+	<!-- =========================SELECT========================= -->
+
+	<select id="selectReviewTasksByReviewGroup" parameterType="com.baidu.dpop.ctp.review.bo.ReviewGroup"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_review_ad_task
+		<where>
+			AND group_id_review=#{id,jdbcType=BIGINT}
+		</where>
+	</select>
+
+	<select id="selectReviewTasksByTaskId" parameterType="java.lang.Integer"
+		resultType="com.baidu.dpop.ctp.review.bo.ReviewAdTask">
+		SELECT
+		review.data_type AS dataType,
+		review.ref_ad_id AS refAdId,
+		review.group_id AS groupId,
+		review.group_id_review AS groupIdReview,
+		review.task_id AS taskId,
+		review.wuliao_type AS wuliaoType,
+		review.ad_trade_id_level3 AS adTradeIdLevel3,
+		trade1.full_name AS
+		adTradeNameLevel3,
+		review.ad_trade_id_level3_review AS
+		adTradeIdLevel3Review,
+		trade2.full_name AS adTradeNameLevel3Review,
+		review.ad_tag AS adTag,
+		review.ad_tag_review AS adTagReview,
+		review.comment AS comment,
+		review.comment_review AS commentReview,
+		review.add_time AS addTime,
+		review.add_user AS addUser,
+		review.update_time AS updateTime,
+		review.update_user AS updateUser,
+		review.tag_user AS tagUser,
+		review.tag_time AS tagTime
+		FROM
+		tb_review_ad_task review,
+		tb_new_trade_type AS trade1,
+		tb_new_trade_type AS trade2
+		<where>
+			AND review.task_id=#{taskIdReview,jdbcType=INTEGER}
+			AND review.ad_trade_id_level3=trade1.full_id
+			AND review.ad_trade_id_level3_review=trade2.full_id
+		</where>
+	</select>
+
+	<select id="batchSelectByRefAdId" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_review_ad_task
+		WHERE ref_ad_id IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+		ORDER BY update_time
+	</select>
+
+	<select id="selectReviewWrongDetail" parameterType="java.util.List"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_review_ad_task rt
+		<where>
+			AND rt.group_id_review IN
+			<foreach collection="reviewGroupIdList" item="item" index="index"
+				open="(" close=")" separator=",">
+				#{item, jdbcType=BIGINT}
+			</foreach>
+			AND (rt.ad_trade_id_level3 &lt;&gt; rt.ad_trade_id_level3_review
+			OR
+			rt.ad_tag &lt;&gt; rt.ad_tag_review)
+		</where>
+	</select>
+
+	<!-- =========================INSERT========================= -->
+
+	<insert id="batchInsertTasks" parameterType="com.baidu.dpop.ctp.review.bo.ReviewAdTask">
+		INSERT INTO tb_review_ad_task
+		(data_type, ref_ad_id, group_id,
+		group_id_review, task_id, ad_trade_id_level3, ad_tag, ad_tag_review,
+		comment,
+		wuliao_type,
+		add_time, add_user, update_time, update_user,
+		tag_time, tag_user)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.dataType,jdbcType=INTEGER},#{item.refAdId,jdbcType=BIGINT},#{item.groupId,jdbcType=BIGINT},#{item.groupIdReview,jdbcType=BIGINT},#{item.taskId,jdbcType=BIGINT},#{item.adTradeIdLevel3,jdbcType=INTEGER},#{item.adTag,jdbcType=VARCHAR},#{item.adTagReview,jdbcType=VARCHAR},#{item.comment,jdbcType=VARCHAR},#{item.wuliaoType,jdbcType=INTEGER},#{item.addTime,jdbcType=TIMESTAMP},#{item.addUser,jdbcType=VARCHAR},#{item.updateTime,jdbcType=TIMESTAMP},#{item.updateUser,jdbcType=VARCHAR},#{item.tagTime,jdbcType=TIMESTAMP},#{item.tagUser,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+
+	<!-- =========================UPDATE========================= -->
+
+	<update id="updateAssigned" parameterType="com.baidu.dpop.ctp.adtag.vo.AdTagAssignedVo">
+		UPDATE tb_review_ad_task review,
+		<if test="dataType.equals(3)">
+			tb_new_dsp_task task
+		</if>
+		SET review.assigned=1
+		<where>
+			AND review.task_id=#{taskId,jdbcType=INTEGER}
+			AND data_type=#{dataType,jdbcType=INTEGER}
+			AND task.ad_id IN
+			<foreach collection="ids" index="index" item="item"
+				separator="," open="(" close=")">
+				#{item}
+			</foreach>
+			AND task.id=review.ref_ad_id
+		</where>
+	</update>
+
+	<update id="batchUpdate" parameterType="com.baidu.dpop.ctp.review.vo.ReviewAdTaskSubmitVo">
+		UPDATE tb_review_ad_task
+		SET
+		ad_tag_review = CASE id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.id,jdbcType=BIGINT} THEN
+			#{item.adTagReview,jdbcType=VARCHAR}
+		</foreach>
+		END,
+		comment_review = CASE id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.id,jdbcType=BIGINT} THEN
+			#{item.commentReview,jdbcType=VARCHAR}
+		</foreach>
+		END,
+		ad_trade_id_level3_review = CASE id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.id,jdbcType=BIGINT} THEN
+			#{item.adTradeIdLevel3Review,jdbcType=INTEGER}
+		</foreach>
+		END,
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		update_user =
+		#{updateUser,jdbcType=VARCHAR}
+		WHERE id IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item.id,jdbcType=BIGINT}
+		</foreach>
+	</update>
+
+	<!-- =========================DELETE========================= -->
+
+	<delete id="deleteByTaskId" parameterType="java.lang.Integer">
+		DELETE FROM
+		tb_review_ad_task
+		WHERE task_id=#{taskId,jdbcType=INTEGER}
+	</delete>
+
+</mapper>

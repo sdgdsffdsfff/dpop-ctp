@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+id="WebApp_ID" version="2.5">
+
+    <display-name>dpop-ctp</display-name>
+    
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>/WEB-INF/log4j.properties</param-value>
+    </context-param>
+    
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+    
+    <listener>   
+      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>   
+ 	</listener>
+    
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath*:conf/applicationContext-properties.xml</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <!-- 启动的时候指定VM -Dspring.profiles.active=rd 即可改变-->
+        <param-value>rd</param-value>
+    </context-param>
+    
+    <servlet>
+        <servlet-name>spring</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath*:/spring-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>nfs</servlet-name>
+        <servlet-class>com.baidu.dpop.ctp.nfs.servlet.defaults.NfsFileServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>nfs</servlet-name>
+        <url-pattern>/nfs/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>spring</servlet-name>
+        <url-pattern>/ctp/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>kaptcha</servlet-name>
+        <servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	        <servlet-name>kaptcha</servlet-name>
+	        <url-pattern>/kaptcha.do</url-pattern>
+	</servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!-- ***************************** SSO ********************************* -->
+	<filter> 
+        <filter-name>CAS Authentication Filter</filter-name>
+        <filter-class>com.baidu.dpop.ctp.common.filter.CtpAuthenticationFilterNew</filter-class>
+        <init-param>
+            <param-name>casServerLoginUrl</param-name>
+            <param-value>${casServerLoginUrl}</param-value>
+        </init-param>
+        <init-param>
+            <param-name>serverName</param-name>
+            <param-value>${serverName}</param-value>
+        </init-param>
+        <init-param>
+            <param-name>excludePaths</param-name>
+            <param-value>${excludePaths}</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Authentication Filter</filter-name>
+        <url-pattern>/ctp/login.action</url-pattern>
+    </filter-mapping>
+    
+    <filter>
+      <filter-name>CAS Validation Filter</filter-name>
+      <filter-class>com.baidu.dpop.ctp.common.filter.CtpCas20ProxyReceivingTicketValidationFilter
+      </filter-class>
+      <init-param>
+         <param-name>casServerUrlPrefix</param-name>
+         <param-value>${casServerUrlPrefix}</param-value>
+      </init-param>
+      <init-param>
+         <param-name>serverName</param-name>
+            <param-value>${serverName}</param-value>
+      </init-param>
+      <init-param>
+        <param-name>redirectAfterValidaation</param-name>
+        <param-value>true</param-value>
+      </init-param>
+      <init-param>
+            <param-name>excludePaths</param-name>
+            <param-value>${excludePaths}</param-value>
+        </init-param>
+   </filter>
+   <filter-mapping>
+      <filter-name>CAS Validation Filter</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
+   
+   <filter>
+        <filter-name>UserInfoFilter</filter-name>
+        <filter-class>com.baidu.dpop.ctp.common.filter.CtpUserInfoFilterNew</filter-class>
+        <init-param>
+            <param-name>excludePaths</param-name>
+            <param-value>${excludePaths}</param-value>
+        </init-param>
+   </filter>
+   <filter-mapping>
+        <filter-name>UserInfoFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- SSO退出处理filter -->
+	<filter>
+		<filter-name>CAS Single Sign Out Filter</filter-name>
+		<filter-class>com.baidu.dpop.ctp.common.filter.CtpSingleSignOutFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CAS Single Sign Out Filter</filter-name>
+		<url-pattern>/ctp/logout.action</url-pattern>
+	</filter-mapping>
+	<listener>
+		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+	</listener>
+   <!-- ############################################################ -->
+    <!-- executInfoFilter filter -->
+    <filter>
+        <filter-name>executInfoFilter</filter-name>
+        <filter-class>com.baidu.dpop.frame.monitor.executstack.ExecutInfoFilter</filter-class>
+        <init-param>
+            <param-name>traceLogPath</param-name>
+            <param-value>${dpop.ctp.traceLogPath}</param-value>
+        </init-param>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>executInfoFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- Character Encoding filter -->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <mime-mapping>
+        <extension>json</extension>
+        <mime-type>application/json</mime-type>
+    </mime-mapping>
+    
+</web-app>

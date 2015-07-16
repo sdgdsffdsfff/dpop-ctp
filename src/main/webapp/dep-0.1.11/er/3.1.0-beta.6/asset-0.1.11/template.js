@@ -1,0 +1,1 @@
+define("er/template",["require","etpl/main"],function(require){var e=require("etpl/main");return e.merge=function(t,i,n){var a="";try{var a=e.render(i,n)}catch(o){}if(t)t.innerHTML=a;return a},e});

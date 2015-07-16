@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("error/NotFound",["require","./View","./Action","tpl!b1c6f6b6.tpl.html","er/util"],function(require){function e(){i.apply(this,arguments)}var t=require("./View"),i=require("./Action");return require("tpl!b1c6f6b6.tpl.html"),e.prototype.createView=function(){var e=new t;return e.name="not-found",e.template="notFound",e},require("er/util").inherits(e,i),e});

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.invoke.dao.mapper.DataLoadInfoMapper" >
+ 	<select id="getDataLoadInfoByMd5" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM tb_data_load_info
+		WHERE md5_value=#{md5,jdbcType=VARCHAR}
+		ORDER BY add_time DESC LIMIT 1
+	</select>
+</mapper>

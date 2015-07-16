@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("common/session",["require"],function(){var e={};return{get:function(t){var i=e[t];if(!i)return void 0;if(i.once)this.remove(t);return i.value},set:function(t,i){e[t]={value:i}},once:function(t,i){e[t]={value:i,once:!0}},remove:function(t){var i=e[t];return e[t]=null,!!i}}});

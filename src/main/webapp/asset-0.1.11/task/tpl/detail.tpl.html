@@ -1,0 +1,139 @@
+<!-- target: taskDetailMain -->
+<esui-panel class="task-detail-container" data-ui-datasource="@detailInfo" data-ui-id="detailView">
+	<div class="detail-container-header">
+		物料预览
+	</div>
+	<!-- if: !${detailInfo.adId} -->
+		<esui-panel class="refresh-area">
+			<h1>获取物料详情失败</h1>
+		</esui-panel>
+	<!-- else -->
+		<div class="detail-container-body">
+			<esui-panel class="task-detail-title">
+				<div class="task-detail-info-row">
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="创意ID">创意ID：</esui-label>
+						<esui-label class="form-field-label" data-ui-title="创意ID">${detailInfo.adId}</esui-label>
+					</div>
+					<div class="task-detail-single-info">
+						<!-- if: ${detailInfo.dataTypeAlias} == 'dsp' -->
+						<esui-label class="form-field-label" data-ui-title="参考行业">参考行业：</esui-label>
+						<!-- else -->
+						<esui-label class="form-field-label" data-ui-title="二级行业">二级行业：</esui-label>
+						<!-- /if -->
+						<esui-label class="form-field-label form-field-trade" data-ui-title="${detailInfo.adTradeNameLevel2}">
+						<!-- if: ${detailInfo.adTradeNameLevel2} -->
+						${detailInfo.adTradeNameLevel2}
+						<!-- else -->
+						无
+						<!-- /if -->
+						</esui-label>
+					</div>
+					<!-- if: ${detailInfo.flash} -->
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="Flash类型">Flash类型：</esui-label>
+						<esui-label class="form-field-label" data-ui-title="Flash类型">${detailInfo.flash.flashType}</esui-label>
+					</div>
+					<!-- /if -->
+				</div>
+				<div class="task-detail-info-row">
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="创意类型">创意类型：</esui-label>
+						<esui-label class="form-field-label" data-ui-title="创意类型">${detailInfo.wuliaoTypeText}</esui-label>
+					</div>
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="物料尺寸">物料尺寸：</esui-label>
+						<esui-label class="form-field-label" data-ui-title="物料尺寸">${detailInfo.width}x${detailInfo.height}</esui-label>
+					</div>
+					<div class="task-detail-single-info">
+						<!-- if: ${detailInfo.dataTypeAlias} == 'dsp' -->
+						<esui-label class="form-field-label" data-ui-title="落地页">落地页：</esui-label>
+						<a class="form-field-label" href="${detailInfo.landingPage}" target="_blank" onclick="return openSite(this)">点击查看</a>
+						<!-- else -->
+						<esui-label class="form-field-label" data-ui-title="落地页URL">落地页URL：</esui-label>
+						<a class="form-field-label" href="${detailInfo.targetUrl}" target="_blank" onclick="return openSite(this)">${detailInfo.showUrl}</a>
+						<!-- /if -->
+					</div>
+				</div>
+				<!-- <div class="task-detail-info-row">
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="地域切换">地域切换：</esui-label>
+						<esui-select data-ui-id="region" data-ui-name="region" data-ui-value="region" data-ui-disabled="true"></esui-select>
+					</div>
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="设备切换">设备切换：</esui-label>
+						<esui-select data-ui-id="device" data-ui-name="device" data-ui-value="device" data-ui-disabled="true"></esui-select>
+					</div>
+				</div> -->
+			</esui-panel>
+		</div>
+		<div class="detail-container-body detail-with-tag">
+			<esui-panel class="task-detail-body">
+				<!-- if: ${detailInfo.wuliaoTypeAlias} === 'picture' -->
+					<!-- for: ${detailInfo.imgUrl} as ${image} -->
+						<img src="${image}" alt="图片">
+					<!-- /for -->
+			    <!-- /if -->
+			    <!-- if: ${detailInfo.wuliaoTypeAlias} === 'flv' -->
+			    <embed type="application/x-shockwave-flash" src="dep-0.1.11/playerLite/PlayerLite.swf" id="CuPlayerV4" name="CuPlayerV4" bgcolor="#000000" quality="high" allowfullscreen="true" allowscriptaccess="always" wmode="opaque" salign="lt" flashvars="videoDefault=${detailInfo.imgUrl}&autoHide=true&hideType=fade&autoStart=false&startVol=60&hideDelay=60&bgAlpha=75" height="220" width="520">
+			    <!-- /if -->
+				<!-- if: ${detailInfo.wuliaoTypeAlias} === 'video' -->
+			    <video src="${detailInfo.imgUrl}" controls="controls" autoplay="autoplay" width="${detailInfo.width}" height="220">
+						your browser does not support the video tag
+						</video>
+			    <!-- /if -->
+			    <!-- if: ${detailInfo.wuliaoTypeAlias} === 'html' -->
+			            <iframe src='${detailInfo.imgUrl}' width="${detailInfo.width}" height="${detailInfo.height}"></iframe>
+			    <!-- /if -->
+			    <!-- if: ${detailInfo.wuliaoTypeAlias} === 'text' -->
+				    <div class="task-info-text-container">
+				    	<p class="task-info-text-title">${detailInfo.title}</p>
+					    <p class="task-info-text-desc">${detailInfo.description1} </p>
+					    <p class="task-info-text-desc">${detailInfo.description2} </p>
+				    </div>
+			    <!-- /if -->
+			    <!-- if: ${detailInfo.wuliaoTypeAlias} === 'picText' -->
+			            <div class="task-info-picText-container">
+						    <p class="task-info-picText-title">${detailInfo.title}</p>
+						    <div class="task-info-picText-content">
+						    	<!-- for: ${detailInfo.imgUrl} as ${image} -->
+									<img src="${image}" alt="图片">
+								<!-- /for -->
+						        <p class="task-info-text-desc">${detailInfo.description1} </p>
+						        <p class="task-info-text-desc">${detailInfo.description2} </p>
+						    </div>
+						</div>
+			    <!-- /if -->
+				<!-- if: ${detailInfo.wuliaoTypeAlias} === 'flash' -->
+				<esui-panel class="task-detail-flash-info">
+					<embed src="${detailInfo.imgUrl}" width="${detailInfo.width}" height="${detailInfo.height}"/>
+				</esui-panel>
+				<!-- if: ${detailInfo.flash.flashType} === '解析失败' -->
+				<esui-panel class="task-detail-flash-detail">
+					<esui-button data-ui-id="refresh" class="refresh-button">重新加载</esui-button>
+				</esui-panel>
+				<!-- /if -->
+				<!-- if: ${detailInfo.flash.image_files} && ${detailInfo.flash.image_files.length} -->
+				<esui-panel class="task-detail-flash-detail">
+				<p class="flash-detail-title">图片：</p>
+				<!-- for: ${detailInfo.flash.image_files} as ${image} -->
+					<img src="${image}" alt="解析图">
+				<!-- /for -->
+				</esui-panel>
+				<!-- /if -->
+				<!-- if: ${detailInfo.flash.text_list} && ${detailInfo.flash.text_list.length} -->
+				<esui-panel class="task-detail-flash-detail">
+				<p class="flash-detail-title">文本：</p>
+				<!-- for: ${detailInfo.flash.text_list} as ${text} -->
+					<p>${text}</p>
+				<!-- /for -->
+				</esui-panel>
+				<!-- /if -->
+				<!-- /if -->
+			</esui-panel>
+			<div data-ui-id="tagCtrl" data-ui-wuliao-id="${detailInfo.tagInfo.id}" data-ui-type="TagAssembeArea" data-ui-is-audit="${detailInfo.tagInfo.isAudit}" data-ui-third="${detailInfo.tagInfo.third}" data-ui-taged-third="${detailInfo.tagInfo.tagedThird}" data-ui-comment="${detailInfo.tagInfo.comment}" data-ui-trade-list="@tradeList" data-ui-trade-id="${detailInfo.tagInfo.tradeId}" class="tag-control-area" data-ui-sample="${detailInfo.tagInfo.sample}"
+			<!-- if: ${detailInfo.tagInfo.isAudit} === 'true' && ${detailInfo.tagInfo.tagedThird} --> data-ui-attach-origin-value="@attachOriginValue"<!-- /if -->
+			data-ui-attach-datasource="@attachDatasource" data-ui-attach-value="@attachValue"></div>
+		</div>
+	<!-- /if -->
+</esui-panel>

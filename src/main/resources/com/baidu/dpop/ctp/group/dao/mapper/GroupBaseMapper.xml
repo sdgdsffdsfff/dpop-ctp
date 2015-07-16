@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.group.dao.mapper.GroupMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.group.bo.Group">
+			<id     column="id"		jdbcType="BIGINT"		property="id" />
+	 		<result column="group_id"		jdbcType="BIGINT"		property="groupId" />
+			<result column="data_type"		jdbcType="TINYINT"		property="dataType" />
+			<result column="task_name"		jdbcType="VARCHAR"		property="taskName" />
+			<result column="task_id"		jdbcType="INTEGER"		property="taskId" />
+			<result column="ad_num"		jdbcType="INTEGER"		property="adNum" />
+			<result column="status"		jdbcType="TINYINT"		property="status" />
+			<result column="priority"		jdbcType="BIGINT"		property="priority" />
+			<result column="modify_user_id"		jdbcType="INTEGER"		property="modifyUserId" />
+			<result column="start_time"		jdbcType="TIMESTAMP"		property="startTime" />
+			<result column="done_time"		jdbcType="TIMESTAMP"		property="doneTime" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	id,group_id,data_type,task_name,task_id,ad_num,status,priority,modify_user_id,start_time,done_time  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_group
+    where 1=1  and id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_group
+    where 1=1 and id = #{id,jdbcType=BIGINT}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.group.bo.Group" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_group 
+	(id, group_id, data_type, task_name, task_id, ad_num, status, priority, modify_user_id, start_time, done_time)
+    values 
+	( #{id,jdbcType=BIGINT},#{groupId,jdbcType=BIGINT},#{dataType,jdbcType=TINYINT},#{taskName,jdbcType=VARCHAR},#{taskId,jdbcType=INTEGER},#{adNum,jdbcType=INTEGER},#{status,jdbcType=TINYINT},#{priority,jdbcType=BIGINT},#{modifyUserId,jdbcType=INTEGER},#{startTime,jdbcType=TIMESTAMP},#{doneTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.group.bo.Group" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="id != null">
+        id,
+      </if>
+				
+	  <if test="groupId != null">
+        group_id,
+      </if>
+			
+	  <if test="dataType != null">
+        data_type,
+      </if>
+			
+	  <if test="taskName != null">
+        task_name,
+      </if>
+			
+	  <if test="taskId != null">
+        task_id,
+      </if>
+			
+	  <if test="adNum != null">
+        ad_num,
+      </if>
+			
+	  <if test="status != null">
+        status,
+      </if>
+			
+	  <if test="priority != null">
+        priority,
+      </if>
+			
+	  <if test="modifyUserId != null">
+        modify_user_id,
+      </if>
+			
+	  <if test="startTime != null">
+        start_time,
+      </if>
+			
+	  <if test="doneTime != null">
+        done_time,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="id != null">
+         #{id,jdbcType=BIGINT},
+      </if>
+				
+	  <if test="groupId != null">
+         #{groupId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="dataType != null">
+         #{dataType,jdbcType=TINYINT},
+      </if>
+			
+	  <if test="taskName != null">
+         #{taskName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="taskId != null">
+         #{taskId,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adNum != null">
+         #{adNum,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="status != null">
+         #{status,jdbcType=TINYINT},
+      </if>
+			
+	  <if test="priority != null">
+         #{priority,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="modifyUserId != null">
+         #{modifyUserId,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="startTime != null">
+         #{startTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="doneTime != null">
+         #{doneTime,jdbcType=TIMESTAMP},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.group.bo.Group">
+    update tb_group
+    <set>      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+	        <if test="dataType != null">
+        data_type = #{dataType,jdbcType=TINYINT},
+      </if>
+	        <if test="taskName != null">
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+	        <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+	        <if test="adNum != null">
+        ad_num = #{adNum,jdbcType=INTEGER},
+      </if>
+	        <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+	        <if test="priority != null">
+        priority = #{priority,jdbcType=BIGINT},
+      </if>
+	        <if test="modifyUserId != null">
+        modify_user_id = #{modifyUserId,jdbcType=INTEGER},
+      </if>
+	        <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="doneTime != null">
+        done_time = #{doneTime,jdbcType=TIMESTAMP},
+      </if>
+	      </set>
+    where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.group.bo.Group">
+    update tb_group
+    set 
+     	group_id = #{groupId,jdbcType=BIGINT},
+    	data_type = #{dataType,jdbcType=TINYINT},
+    	task_name = #{taskName,jdbcType=VARCHAR},
+    	task_id = #{taskId,jdbcType=INTEGER},
+    	ad_num = #{adNum,jdbcType=INTEGER},
+    	status = #{status,jdbcType=TINYINT},
+    	priority = #{priority,jdbcType=BIGINT},
+    	modify_user_id = #{modifyUserId,jdbcType=INTEGER},
+    	start_time = #{startTime,jdbcType=TIMESTAMP},
+    	done_time = #{doneTime,jdbcType=TIMESTAMP}
+        where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+
+</mapper>

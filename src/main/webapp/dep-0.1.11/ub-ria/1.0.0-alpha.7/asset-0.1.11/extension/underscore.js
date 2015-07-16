@@ -1,0 +1,1 @@
+define("ub-ria/extension/underscore",["require","underscore"],function(require){function e(){t.templateSettings={interpolate:/\$\{(.+?)\}/g,escape:/\$\{\:(.+?)\}/g}}var t=require("underscore");return{enable:t.once(e)}});

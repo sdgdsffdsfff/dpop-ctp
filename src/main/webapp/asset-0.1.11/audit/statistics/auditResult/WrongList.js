@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("audit/statistics/auditResult/WrongList",["require","common/ListAction","eoo"],function(require){var exports={};exports.entityDescription="审核错误列表",exports.initBehavior=function(){this.$super(arguments)};var e=require("common/ListAction"),t=require("eoo").create(e,exports);return t});

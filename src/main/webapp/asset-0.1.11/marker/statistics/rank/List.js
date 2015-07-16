@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("marker/statistics/rank/List",["require","common/util","common/ListAction","eoo"],function(require){function e(e){this.model.refreshDimension(e.userName).done(t.bind(this.refreshChart,this))}var t=require("common/util"),exports={};exports.entityDescription="任务统计人员排名",exports.initBehavior=function(){this.$super(arguments),this.view.on("dimensionChange",e)};var i=require("common/ListAction"),n=require("eoo").create(i,exports);return n});

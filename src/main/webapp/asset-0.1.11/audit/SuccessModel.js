@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("audit/SuccessModel",["require","ub-ria/mvc/BaseModel","eoo"],function(require){var e=require("ub-ria/mvc/BaseModel"),exports={};exports.constructor=function(){this.$super(arguments),this.set("entityDescription","审核任务")};var t=require("eoo").create(e,exports);return t});

@@ -1,0 +1,1 @@
+define("zrender/tool/log",["require","../config"],function(require){var e=require("../config");return function(){if(0!==e.debugMode)if(1==e.debugMode)for(var t in arguments)throw new Error(arguments[t]);else if(e.debugMode>1)for(var t in arguments)console.log(arguments[t])}});

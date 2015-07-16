@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("error/Action",["require","ub-ria/mvc/BaseAction","er/Model","er/util","er/config"],function(require){function e(){t.apply(this,arguments)}var t=require("ub-ria/mvc/BaseAction"),i=require("er/Model");return require("er/util").inherits(e,t),e.prototype.createModel=function(){var e=new i;return e.set("indexURL",require("er/config").indexURL),e},e.prototype.initBehavior=function(){this.view.on("reload",this.reload,this)},e});

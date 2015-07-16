@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("account/config",["require","common/FormActionFactory","er/controller"],function(require){var e=require("common/FormActionFactory"),t=[{path:"/account/update",type:new e("account/Form"),title:"修改密码",args:{formType:"update"},authority:["outerAuditRole","outerMarkerRole"]}];require("er/controller").registerAction(t)});

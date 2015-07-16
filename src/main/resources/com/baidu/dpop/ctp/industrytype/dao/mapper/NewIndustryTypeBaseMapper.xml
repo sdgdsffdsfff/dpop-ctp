@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.industrytype.dao.mapper.NewIndustryTypeMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.industrytype.bo.NewIndustryType">
+			<id     column="full_id"		jdbcType="INTEGER"		property="fullId" />
+	 		<result column="first_id"		jdbcType="INTEGER"		property="firstId" />
+			<result column="first_name"		jdbcType="VARCHAR"		property="firstName" />
+			<result column="second_id"		jdbcType="INTEGER"		property="secondId" />
+			<result column="second_name"		jdbcType="VARCHAR"		property="secondName" />
+			<result column="third_id"		jdbcType="INTEGER"		property="thirdId" />
+			<result column="third_name"		jdbcType="VARCHAR"		property="thirdName" />
+			<result column="full_name"		jdbcType="VARCHAR"		property="fullName" />
+			<result column="level2_id"		jdbcType="INTEGER"		property="level2Id" />
+			<result column="level2_name"		jdbcType="VARCHAR"		property="level2Name" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	full_id,first_id,first_name,second_id,second_name,third_id,third_name,full_name,level2_id,level2_name  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_new_trade_type
+    where 1=1  and full_id = #{fullId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_new_trade_type
+    where 1=1 and full_id = #{fullId,jdbcType=INTEGER}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.industrytype.bo.NewIndustryType" useGeneratedKeys="true" keyProperty="full_id">
+    insert into tb_new_trade_type 
+	(full_id, first_id, first_name, second_id, second_name, third_id, third_name, full_name, level2_id, level2_name)
+    values 
+	( #{fullId,jdbcType=INTEGER},#{firstId,jdbcType=INTEGER},#{firstName,jdbcType=VARCHAR},#{secondId,jdbcType=INTEGER},#{secondName,jdbcType=VARCHAR},#{thirdId,jdbcType=INTEGER},#{thirdName,jdbcType=VARCHAR},#{fullName,jdbcType=VARCHAR},#{level2Id,jdbcType=INTEGER},#{level2Name,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.industrytype.bo.NewIndustryType" useGeneratedKeys="true" keyProperty="full_id">
+    insert into tb_new_trade_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="fullId != null">
+        full_id,
+      </if>
+				
+	  <if test="firstId != null">
+        first_id,
+      </if>
+			
+	  <if test="firstName != null">
+        first_name,
+      </if>
+			
+	  <if test="secondId != null">
+        second_id,
+      </if>
+			
+	  <if test="secondName != null">
+        second_name,
+      </if>
+			
+	  <if test="thirdId != null">
+        third_id,
+      </if>
+			
+	  <if test="thirdName != null">
+        third_name,
+      </if>
+			
+	  <if test="fullName != null">
+        full_name,
+      </if>
+			
+	  <if test="level2Id != null">
+        level2_id,
+      </if>
+			
+	  <if test="level2Name != null">
+        level2_name,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="fullId != null">
+         #{fullId,jdbcType=INTEGER},
+      </if>
+				
+	  <if test="firstId != null">
+         #{firstId,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="firstName != null">
+         #{firstName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="secondId != null">
+         #{secondId,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="secondName != null">
+         #{secondName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="thirdId != null">
+         #{thirdId,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="thirdName != null">
+         #{thirdName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="fullName != null">
+         #{fullName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="level2Id != null">
+         #{level2Id,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="level2Name != null">
+         #{level2Name,jdbcType=VARCHAR},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.industrytype.bo.NewIndustryType">
+    update tb_new_trade_type
+    <set>      <if test="firstId != null">
+        first_id = #{firstId,jdbcType=INTEGER},
+      </if>
+	        <if test="firstName != null">
+        first_name = #{firstName,jdbcType=VARCHAR},
+      </if>
+	        <if test="secondId != null">
+        second_id = #{secondId,jdbcType=INTEGER},
+      </if>
+	        <if test="secondName != null">
+        second_name = #{secondName,jdbcType=VARCHAR},
+      </if>
+	        <if test="thirdId != null">
+        third_id = #{thirdId,jdbcType=INTEGER},
+      </if>
+	        <if test="thirdName != null">
+        third_name = #{thirdName,jdbcType=VARCHAR},
+      </if>
+	        <if test="fullName != null">
+        full_name = #{fullName,jdbcType=VARCHAR},
+      </if>
+	        <if test="level2Id != null">
+        level2_id = #{level2Id,jdbcType=INTEGER},
+      </if>
+	        <if test="level2Name != null">
+        level2_name = #{level2Name,jdbcType=VARCHAR},
+      </if>
+	      </set>
+    where 1=1 and full_id = #{fullId,jdbcType=INTEGER}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.industrytype.bo.NewIndustryType">
+    update tb_new_trade_type
+    set 
+     	first_id = #{firstId,jdbcType=INTEGER},
+    	first_name = #{firstName,jdbcType=VARCHAR},
+    	second_id = #{secondId,jdbcType=INTEGER},
+    	second_name = #{secondName,jdbcType=VARCHAR},
+    	third_id = #{thirdId,jdbcType=INTEGER},
+    	third_name = #{thirdName,jdbcType=VARCHAR},
+    	full_name = #{fullName,jdbcType=VARCHAR},
+    	level2_id = #{level2Id,jdbcType=INTEGER},
+    	level2_name = #{level2Name,jdbcType=VARCHAR}
+        where 1=1 and full_id = #{fullId,jdbcType=INTEGER}  
+  </update>
+
+</mapper>

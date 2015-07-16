@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.demo.dao.mapper.DemoTestBoMapper">
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from demo
+	</select>
+
+	<update id="updateBeidou">
+		UPDATE tb_beidou_task
+		SET ad_tag=CONCAT(ad_tag, '000000')
+		WHERE LENGTH(ad_tag) <![CDATA[<>]]>25
+	</update>
+
+	<update id="updateQiushi">
+		UPDATE tb_qiushi_task
+		SET ad_tag=CONCAT(ad_tag, '000000')
+		WHERE LENGTH(ad_tag) <![CDATA[<>]]>25
+	</update>
+
+	<update id="updateDSP">
+		UPDATE tb_dsp_task
+		SET ad_tag=CONCAT(ad_tag, '000000')
+		WHERE LENGTH(ad_tag) <![CDATA[<>]]>25
+	</update>
+
+	<update id="updateNewDSP">
+		UPDATE tb_new_dsp_task
+		SET ad_tag=CONCAT(ad_tag, '000000')
+		WHERE LENGTH(ad_tag) <![CDATA[<>]]>25
+	</update>
+
+	<update id="updateAdTag">
+		UPDATE tb_ad_tag
+		SET ad_tag=CONCAT(ad_tag, '000000')
+		WHERE LENGTH(ad_tag) <![CDATA[<>]]>25
+	</update>
+
+	<update id="updateReviewAdTask">
+		UPDATE tb_review_ad_task
+		SET ad_tag=CONCAT(ad_tag, '000000')
+		WHERE LENGTH(ad_tag) <![CDATA[<>]]>25
+	</update>
+
+	<update id="updateReviewAdTask2">
+		UPDATE tb_review_ad_task
+		SET ad_tag_review=CONCAT(ad_tag_review, '000000')
+		WHERE LENGTH(ad_tag) <![CDATA[<>]]>25
+	</update>
+	
+	<update id="updateTask">
+        UPDATE tb_task
+        SET task_type=3
+        WHERE 1=1
+    </update>
+
+</mapper>

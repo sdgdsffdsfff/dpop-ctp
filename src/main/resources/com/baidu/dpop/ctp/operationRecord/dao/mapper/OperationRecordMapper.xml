@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.baidu.dpop.ctp.operationRecord.dao.mapper.OperationRecordMapper">
+
+	<resultMap id="recordResultMap"
+		type="com.baidu.dpop.ctp.operationRecord.bo.OperationRecord">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="operator" jdbcType="BIGINT" property="operator" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="operation_type" jdbcType="INTEGER" property="operationType" />
+		<result column="operation" jdbcType="VARCHAR" property="operation" />
+		<result column="operator_name" jdbcType="VARCHAR" property="operatorName" />
+	</resultMap>
+
+	<!-- =========================SELECT========================= -->
+
+	<select id="selectAll"
+		parameterType="com.baidu.dpop.ctp.operationRecord.vo.OperationRecordQueryVo"
+		resultMap="recordResultMap">
+		SELECT
+		op.operator,
+		op.update_time, op.operation_type,
+		op.operation,
+		user.user_name as
+		operator_name
+		FROM
+		tb_operation_record op,
+		tb_user user
+		<where>
+			AND op.operator=user.id
+			<if test="type!=null">
+                AND ((op.operation_type<![CDATA[&]]>0xFFFF0000)<![CDATA[>>]]>16)=#{type,jdbcType=INTEGER}
+            </if>
+			<if test='orderBy!=null and orderBy.equals("updateTime")'>
+				ORDER BY op.update_time
+			</if>
+			<if test='orderBy!=null and orderBy.equals("operationType")'>
+                ORDER BY op.operation_type
+            </if>
+			<if test="!order">
+				DESC
+			</if>
+		</where>
+	</select>
+
+	<!-- =========================INSERT========================= -->
+
+	<!-- =========================UPDATE========================= -->
+
+	<!-- =========================DELETE========================= -->
+
+</mapper>

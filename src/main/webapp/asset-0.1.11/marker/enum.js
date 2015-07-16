@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("marker/enum",["require","er/Enum"],function(require){var e=require("er/Enum"),exports={};return exports.Status=new e({alias:"toBegin",text:"未开始",value:0},{alias:"doing",text:"进行中",value:1},{alias:"done",text:"已完成",value:2},{alias:"closed",text:"已关闭",value:3}),exports.ModUserLevel=new e({alias:"inner",text:"内部任务",value:0},{alias:"outter",text:"外部任务",value:1}),exports});

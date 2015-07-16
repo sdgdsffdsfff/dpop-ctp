@@ -1,0 +1,1 @@
+define("echarts/component",[],function(){var t={},e={};return t.define=function(i,s){return e[i]=s,t},t.get=function(t){return e[t]},t});

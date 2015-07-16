@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("common/extension/PasswordHandler",["require","er/util","common/util","ub-ria/mvc/handler/ToastSubmitHandler"],function(require){function e(){i.apply(this,arguments)}var t=require("er/util"),i=(require("common/util"),require("ub-ria/mvc/handler/ToastSubmitHandler"));return t.inherits(e,i),e.prototype.getToastMessage=function(e){if(e.hasSuccess)return"密码已修改成功！";else return e.resultInfo},e});

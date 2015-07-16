@@ -1,0 +1,38 @@
+<!-- target:auditSuccessMain(master=successPage) -->
+<!-- content: crumb -->
+    <!-- import: auditFormCrumb -->
+<!-- /content -->
+<!-- content: main -->
+    <!-- import: auditSuccessMainView -->
+<!-- /content -->
+
+<!-- target: auditSuccessMainView(master=successMain) -->
+<!-- content: successMessage -->
+	<!-- if: ${error} -->
+	<div class="success-error-message success-message">
+	<!-- else -->
+	<div class="success-message">
+	<!-- /if -->
+	    <div class="success-text">
+		<!-- if: ${type} === "create" -->
+		<!-- if: ${error} -->
+			<span class="success-text-words success-text-words-fail">${resultInfo}，新${entityDescription}创建失败！</span>
+		<!-- else -->
+			<span class="success-text-words">恭喜你，新${entityDescription}已经创建成功！</span>
+			<span class="success-text-sub-words">审核任务ID：${id}</span>
+			<span class="success-text-sub-words">审核任务名称：${taskName}</span>
+			<span class="success-text-sub-words">审核数量：${groupNumActual}组<!-- if: ${groupNum} -->（数量受限）<!-- /if --></span>
+		<!-- /if -->
+	    <!-- else -->
+	    	<span class="success-text-words">恭喜你，${entityDescription}已经修改成功！</span>
+	    <!-- /if -->
+	    </div>
+	 </div>
+<!-- /content -->
+<!-- content: successButton -->
+<!-- if: ${error} -->
+    <esui-button data-ui-id="backToHistory" data-ui-skin="button-link">返回新建审核任务</esui-button >
+<!-- /if -->
+	<a data-ui-type="Link" data-ui-id="back" id="back" data-redirect="global force" data-ui-skin="button-link"
+        data-ui-href="#/${entityName}/list">返回</a>
+<!-- /content -->

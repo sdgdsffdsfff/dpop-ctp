@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop   
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd   
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/task     
+    	http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+    	
+    <!-- 定时关闭日常标注任务 -->	
+    <bean id="shutdownScheduleTask" class="com.baidu.dpop.ctp.schedule.ShutdownScheduleTask">
+	</bean>
+	<task:scheduled-tasks>  
+        <task:scheduled ref="shutdownScheduleTask" method="execute" cron="00 00 21 * * *" /> 
+    </task:scheduled-tasks>
+    
+    <!-- 定时回收已分配的标注&审核Group 30分钟运行一次 1000*60*5 -->
+    <bean id="recycleAssignGroupTask" class="com.baidu.dpop.ctp.schedule.RecycleAssignGroupTask">
+    </bean>
+    <task:scheduled-tasks>  
+        <task:scheduled ref="recycleAssignGroupTask" method="execute" fixed-rate="1800000" /> 
+    </task:scheduled-tasks>
+    
+    <!-- 定时检查任务是否已完成 30分钟运行一次 1000*60*5 -->
+    <bean id="updateFinishedTask" class="com.baidu.dpop.ctp.schedule.UpdateFinishedTask">
+    </bean>
+    <task:scheduled-tasks>  
+        <task:scheduled ref="updateFinishedTask" method="execute" fixed-rate="1800000" /> 
+    </task:scheduled-tasks>
+    
+    <!-- 定时删除超限的日常任务-->	
+    <bean id="ExpireDataCleanUpTask" class="com.baidu.dpop.ctp.schedule.ExpireDataCleanUpTask">
+	</bean>
+	<task:scheduled-tasks>  
+        <task:scheduled ref="ExpireDataCleanUpTask" method="execute" cron="00 00 23 * * *" /> 
+    </task:scheduled-tasks>
+</beans>

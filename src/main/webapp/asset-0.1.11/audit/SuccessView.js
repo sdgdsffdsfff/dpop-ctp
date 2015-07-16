@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("audit/SuccessView",["require","tpl!b1c6f6b6.tpl.html","ub-ria/mvc/BaseView","eoo"],function(require){function e(){this.fire("backToHistory")}require("tpl!b1c6f6b6.tpl.html"),require("tpl!b1c6f6b6.tpl.html");var t=require("ub-ria/mvc/BaseView"),exports={};exports.uiEvents={"backToHistory:click":e},exports.template="auditSuccess",exports.enterDocument=function(){this.$super(arguments)};var i=require("eoo").create(t,exports);return i});

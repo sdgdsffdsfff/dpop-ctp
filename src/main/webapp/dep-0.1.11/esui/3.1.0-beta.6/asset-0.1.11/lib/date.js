@@ -1,0 +1,1 @@
+define("esui/lib/date",["require","moment"],function(require){var e=require("moment"),t={};return t.dateFormats=["YYYYMMDDHHmmss","YYYY-MM-DD HH:mm:ss","YYYY/MM/DD HH:mm:ss","YYYY-MM-DDTHH:mm:ss.SSSZ"],t.format=function(t,i){return e(t).format(i)},t.parse=function(i,n){var a=e(i,n||t.dateFormats);return a.toDate()},{date:t}});

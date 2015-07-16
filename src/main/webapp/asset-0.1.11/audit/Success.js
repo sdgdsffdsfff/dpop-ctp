@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("audit/Success",["require","ub-ria/mvc/BaseAction","eoo"],function(require){var e=require("ub-ria/mvc/BaseAction"),t=require("eoo"),exports={};exports.initBehavior=function(){this.$super(arguments),this.view.on("backToHistory",function(){this.back()},this)},exports.group="audit",exports.entityDescription="审核任务";var i=t.create(e,exports);return i});

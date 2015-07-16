@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.group.dao.mapper.GroupMapper">
+
+	<resultMap id="GroupCountResultMap" type="com.baidu.dpop.ctp.invoke.vo.GroupCountVo">
+		<result column="group_id" jdbcType="INTEGER" property="groupId" />
+		<result column="task_id" jdbcType="INTEGER" property="taskId" />
+	</resultMap>
+
+	<!-- =========================SELECT========================= -->
+
+	<select id="selectGroup" parameterType="com.baidu.dpop.ctp.group.bo.Group"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_group
+		WHERE group_id=#{groupId,jdbcType=INTEGER}
+		AND
+		task_id=#{taskId,jdbcType=INTEGER}
+		AND
+		data_type=#{dataType,jdbcType=TINYINT}
+	</select>
+
+	<select id="selectRandomGroup" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_group
+		WHERE 1=1 AND task_id=#{taskId} AND status=0
+		ORDER BY
+		priority
+		LIMIT #{rand}, 1
+	</select>
+
+	<select id="selectUnstartCount" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT
+		COUNT(*)
+		FROM tb_group
+		<where>
+			AND status=0
+			AND task_id=#{taskId}
+		</where>
+	</select>
+
+	<select id="selectUnfinishedCount" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT
+		COUNT(*)
+		FROM tb_group
+		<where>
+			AND status<![CDATA[<]]>2
+			AND task_id=#{taskId}
+		</where>
+	</select>
+
+	<select id="selectTestedGroup" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_group
+		WHERE (task_id, group_id, data_type) IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			(#{item.taskId}, #{item.groupId},
+			#{item.dataType})
+		</foreach>
+	</select>
+
+	<select id="selectTaskStatusById" parameterType="java.lang.Long"
+		resultType="java.lang.Byte">
+		SELECT status FROM tb_task
+		WHERE id=
+		(SELECT task_id
+		FROM
+		tb_group
+		WHERE id=#{id,jdbcType=BIGINT})
+	</select>
+
+	<select id="selectStartedGroupByUser" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_group
+		<where>
+			AND modify_user_id=#{userId}
+			AND status=1
+			AND task_id=#{taskId}
+		</where>
+		ORDER BY start_time
+		LIMIT 1
+	</select>
+
+	<select id="selectHistoryGroups" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_group
+		<where>
+			AND modify_user_id=#{userId}
+			AND status=2
+			AND task_id=#{taskId}
+		</where>
+		ORDER BY
+		done_time
+	</select>
+
+	<select id="selectGroupListByCondition" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_group
+		<where>
+			<if test="null != taskId">
+				AND task_id = #{taskId}
+			</if>
+			<if test="null != status">
+				AND status = #{status}
+			</if>
+			<if test="null != isNotFinished and isNotFinished == 1">
+				AND status &lt;&gt; 2
+			</if>
+		</where>
+	</select>
+
+	<select id="selectTrendInfo" parameterType="com.baidu.dpop.ctp.group.vo.TrendInfoGetVo"
+		resultType="com.baidu.dpop.ctp.statistics.vo.TrendStatisticsItem">
+		SELECT IFNULL(SUM(g.ad_num),0) as isDoneAds
+		FROM tb_group g
+		<if test="null != userName">
+			, tb_user u
+		</if>
+		<where>
+			AND g.task_id=#{taskId, jdbcType=INTEGER}
+			AND g.status=2
+			<if test="null != userName">
+				AND g.modify_user_id=u.id
+				AND u.user_name=#{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="null != startTime">
+				AND g.done_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="null != endTime">
+				AND g.done_time &lt; #{endTime, jdbcType=TIMESTAMP}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectUserStatisticsInfo" parameterType="java.lang.Integer"
+		resultType="com.baidu.dpop.ctp.statistics.vo.UserStatisticsItem">
+		SELECT u.user_name as userName, COUNT(g.id) AS
+		isDoneGroups,
+		SUM(ad_num) AS isDoneAds
+		FROM tb_group g, tb_user u
+		<where>
+			AND g.status=2
+			AND g.task_id = #{taskId, jdbcType=INTEGER}
+			AND g.modify_user_id = u.id
+		</where>
+		GROUP BY g.modify_user_id
+		ORDER BY isDoneGroups
+		DESC, isDoneAds DESC
+	</select>
+
+	<select id="selectTagFollowInfoList" parameterType="java.lang.Integer"
+		resultType="com.baidu.dpop.ctp.task.vo.TagFollowInfoVo">
+		SELECT u.user_name AS userName, g.group_id AS groupId,
+		g.task_id AS taskId, g.start_time AS assignTime
+		FROM tb_group g,
+		tb_user u
+		WHERE g.task_id = #{taskId, jdbcType=INTEGER} AND g.status =
+		1 AND g.modify_user_id = u.id
+		ORDER BY assignTime
+	</select>
+	
+	<select id="selectGroupDownloadInfo" parameterType="com.baidu.dpop.ctp.group.vo.SubmitInfoGetVo" 
+        resultType="com.baidu.dpop.ctp.group.vo.GroupDownloadInfo">
+        SELECT DISTINCT
+        gp.id AS id,
+        gp.group_id AS groupId,
+        gp.task_id AS taskId,
+        ad.ad_trade_id_level3 AS adTradeIdLevel3,
+        gp.ad_num AS adNum,
+        tk.task_type AS taskType,
+        gp.start_time AS startTime,
+        gp.done_time AS doneTime,
+        ur.user_name AS modifyUser
+        FROM
+        tb_group gp,
+        tb_ad_tag ad,
+        tb_task tk,
+        tb_user ur
+        <where>
+            AND gp.task_id=#{taskIdNumber}
+            <if test="null != groupIdNumber">
+                AND gp.group_id=#{groupId}
+            </if>
+            <if test="null != numMinNumber">
+                AND gp.ad_num <![CDATA[>=]]> #{wNumMin}
+            </if>
+            <if test="null != numMaxNumber">
+                AND gp.ad_num <![CDATA[<=]]> #{wNumMax}
+            </if>
+            <if test="null != markerTimeDate">
+                AND gp.ad_num <![CDATA[>=]]> #{markerTime}
+            </if>
+            <if test="null != submitTimeDate">
+                AND gp.ad_num <![CDATA[<=]]> #{submitTime}
+            </if>
+            <if test="null != userId">
+                AND gp.modify_user_id=#{userId}
+            </if>
+            AND gp.id=ad.ref_group_id
+            AND gp.task_id=tk.id
+            AND ur.id=gp.modify_user_id
+        </where>
+	</select>
+
+	<select id="batchSelect" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_group
+		WHERE id IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<!-- =========================INSERT========================= -->
+
+	<insert id="batchInsert">
+		INSERT INTO tb_group (group_id, data_type, task_name, task_id, ad_num,
+		modify_user_id,
+		status, priority)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.groupId,jdbcType=INTEGER},#{item.dataType,jdbcType=TINYINT},#{item.taskName,jdbcType=VARCHAR},#{item.taskId,jdbcType=INTEGER},#{item.adNum,jdbcType=INTEGER},#{item.modifyUserId,jdbcType=INTEGER},#{item.status,jdbcType=TINYINT},#{item.priority,jdbcType=BIGINT})
+		</foreach>
+	</insert>
+
+	<!-- =========================UPDATE========================= -->
+
+	<update id="recycleAssignGroups" parameterType="java.util.Date">
+		UPDATE tb_group
+		SET STATUS = 0, modify_user_id = NULL, start_time =
+		NULL
+		<where>
+			AND STATUS = 1
+			AND start_time &lt; #{beginTime,
+			jdbcType=TIMESTAMP}
+		</where>
+	</update>
+
+	<update id="batchUpdate">
+		UPDATE tb_group
+		SET
+		ad_num = CASE id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.id,jdbcType=BIGINT}
+			THEN
+			#{item.adNum,jdbcType=INTEGER}
+		</foreach>
+		END,
+		priority = CASE id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.id,jdbcType=BIGINT}
+			THEN
+			#{item.priority,jdbcType=BIGINT}
+		</foreach>
+		END
+		WHERE id IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item.id,jdbcType=BIGINT}
+		</foreach>
+	</update>
+
+	<!-- =========================DELETE========================= -->
+
+	<delete id="deleteGroupByTaskId" parameterType="java.lang.Integer">
+		DELETE FROM
+		tb_group
+		WHERE task_id=#{taskId,jdbcType=INTEGER}
+	</delete>
+
+</mapper>

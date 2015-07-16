@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("log/ListModel",["require","common/ListModel","eoo"],function(require){var exports={};exports.constructor=function(){this.$super(arguments)},exports.prepare=function(){this.$super(arguments)},exports.getQuery=function(){var e={size:this.get("size"),order:this.get("order"),orderBy:this.get("orderBy"),page:this.get("page")||1,type:this.get("logType")||"user"};return e};var e=require("common/ListModel"),t=require("eoo").create(e,exports);return t});

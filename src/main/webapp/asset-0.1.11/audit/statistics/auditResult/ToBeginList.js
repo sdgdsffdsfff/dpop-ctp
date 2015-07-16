@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("audit/statistics/auditResult/ToBeginList",["require","common/ListAction","eoo"],function(require){var exports={};exports.entityDescription="未审核列表";var e=require("common/ListAction"),t=require("eoo").create(e,exports);return t});

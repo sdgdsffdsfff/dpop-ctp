@@ -1,0 +1,24 @@
+<ul class="sidebar-menu">
+    <!-- for: ${datasource} as ${item} -->
+    <li id="${item.domID}" class="sidebar-menu-item sidebar-menu-${item.id} ${item.itemCls}">
+        <a class="sidebar-menu-section-title" href="${item.url}" target="${item.target}">
+            <i class="sidebar-menu-icon"></i>
+            <span class="sidebar-menu-section-text">${item.text}</span>
+        </a>
+        <!-- if: !${item.isLeaf} -->
+        <em class="${item.dropCls}" data-id="${item.id}"></em>
+        <esui-panel data-ui-child-name="${item.id}-content" class="sidebar-content-panel">
+            <!-- if: ${item.items.length}-->
+            <ul class="sidebar-child-menu">
+                <!-- for: ${item.items} as ${subItem} -->
+                <li id="${subItem.domID}" class="sidebar-child-menu-item sidebar-child-menu-item-${subItem.id}">
+                    <a class="sidebar-child-menu-link" href="${subItem.url}" target="${subItem.target}">${subItem.text}</a>
+                </li>
+                <!-- /for -->
+            </ul>
+            <!-- /if -->
+        </esui-panel>
+        <!-- /if -->
+    </li>
+    <!-- /for -->
+</ul>

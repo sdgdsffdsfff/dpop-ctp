@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.mainTask.dao.mapper.TaskMapper">
+
+	<!-- =========================SELECT========================= -->
+
+	<select id="selectTasksByTaskInfo" parameterType="com.baidu.dpop.ctp.mainTask.vo.TaskQueryInfo"
+		resultMap="BaseResultMap">
+		SELECT *
+		FROM `tb_task`
+		WHERE 1=1
+		<if test="null != id">
+			AND id = #{id}
+		</if>
+		<if test="null != taskName">
+			AND task_name like '%${taskName}%'
+		</if>
+		<if test="null != addUser">
+			AND add_user like '%${addUser}%'
+		</if>
+		<if test="null != beginTime">
+			AND add_time <![CDATA[   >=  ]]>
+			#{beginTimeString}
+		</if>
+		<if test="null != endTime">
+			AND add_time <![CDATA[   <  ]]>
+			DATE_ADD(#{endTimeString}, INTERVAL 1 DAY)
+		</if>
+		<if test="null != status and status &lt; 10">
+			AND status = #{status}
+		</if>
+		<if test="null != status and status &gt;= 10">
+			AND status <![CDATA[   >=  ]]>
+			10
+		</if>
+		<if test="null != moduserLevel">
+			AND moduser_level >= #{moduserLevel}
+		</if>
+		ORDER BY
+		<if test='orderBy.equals("addTime")'>
+			add_time
+		</if>
+		<if test='orderBy.equals("id")'>
+			id
+		</if>
+		<if test='order'>
+			desc
+		</if>
+	</select>
+	
+	<select id="selectClosedTasks" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_task
+        <where>
+            AND status <![CDATA[ >= ]]>10
+            AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <![CDATA[ <= ]]>
+            add_time
+        </where>
+    </select>
+    
+    <select id="selectUnfinishedTasks" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_task
+        WHERE status = 1
+    </select>
+    
+    <select id="selectTasksToDelete" parameterType="java.lang.Integer"
+        resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_task
+        <where>
+            AND status <![CDATA[ >= ]]>10
+            AND DATE_SUB(CURDATE(), INTERVAL #{days} DAY) <![CDATA[ >= ]]>
+            add_time
+        </where>
+    </select>
+    
+    <select id="selectTaskIdsByName" parameterType="java.lang.String"
+        resultType="java.lang.Integer">
+        SELECT id FROM tb_task WHERE task_name like '%${taskName}'
+    </select>
+	
+	<select id="batchSelectMainTasks" resultType="com.baidu.dpop.ctp.mainTask.bo.Task">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_task WHERE id IN
+        <foreach collection="list" item="item" index="index" open="("
+            close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <!-- =========================INSERT========================= -->
+    
+    <insert id="insertDuplicate" parameterType="com.baidu.dpop.ctp.mainTask.bo.Task"
+        useGeneratedKeys="true" keyProperty="id">
+        insert into tb_task
+        (id, task_name,
+        add_user, add_time, status, moduser_level, task_type)
+        values
+        (#{id,jdbcType=INTEGER},#{taskName,jdbcType=VARCHAR},#{addUser,jdbcType=VARCHAR},#{addTime,jdbcType=TIMESTAMP},#{status,jdbcType=TINYINT},#{moduserLevel,jdbcType=TINYINT},#{taskType,jdbcType=TINYINT})
+        ON DUPLICATE KEY UPDATE
+        status= CASE status
+        WHEN 2 then 1 ELSE status
+        END
+    </insert>
+    
+    <!-- =========================UPDATE========================= -->
+
+	<update id="changeTaskStatus">
+		UPDATE tb_task t
+		SET t.status =
+		CASE id
+		<foreach collection="list" item="item" index="index"
+			separator=" ">
+			WHEN #{item.id,jdbcType=INTEGER}
+			THEN #{item.status,jdbcType=TINYINT}
+		</foreach>
+		END
+		WHERE id IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item.id}
+		</foreach>
+	</update>
+
+    <!-- =========================DELETE========================= -->
+
+</mapper>
+
+ 

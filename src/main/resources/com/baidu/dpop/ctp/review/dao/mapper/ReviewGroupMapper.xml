@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.review.dao.mapper.ReviewGroupMapper">
+
+	<!-- =========================SELECT========================= -->
+
+	<select id="selectRandomGroup" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_review_group
+		<where>
+			AND task_id_review=#{taskId}
+			AND status=0
+		</where>
+		LIMIT #{rand}, 1
+	</select>
+
+	<select id="selectWithUserNameById" parameterType="java.lang.Long"
+		resultType="com.baidu.dpop.ctp.review.bo.ReviewGroup">
+		SELECT
+		g.id AS id,
+		g.tag_group_id AS tagGroupId,
+		g.group_id AS groupId,
+		g.data_type AS dataType,
+		g.task_id AS taskId,
+		g.task_name AS taskName,
+		g.task_id_review AS taskIdReview,
+		g.task_name_review AS taskNameReview,
+		g.ad_num AS adNum,
+		g.ad_num_review AS adNumReview,
+		g.status AS status,
+		g.modify_user_id AS modifyUserId,
+		u.user_name AS modifyUserName,
+		g.modify_user_id_review AS modifyUserIdReview,
+		g.start_time AS
+		startTime,
+		g.done_time AS doneTime
+		FROM
+		tb_review_group g,
+		tb_user u
+		<where>
+			AND g.id=#{groupId,jdbcType=BIGINT}
+			AND g.modify_user_id=u.id
+		</where>
+	</select>
+
+	<select id="selectUnstartCount" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT
+		COUNT(*)
+		FROM tb_review_group
+		<where>
+			AND status=0
+			AND task_id_review=#{taskId}
+		</where>
+	</select>
+
+	<select id="selectUnfinishedCount" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT
+		COUNT(*)
+		FROM tb_review_group
+		<where>
+			AND status<![CDATA[<]]>2
+			AND task_id_review=#{taskId}
+		</where>
+	</select>
+
+	<select id="selectGroupCount" parameterType="com.baidu.dpop.ctp.review.vo.ReviewCountVo"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM tb_review_group
+		<where>
+			<if test="reviewTaskId!=null">
+				AND task_id_review = #{reviewTaskId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectAdCount" parameterType="com.baidu.dpop.ctp.review.vo.ReviewCountVo"
+		resultType="java.lang.Integer">
+		SELECT SUM(ad_num_review) FROM tb_review_group
+		<where>
+			<if test="reviewTaskId!=null">
+				AND task_id_review = #{reviewTaskId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectReviewGroupsByReviewTaskId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_review_group
+		WHERE task_id_review =
+		#{reviewTaskId,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectStartedGroupByUser" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_review_group
+		<where>
+			AND modify_user_id_review=#{userId}
+			AND status=1
+			AND
+			task_id_review=#{taskId}
+		</where>
+		ORDER BY start_time
+		LIMIT 1
+	</select>
+
+	<select id="selectHistoryGroups" parameterType="com.baidu.dpop.ctp.review.vo.ReviewCountVo"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_review_group
+		<where>
+			<if test="reviewTaskId!=null">
+				task_id_review = #{reviewTaskId}
+			</if>
+			AND status=2
+		</where>
+		ORDER BY done_time
+	</select>
+
+	<select id="selectNotReviewedPageInfo" parameterType="com.baidu.dpop.ctp.review.vo.QueryConditionVo"
+		resultType="com.baidu.dpop.ctp.review.vo.ReviewInfoItem">
+		SELECT rg.id AS reviewGroupId, rg.group_id AS groupId,
+		rg.task_name AS
+		taskName, rg.ad_num_review AS adCount, u.user_name AS
+		tagUser, '' as
+		reviewUser
+		FROM tb_review_group rg, tb_user u
+		<where>
+			AND rg.status IN (0,1)
+			AND rg.modify_user_id=u.id
+			AND
+			rg.task_id_review=#{reviewTaskId, jdbcType=INTEGER}
+		</where>
+	</select>
+
+	<select id="selectReviewedRightPageInfo" parameterType="com.baidu.dpop.ctp.review.vo.QueryConditionVo"
+		resultType="com.baidu.dpop.ctp.review.vo.ReviewInfoItem">
+		SELECT rg.id AS reviewGroupId, rg.group_id AS groupId,
+		rg.task_name AS
+		taskName, rg.ad_num_review AS adCount,
+		rg.modify_user_id AS tagUserId,
+		rg.modify_user_id_review reviewUserId
+		FROM tb_review_group rg
+		<where>
+			AND rg.task_id_review=#{reviewTaskId,jdbcType=INTEGER}
+			AND rg.status = 2
+			AND NOT EXISTS(
+			SELECT
+			rt.group_id_review
+			FROM tb_review_ad_task rt WHERE
+			rt.group_id_review = rg.id
+			AND (rt.ad_trade_id_level3 &lt;&gt;
+			rt.ad_trade_id_level3_review
+			OR rt.ad_tag &lt;&gt; rt.ad_tag_review))
+		</where>
+	</select>
+	
+	<select id="selectReviewedWrongPageInfo" parameterType="com.baidu.dpop.ctp.review.vo.QueryConditionVo"
+        resultType="com.baidu.dpop.ctp.review.vo.ReviewInfoItem">
+        SELECT rg.id AS reviewGroupId, rg.group_id AS groupId,
+        rg.task_name AS
+        taskName, rg.ad_num_review AS adCount,
+        rg.modify_user_id AS tagUserId, rg.modify_user_id_review reviewUserId
+        FROM tb_review_group rg
+        <where>
+            AND rg.task_id_review=#{reviewTaskId, jdbcType=INTEGER}
+            AND rg.status = 2
+            AND EXISTS(
+            SELECT rt.group_id_review
+            FROM tb_review_ad_task rt WHERE
+            rt.group_id_review = rg.id
+            AND (rt.ad_trade_id_level3 &lt;&gt;
+            rt.ad_trade_id_level3_review OR
+            rt.ad_tag &lt;&gt; rt.ad_tag_review))
+        </where> 
+    </select>
+    
+    <select id="selectIsReviewedAdCount" parameterType="java.lang.Integer"
+        resultType="java.lang.Integer">
+        SELECT COUNT(rt.ref_ad_id) as count
+        FROM tb_review_group rg,
+        tb_review_ad_task rt
+        WHERE rg.task_id_review = #{reviewTaskId,
+        jdbcType=INTEGER}
+        AND rg.id = rt.group_id_review AND rg.status = 2;
+    </select>
+
+    <select id="selectReviewedAdDetail" resultType="com.baidu.dpop.ctp.review.vo.WrongAdDetailVo">
+        SELECT rt.data_type AS dataType, rt.wuliao_type As wuliaoType,
+        rt.group_id_review AS reviewGroupId,
+        rt.task_id AS tagTaskId,
+        rt.ad_trade_id_level3 AS tradeLevel3,
+        rt.ad_trade_id_level3_review AS
+        reviewTradeLevel3,
+        rt.ad_tag AS adTag, rt.ad_tag_review AS reivewAdTag
+        FROM tb_review_group rg,
+        tb_review_ad_task rt
+        WHERE rg.task_id_review =
+        #{reviewTaskId, jdbcType=INTEGER}
+        AND rg.id = rt.group_id_review AND
+        rg.status = 2
+        <if test="resultType != null and resultType == 1">
+            AND (rt.ad_trade_id_level3 = rt.ad_trade_id_level3_review
+            AND rt.ad_tag = rt.ad_tag_review)
+        </if>
+        <if test="resultType != null and resultType == 2">
+            AND (rt.ad_trade_id_level3 &lt;&gt;
+            rt.ad_trade_id_level3_review OR rt.ad_tag &lt;&gt; rt.ad_tag_review)
+        </if>
+    </select>
+    
+    <!-- =========================INSERT========================= -->
+
+	<insert id="batchInsert" parameterType="com.baidu.dpop.ctp.review.bo.ReviewGroup">
+		INSERT INTO tb_review_group
+		(tag_group_id,group_id,data_type,task_id,task_name,task_id_review,task_name_review,ad_num,ad_num_review,status,modify_user_id)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.tagGroupId,jdbcType=BIGINT},#{item.groupId,jdbcType=BIGINT},#{item.dataType,jdbcType=TINYINT},#{item.taskId,jdbcType=INTEGER},#{item.taskName,jdbcType=VARCHAR},#{item.taskIdReview,jdbcType=INTEGER},#{item.taskNameReview,jdbcType=VARCHAR},#{item.adNum,jdbcType=INTEGER},#{item.adNumReview,jdbcType=INTEGER},#{item.status,jdbcType=TINYINT},#{item.modifyUserId,jdbcType=INTEGER})
+		</foreach>
+	</insert>
+	
+	<!-- =========================UPDATE========================= -->
+    
+    <update id="recycleAssignGroups" parameterType="java.util.Date">
+        UPDATE
+        tb_review_group
+        SET STATUS = 0, modify_user_id_review = '-1',
+        start_time = '1970-01-01 00:00:00'
+        WHERE STATUS = 1 AND start_time &lt;
+        #{beginTime, jdbcType=TIMESTAMP}
+    </update>
+
+    <!-- =========================DELETE========================= -->
+
+	<delete id="deleteByTaskId" parameterType="java.lang.Integer">
+		DELETE FROM
+		tb_review_group
+		WHERE task_id_review=#{taskId,jdbcType=INTEGER}
+	</delete>
+
+</mapper>

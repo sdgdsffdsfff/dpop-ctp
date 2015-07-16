@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.task.dao.mapper.NewDSPTaskMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.task.bo.NewDSPTask">
+			<id     column="id"		jdbcType="BIGINT"		property="id" />
+	 		<result column="ad_id"		jdbcType="BIGINT"		property="adId" />
+			<result column="user_id"		jdbcType="BIGINT"		property="userId" />
+			<result column="adver_id"		jdbcType="BIGINT"		property="adverId" />
+			<result column="wuliao_type"		jdbcType="INTEGER"		property="wuliaoType" />
+			<result column="show_url"		jdbcType="VARCHAR"		property="showUrl" />
+			<result column="target_url"		jdbcType="VARCHAR"		property="targetUrl" />
+			<result column="width"		jdbcType="INTEGER"		property="width" />
+			<result column="height"		jdbcType="INTEGER"		property="height" />
+			<result column="title"		jdbcType="VARCHAR"		property="title" />
+			<result column="description"		jdbcType="VARCHAR"		property="description" />
+			<result column="company"		jdbcType="VARCHAR"		property="company" />
+			<result column="website"		jdbcType="VARCHAR"		property="website" />
+			<result column="ad_trade_id_level2"		jdbcType="INTEGER"		property="adTradeIdLevel2" />
+			<result column="ad_trade_id_level3"		jdbcType="INTEGER"		property="adTradeIdLevel3" />
+			<result column="ad_tag"		jdbcType="VARCHAR"		property="adTag" />
+			<result column="url"		jdbcType="VARCHAR"		property="url" />
+			<result column="tag_version"		jdbcType="INTEGER"		property="tagVersion" />
+			<result column="task_id"		jdbcType="INTEGER"		property="taskId" />
+			<result column="task_name"		jdbcType="VARCHAR"		property="taskName" />
+			<result column="create_time"		jdbcType="TIMESTAMP"		property="createTime" />
+			<result column="chatime"		jdbcType="TIMESTAMP"		property="chatime" />
+			<result column="add_time"		jdbcType="TIMESTAMP"		property="addTime" />
+			<result column="add_user"		jdbcType="VARCHAR"		property="addUser" />
+			<result column="task_type"		jdbcType="TINYINT"		property="taskType" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	id,ad_id,user_id,adver_id,wuliao_type,show_url,target_url,width,height,title,description,company,website,ad_trade_id_level2,ad_trade_id_level3,ad_tag,url,tag_version,task_id,task_name,create_time,chatime,add_time,add_user,task_type  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_new_dsp_task
+    where 1=1  and id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_new_dsp_task
+    where 1=1 and id = #{id,jdbcType=BIGINT}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.task.bo.NewDSPTask" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_new_dsp_task 
+	(id, ad_id, user_id, adver_id, wuliao_type, show_url, target_url, width, height, title, description, company, website, ad_trade_id_level2, ad_trade_id_level3, ad_tag, url, tag_version, task_id, task_name, create_time, chatime, add_time, add_user, task_type)
+    values 
+	( #{id,jdbcType=BIGINT},#{adId,jdbcType=BIGINT},#{userId,jdbcType=BIGINT},#{adverId,jdbcType=BIGINT},#{wuliaoType,jdbcType=INTEGER},#{showUrl,jdbcType=VARCHAR},#{targetUrl,jdbcType=VARCHAR},#{width,jdbcType=INTEGER},#{height,jdbcType=INTEGER},#{title,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},#{company,jdbcType=VARCHAR},#{website,jdbcType=VARCHAR},#{adTradeIdLevel2,jdbcType=INTEGER},#{adTradeIdLevel3,jdbcType=INTEGER},#{adTag,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{tagVersion,jdbcType=INTEGER},#{taskId,jdbcType=INTEGER},#{taskName,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{chatime,jdbcType=TIMESTAMP},#{addTime,jdbcType=TIMESTAMP},#{addUser,jdbcType=VARCHAR},#{taskType,jdbcType=TINYINT})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.task.bo.NewDSPTask" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_new_dsp_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="id != null">
+        id,
+      </if>
+				
+	  <if test="adId != null">
+        ad_id,
+      </if>
+			
+	  <if test="userId != null">
+        user_id,
+      </if>
+			
+	  <if test="adverId != null">
+        adver_id,
+      </if>
+			
+	  <if test="wuliaoType != null">
+        wuliao_type,
+      </if>
+			
+	  <if test="showUrl != null">
+        show_url,
+      </if>
+			
+	  <if test="targetUrl != null">
+        target_url,
+      </if>
+			
+	  <if test="width != null">
+        width,
+      </if>
+			
+	  <if test="height != null">
+        height,
+      </if>
+			
+	  <if test="title != null">
+        title,
+      </if>
+			
+	  <if test="description != null">
+        description,
+      </if>
+			
+	  <if test="company != null">
+        company,
+      </if>
+			
+	  <if test="website != null">
+        website,
+      </if>
+			
+	  <if test="adTradeIdLevel2 != null">
+        ad_trade_id_level2,
+      </if>
+			
+	  <if test="adTradeIdLevel3 != null">
+        ad_trade_id_level3,
+      </if>
+			
+	  <if test="adTag != null">
+        ad_tag,
+      </if>
+			
+	  <if test="url != null">
+        url,
+      </if>
+			
+	  <if test="tagVersion != null">
+        tag_version,
+      </if>
+			
+	  <if test="taskId != null">
+        task_id,
+      </if>
+			
+	  <if test="taskName != null">
+        task_name,
+      </if>
+			
+	  <if test="createTime != null">
+        create_time,
+      </if>
+			
+	  <if test="chatime != null">
+        chatime,
+      </if>
+			
+	  <if test="addTime != null">
+        add_time,
+      </if>
+			
+	  <if test="addUser != null">
+        add_user,
+      </if>
+			
+	  <if test="taskType != null">
+        task_type,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="id != null">
+         #{id,jdbcType=BIGINT},
+      </if>
+				
+	  <if test="adId != null">
+         #{adId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="userId != null">
+         #{userId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="adverId != null">
+         #{adverId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="wuliaoType != null">
+         #{wuliaoType,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="showUrl != null">
+         #{showUrl,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="targetUrl != null">
+         #{targetUrl,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="width != null">
+         #{width,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="height != null">
+         #{height,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="title != null">
+         #{title,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="description != null">
+         #{description,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="company != null">
+         #{company,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="website != null">
+         #{website,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="adTradeIdLevel2 != null">
+         #{adTradeIdLevel2,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adTradeIdLevel3 != null">
+         #{adTradeIdLevel3,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adTag != null">
+         #{adTag,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="url != null">
+         #{url,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="tagVersion != null">
+         #{tagVersion,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="taskId != null">
+         #{taskId,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="taskName != null">
+         #{taskName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="createTime != null">
+         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="chatime != null">
+         #{chatime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="addTime != null">
+         #{addTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="addUser != null">
+         #{addUser,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="taskType != null">
+         #{taskType,jdbcType=TINYINT},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.task.bo.NewDSPTask">
+    update tb_new_dsp_task
+    <set>      <if test="adId != null">
+        ad_id = #{adId,jdbcType=BIGINT},
+      </if>
+	        <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+	        <if test="adverId != null">
+        adver_id = #{adverId,jdbcType=BIGINT},
+      </if>
+	        <if test="wuliaoType != null">
+        wuliao_type = #{wuliaoType,jdbcType=INTEGER},
+      </if>
+	        <if test="showUrl != null">
+        show_url = #{showUrl,jdbcType=VARCHAR},
+      </if>
+	        <if test="targetUrl != null">
+        target_url = #{targetUrl,jdbcType=VARCHAR},
+      </if>
+	        <if test="width != null">
+        width = #{width,jdbcType=INTEGER},
+      </if>
+	        <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
+      </if>
+	        <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+	        <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+	        <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+	        <if test="website != null">
+        website = #{website,jdbcType=VARCHAR},
+      </if>
+	        <if test="adTradeIdLevel2 != null">
+        ad_trade_id_level2 = #{adTradeIdLevel2,jdbcType=INTEGER},
+      </if>
+	        <if test="adTradeIdLevel3 != null">
+        ad_trade_id_level3 = #{adTradeIdLevel3,jdbcType=INTEGER},
+      </if>
+	        <if test="adTag != null">
+        ad_tag = #{adTag,jdbcType=VARCHAR},
+      </if>
+	        <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+	        <if test="tagVersion != null">
+        tag_version = #{tagVersion,jdbcType=INTEGER},
+      </if>
+	        <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+	        <if test="taskName != null">
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+	        <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="chatime != null">
+        chatime = #{chatime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="addUser != null">
+        add_user = #{addUser,jdbcType=VARCHAR},
+      </if>
+	        <if test="taskType != null">
+        task_type = #{taskType,jdbcType=TINYINT},
+      </if>
+	      </set>
+    where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.task.bo.NewDSPTask">
+    update tb_new_dsp_task
+    set 
+     	ad_id = #{adId,jdbcType=BIGINT},
+    	user_id = #{userId,jdbcType=BIGINT},
+    	adver_id = #{adverId,jdbcType=BIGINT},
+    	wuliao_type = #{wuliaoType,jdbcType=INTEGER},
+    	show_url = #{showUrl,jdbcType=VARCHAR},
+    	target_url = #{targetUrl,jdbcType=VARCHAR},
+    	width = #{width,jdbcType=INTEGER},
+    	height = #{height,jdbcType=INTEGER},
+    	title = #{title,jdbcType=VARCHAR},
+    	description = #{description,jdbcType=VARCHAR},
+    	company = #{company,jdbcType=VARCHAR},
+    	website = #{website,jdbcType=VARCHAR},
+    	ad_trade_id_level2 = #{adTradeIdLevel2,jdbcType=INTEGER},
+    	ad_trade_id_level3 = #{adTradeIdLevel3,jdbcType=INTEGER},
+    	ad_tag = #{adTag,jdbcType=VARCHAR},
+    	url = #{url,jdbcType=VARCHAR},
+    	tag_version = #{tagVersion,jdbcType=INTEGER},
+    	task_id = #{taskId,jdbcType=INTEGER},
+    	task_name = #{taskName,jdbcType=VARCHAR},
+    	create_time = #{createTime,jdbcType=TIMESTAMP},
+    	chatime = #{chatime,jdbcType=TIMESTAMP},
+    	add_time = #{addTime,jdbcType=TIMESTAMP},
+    	add_user = #{addUser,jdbcType=VARCHAR},
+    	task_type = #{taskType,jdbcType=TINYINT}
+        where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+
+</mapper>

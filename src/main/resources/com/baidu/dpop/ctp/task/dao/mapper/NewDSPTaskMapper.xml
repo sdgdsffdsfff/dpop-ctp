@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.task.dao.mapper.NewDSPTaskMapper">
+
+	<resultMap id="taskCountResultMap" type="com.baidu.dpop.ctp.group.bo.Group">
+		<id column="user_id" jdbcType="INTEGER" property="groupId" />
+		<id column="task_id" jdbcType="INTEGER" property="taskId" />
+		<id column="count" jdbcType="INTEGER" property="adNum" />
+	</resultMap>
+
+	<resultMap id="taskTestResultMap" type="com.baidu.dpop.ctp.invoke.vo.TaskTestVo">
+		<id column="ad_id" jdbcType="INTEGER" property="adId" />
+		<id column="task_id" jdbcType="INTEGER" property="taskId" />
+	</resultMap>
+	
+	<sql id="Full_Info_List">
+		task.id as id,
+		task.ad_id as adId,
+		task.user_id as userId,
+		task.adver_id as adverId,
+		task.wuliao_type as wuliaoType,
+		task.show_url as showUrl,
+		task.target_url as targetUrl,
+		task.width as width,
+		task.height as height,
+		task.title as title,
+		task.description as description,
+		industry.level2_id as adTradeIdLevel2,
+		task.ad_trade_id_level3 as adTradeIdLevel3,
+		task.ad_tag as adTag,
+		task.url as url,
+		task.tag_version AS tagVersion,
+		task.task_name as taskName,
+		task.task_type as taskType,
+		task.task_id as taskId,
+		task.create_time as createTime,
+		task.company as company,
+		task.website as website,
+		task.chatime as chatime,
+		task.add_time as addTime,
+		task.add_user as addUser,
+		industry.level2_name as adTradeNameLevel2,
+		industry.full_name as adTradeNameLevel3
+	</sql>
+
+	<!-- =========================SELECT========================= -->
+	
+	<select id="selectNewDSPTasksByGroup" resultType="com.baidu.dpop.ctp.task.bo.NewDSPTask">
+		SELECT
+		<include refid="Full_Info_List"></include>
+		FROM
+		tb_new_dsp_task task,
+		tb_new_trade_type industry
+		<where>
+			AND task.user_id=#{groupId, jdbcType=INTEGER}
+			AND task.task_id=#{taskId, jdbcType=INTEGER}
+			AND task.ad_trade_id_level3=industry.full_id
+		</where>
+	</select>
+	
+	<select id="selectNewDSPTasksByTaskId" parameterType="java.lang.Integer"
+		resultType="com.baidu.dpop.ctp.task.bo.NewDSPTask">
+		SELECT
+		<include refid="Full_Info_List" />
+		FROM tb_new_dsp_task task, tb_new_trade_type industry
+		<where>
+			AND task.task_id=#{taskId, jdbcType=INTEGER}
+			AND task.ad_trade_id_level3=industry.full_id
+		</where> 
+	</select>
+	
+	<select id="selectNewDSPTasksByQueryCondition" parameterType="com.baidu.dpop.ctp.task.vo.GeneralTaskQueryVo"
+		resultMap="BaseResultMap">
+		SELECT
+		nt.id, nt.ad_id, nt.user_id, nt.adver_id,
+		nt.wuliao_type, nt.ad_trade_id_level3, nt.create_time,
+		nt.chatime, nt.task_id, nt.task_name
+		FROM tb_new_dsp_task nt, tb_ad_tag tag
+		<where>
+			<if test="null != taskIdList">
+				AND nt.task_id in
+				<foreach collection="taskIdList" item="taskId" index="index"
+					open="(" close=")" separator=",">
+					#{taskId,jdbcType=INTEGER}
+				</foreach>
+			</if>
+			AND nt.id = tag.ref_id AND tag.data_type=3
+		</where>
+	</select>
+
+	<select id="selectTestedTasks" resultMap="taskTestResultMap">
+		SELECT ad_id, task_id
+		FROM tb_new_dsp_task
+		WHERE ad_id IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item.adId,jdbcType=INTEGER}
+		</foreach>
+	</select>
+	
+	<select id="batchSelect" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_new_dsp_task
+		WHERE id IN
+        <foreach collection="list" item="item" index="index" open="("
+            close=")" separator=",">
+            #{item}
+        </foreach>
+	</select>
+	
+	<select id="selectTaskCount" resultMap="taskCountResultMap">
+		SELECT user_id, task_id, COUNT(*) AS count
+		FROM tb_new_dsp_task WHERE
+		user_id IN
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item.groupId,jdbcType=BIGINT}
+		</foreach>
+		GROUP BY user_id, task_id
+	</select>
+	
+	<select id="selectDownloadCount" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM tb_new_dsp_task
+		WHERE
+		task_id=#{taskId,jdbcType=INTEGER}
+	</select>
+
+	<!-- =========================INSERT========================= -->
+
+	<insert id="batchInsertTasks">
+		INSERT INTO tb_new_dsp_task (ad_id, user_id, adver_id, wuliao_type,
+		show_url, target_url, width, height,title, description,
+		ad_trade_id_level2, ad_trade_id_level3, ad_tag, url, tag_version,
+		task_name, task_id, task_type, create_time, chatime, add_time, add_user)
+		VALUES
+		<foreach collection="tasks" item="item" index="index"
+			separator=",">
+			(#{item.adId,jdbcType=INTEGER},
+			#{item.userId,jdbcType=INTEGER},
+			#{item.adverId,jdbcType=INTEGER},
+			#{item.wuliaoType,jdbcType=TINYINT},
+			#{item.showUrl,jdbcType=VARCHAR},
+			#{item.targetUrl,jdbcType=VARCHAR},
+			#{item.width,jdbcType=INTEGER},
+			#{item.height,jdbcType=INTEGER},
+			#{item.title,jdbcType=VARCHAR},
+			#{item.description,jdbcType=VARCHAR},
+			#{item.adTradeIdLevel2,jdbcType=INTEGER},
+			#{item.adTradeIdLevel3,jdbcType=INTEGER},
+			#{item.adTag,jdbcType=VARCHAR},
+			#{item.url,jdbcType=VARCHAR},
+			#{item.tagVersion,jdbcType=INTEGER},
+			#{item.taskName,jdbcType=VARCHAR},
+			#{item.taskId,jdbcType=INTEGER},
+			#{item.taskType,jdbcType=TINYINT},
+			#{item.createTime,jdbcType=TIMESTAMP},
+			#{item.chatime,jdbcType=TIMESTAMP},
+			#{item.addTime,jdbcType=TIMESTAMP},
+			#{item.addUser,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+	
+	<!-- =========================UPDATE========================= -->
+	
+	<update id="updateCompanyInfo">
+	   UPDATE tb_new_dsp_task
+	   SET company = CASE user_id
+	   <foreach collection="list" item="item" index="index"
+            separator=" ">
+            WHEN #{item.userid,jdbcType=BIGINT}
+            THEN #{item.company,jdbcType=INTEGER}
+        </foreach>
+	   END,
+	   website = CASE user_id
+	   <foreach collection="list" item="item" index="index"
+            separator=" ">
+            WHEN #{item.userid,jdbcType=BIGINT}
+            THEN #{item.website,jdbcType=INTEGER}
+        </foreach>
+        END
+        WHERE task_id IN
+         <foreach collection="taskIds" item="item" index="index" open="(" close=")"
+            separator=",">
+            #{item}
+        </foreach>
+	</update>
+
+	<!-- =========================DELETE========================= -->
+	
+	<delete id="deleteAdDetail" parameterType="java.lang.Integer">
+		DELETE FROM tb_new_dsp_task
+		WHERE task_id=#{taskId,jdbcType=INTEGER}
+	</delete>
+
+</mapper>

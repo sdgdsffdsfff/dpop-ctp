@@ -1,0 +1,417 @@
+<!-- target: taskList -->
+<div class="list-page">
+    <esui-panel class="page-crumb" data-ui-group="headerInfo">
+        <!-- content: crumb -->
+        <!-- import: taskListCrumb -->
+        <!-- /content -->  
+    </esui-panel>
+    <esui-panel class="task-info" data-ui-group="headerInfo">
+        <div class="task-info-container">
+            <div class="task-info-header">
+                <!--if: ${inType} === 'marker' -->
+                    <!-- import: taskMarkerHead -->
+                
+                <!-- else -->
+                    <!-- import: taskAuditHead -->
+                <!-- /if -->
+                
+            </div>
+        </div>
+    </esui-panel>
+    <div class="task-list-page-content">
+        <!-- content: main -->
+        <!-- import: taskListMain -->
+        <!-- /content -->
+    </div>
+    <!-- use: scrollToTop -->
+</div>
+
+<!-- target : taskListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <!--if: ${inType} === 'marker' -->
+    <a href="#/marker/list">标注任务</a>
+    <span>任务详情</span>
+    <!-- else -->
+    <a href="#/audit/list">审核任务</a>
+    <span>审核任务详情</span>
+    <!-- /if -->
+<!-- /content -->
+
+<!-- target: taskListMain-->
+    <esui-panel <!--if: ${inType} === 'marker' -->class="operation-bar operation-zero-bar"<!-- else -->class="operation-bar operation-zero-bar operation-audit-bar"<!-- /if --> data-ui-id="operationBar">
+        <!--if: ${inType} === 'marker' -->
+        <esui-panel data-ui-group="headerInfo">
+            <esui-button class="history-toggle" data-ui-skin="link" data-ui-id="historyToggle">
+            </esui-button>
+            <div class="operation-bar-info">
+                <!-- if: ${data.dataTypeAlias} == 'dsp' -->
+                <!-- use:
+                    groupInfoContent(
+                        firstName = '当前广告主ID', id = ${data.group.groupId}, adNum = ${data.group.adNum}, time=${data.group.doneTime}, dataType='外部DSP'
+                    )
+                -->
+                <!-- /if -->
+                <!-- if: ${data.dataTypeAlias} == 'baidudsp' -->
+                <!-- use:
+                    groupInfoContent(
+                        firstName = '当前账户ID', id = ${data.group.groupId}, adNum = ${data.group.adNum}, time=${data.group.doneTime}, dataType=${data.dataTypeText}
+                    )
+                -->
+                <!-- /if -->
+                <!-- if: ${data.dataTypeAlias} == 'qiushi' || ${data.dataTypeAlias} == 'beidou' -->
+                <!-- use:
+                    groupInfoContent(
+                        firstName = '当前推广组ID', id = ${data.group.groupId}, adNum = ${data.group.adNum}, time=${data.group.doneTime}, dataType=${data.dataTypeText}
+                    )
+                -->
+                <!-- /if -->
+            </div>
+            <div class="operation-zone">
+                <!-- if: ${data.hasPrevious} === true -->
+                <esui-button class="operation-zone-icon" id="operation-zone-previous-icon" data-ui-id="previous" data-ui-skin="link">上一题</esui-button>
+                <!-- /if -->
+                <!-- if: ${data.hasNext} === true -->
+                <esui-button class="operation-zone-icon" id="operation-zone-next-icon" data-ui-id="next" data-ui-skin="link">下一题</esui-button>
+                <!-- /if -->
+            </div>
+            <esui-panel class="operation-bar-info historyGroup" data-ui-id="historyGroup">
+                <ul>
+                    <!-- for: ${data.historyGroup} as ${history} -->
+                    <li class="operation-bar-info">
+                        <a href="#/marker/task/list~id=${history.id}">
+                            <!-- if: ${data.dataTypeAlias} == 'dsp' -->
+                            <!-- use:
+                                groupInfoContent(
+                                    firstName = '广告主ID', id = ${history.groupId}, adNum = ${history.adNum}, time=${history.doneTime}
+                                )
+                            -->
+                            <!-- /if -->
+                            <!-- if: ${data.dataTypeAlias} == 'baidudsp' -->
+                            <!-- use:
+                                groupInfoContent(
+                                    firstName = '账户ID', id = ${history.groupId}, adNum = ${history.adNum}, time=${history.doneTime}
+                                )
+                            -->
+                            <!-- /if -->
+                            <!-- if: ${data.dataTypeAlias} == 'qiushi' || ${data.dataTypeAlias} == 'beidou' -->
+                            <!-- use:
+                                groupInfoContent(
+                                    firstName = '推广组ID', id = ${history.groupId}, adNum = ${history.adNum}, time=${history.doneTime}
+                                )
+                            -->
+                            <!-- /if -->
+                        </a>
+                        
+                    </li>
+                    <!-- /for -->
+                </ul>
+            </esui-panel>
+        </esui-panel>
+        <!-- else -->
+        <esui-panel data-ui-group="headerInfo">
+            <div class="operation-audit-info">
+                <div class="operation-audit-info-row">
+                    <p>
+                        该题目ID：${data.group.groupId}
+                    </p>
+                    <p>
+                        标注人：${data.group.modifyUserName}
+                    </p>
+                    <p>
+                        公司名称：${data.companyName}
+                    </p>
+                </div>
+                <div class="operation-audit-info-row">
+                    <p>
+                        创意数：${data.group.adNum}
+                    </p>
+                    <p>
+                        审核人：${data.group.modifyUserNameReview}
+                    </p>
+                    <p>
+                        广告库名：<!-- if: ${data.dataTypeAlias} == 'dsp' -->外部DSP<!-- else -->${data.dataTypeText}<!-- /if -->
+                    </p>
+                    <p>
+                        公司网址：<a href="${data.companyUrl}" target="_blank" onclick="return openSite(this)">${data.companyUrl}</a>
+                    </p>
+                </div>
+            </div>
+            <div class="operation-zone">
+                <div class="toggle-container">
+                    <esui-button class="list-toggle" data-ui-skin="link"></esui-button>
+                    <esui-button class="back-layer" data-ui-id="backToAuditDetail">返回任务详情</esui-button>
+                </div>
+                <div class="button-container">
+                    <!-- if: ${data.hasPrevious} === true -->
+                    <esui-button class="operation-zone-icon" id="operation-zone-previous-icon" data-ui-id="previous" data-ui-skin="link">上一题</esui-button>
+                    <!-- /if -->
+                    <!-- if: ${data.hasNext} === true -->
+                    <esui-button class="operation-zone-icon" id="operation-zone-next-icon" data-ui-id="next" data-ui-skin="link">下一题</esui-button>
+                    <!-- /if -->
+                </div>
+            </div>
+        </esui-panel>
+        <!-- /if -->
+        <esui-button class="header-toggle" data-ui-skin="link" data-ui-id="headerToggle">展开头部信息</esui-button>
+    </esui-panel>
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- use: taskSubmitSection(suffix = 'end', hasValue= ${data.hasValue}) -->
+
+<!-- target: groupInfoContent -->
+<!-- var: firstName = ${firstName} || '' -->
+<!-- var: id = ${id} -->
+<!-- var: adNum = ${adNum} -->
+<!-- var: time = ${time} || '未标注' -->
+<!-- var: dataType = ${dataType} || null -->
+<p class="fist-show-info">
+    ${firstName}：<span id="task-info-id">${id}</span>
+</p>
+<p>
+    创意数：<span id="task-info-ad-num">${adNum}</span>
+</p>
+<!-- if: ${dataType} -->
+<p>
+    广告库名：<span id="task-info-data-type">${dataType}</span>
+</p>
+<!-- /if -->
+<p>
+    最后修改日期：<span id="task-info-company-url">${time}</span>
+</p>
+
+
+
+<!-- target: taskInfo -->
+<!-- var: id = ${id} || '' -->
+<!-- var: adId = ${adId} || '' -->
+<!-- var: wuliaoType = ${wuliaoType} || '' -->
+<!-- var: wuliaoTypeAlias = ${wuliaoTypeAlias} || '' -->
+<!-- var: adTradeNameLevel2 = ${adTradeNameLevel2} || '' -->
+<!-- var: targetUrl = ${targetUrl} || '' -->
+<!-- var: showUrl = ${showUrl} || '' -->
+<!-- var: imgUrl = ${imgUrl} || '' -->
+<!-- var: flash = ${flash} || '' -->
+<!-- var: title = ${title} || '' -->
+<!-- var: description1 = ${description1} || '' -->
+<!-- var: description2 = ${description2} || '' -->
+<!-- var: dataTypeAlias = ${dataTypeAlias} || 'beidou' -->
+<div class="single-task-info-content">
+    <p>
+        创意ID：<span>${adId}</span>
+        <!-- if: ${wuliaoType} !== '' -->
+        （<span <!-- if: ${wuliaoType} === 'FLASH' && ${dataTypeAlias} !== 'dsp' -->id="${id}-flashClass"<!-- /if -->><!-- if: ${wuliaoType} === 'FLASH' -->FLASH<!-- if: ${dataTypeAlias} !== 'dsp' -->请求中<!-- /if --><!-- else -->${wuliaoType}<!-- /if --></span>）
+        <!-- /if -->
+    </p>
+    <!-- if: ${wuliaoTypeAlias} !== '' -->
+        <esui-panel data-ui-id="${id}-showDetail" class="single-task-info-container" data-command="showDetail" data-command-args="${id}">
+            <!-- if: ${wuliaoTypeAlias} == 'picText' -->
+                <!-- use: textPicContent(imgUrl = ${imgUrl}, id = ${id}, title = ${title}, description1 = ${description1}, description2 = ${description2} ) -->
+            <!-- /if -->
+            <!-- if: ${wuliaoTypeAlias} == 'picture'  -->
+                <!-- use: imgSingleContent(id = ${id}, imgUrl = ${imgUrl}) -->
+            <!-- /if -->
+            <!-- if: ${wuliaoTypeAlias} == 'text' -->
+            <!-- use: textSingleContent(title = ${title}, description1 = ${description1}, description2 = ${description2}) -->
+            <!-- /if -->
+            <!-- if: ${wuliaoTypeAlias} == 'flash' -->
+            <!-- use: flashSingleContent(id = ${id}, imgUrl = ${imgUrl}) -->
+            <!-- /if -->
+            <!-- if: ${wuliaoTypeAlias} == 'video' -->
+            <!-- use: videoSingleContent(imgUrl = ${imgUrl}) -->
+            <!-- /if -->
+            <!-- if: ${wuliaoTypeAlias} == 'html' -->
+            <!-- use: htmlSingleContent() -->
+            <!-- /if -->
+        </esui-panel>
+    <!-- /if -->
+    <!-- if: ${adTradeNameLevel2} !== '' -->
+        <!-- if: ${dataTypeAlias} == 'dsp' -->
+        <p>
+            参考行业：<span id="single-task-info-trade">${adTradeNameLevel2}</span>
+        </p>
+        <!-- else -->
+        <p>
+            二级行业：<span id="single-task-info-trade">${adTradeNameLevel2}</span>
+        </p>
+        <!-- /if -->
+    <!-- /if -->
+    <!-- if: ${targetUrl} !== '' -->
+        <!-- if: ${dataTypeAlias} == 'dsp' -->
+            <p>
+                落地页：<a id="single-task-info-url" href="${targetUrl}" target="_blank" onclick="return openSite(this)">点击查看</a>
+            </p>
+            <!-- else -->
+            <p>
+                落地页URL：<a id="single-task-info-url" href="${targetUrl}" target="_blank" onclick="return openSite(this)">${showUrl}</a>
+            </p>
+        <!-- /if -->
+    <!-- /if -->
+    
+</div>
+
+<!-- target: imgSingleContent -->
+<!-- var: id = ${id} || '' -->
+<esui-panel class="single-task-info-img-container" id="${id}-imgContainerPanel">
+    <img class="loading-picture">
+</esui-panel>
+
+<!-- target: videoSingleContent -->
+<!-- var: imgUrl = ${imgUrl} || '' -->
+<div class="single-task-info-video-container">
+    点击播放视频
+</div>
+
+<!-- target: htmlSingleContent -->
+<div class="single-task-info-html-container">
+    智能创意
+</div>
+
+<!-- target: flashSingleContent -->
+<!-- var: id = ${id} || '' -->
+<esui-panel class="single-task-info-flash-container">
+    <div id="${id}-flashContainerPanel">
+        <img class="loading-picture">
+    </div>
+    <div class="over-stop"></div>
+</esui-panel>
+
+
+<!-- target: textSingleContent -->
+<!-- var: title = ${title} || '' -->
+<!-- var: description1 = ${description1} || '' -->
+<!-- var: description2 = ${description2} || '' -->
+<div class="single-task-info-text-container">
+    <p class="single-task-info-text-title">${title}</p>
+    <p class="single-task-info-text-desc">${description1} </p>
+    <p class="single-task-info-text-desc">${description2} </p>
+</div>
+
+
+<!-- target: textPicContent -->
+<!-- var: id = ${id} || '' -->
+<!-- var: title = ${title} || '' -->
+<!-- var: description1 = ${description1} || '' -->
+<!-- var: description2 = ${description2} || '' -->
+<div class="single-task-info-picText-container">
+    <p class="single-task-info-picText-title">${title}</p>
+    <div class="single-task-info-picText-content">
+        <div class="picText-img-container" id="${id}-imgContainerPanel">
+            <img class="loading-picture">
+        </div>
+        <p class="single-task-info-text-desc">${description1} </p>
+        <p class="single-task-info-text-desc">${description2} </p>
+    </div>
+</div>
+
+
+<!-- target: operationZone -->
+<!-- var: isAudit = ${isAudit} || false -->
+<!-- var: id = ${id} || 'batch' -->
+<!-- var: sample = ${sample} || '' -->
+<!-- var: third = ${third} || null-->
+<!-- var: comment = ${comment} || ''-->
+<!-- var: tradeId = ${tradeId} -->
+<!-- var: tagedThird = ${tagedThird} || null-->
+<!-- var: attachTagGroup = ${attachTagGroup} || null-->
+<div data-ui-id="${id}-tagCtr" data-ui-wuliao-id="${id}" data-ui-type="TagAssembeArea" data-ui-is-audit="${isAudit}" data-ui-third="${third}" data-ui-taged-third="${tagedThird}" data-ui-comment="${comment}" data-ui-trade-list="@tradeList" data-ui-trade-id="${tradeId}" class="tag-control-area" data-ui-sample="${sample}"
+<!-- if: ${isAudit} && ${tagedThird} && ${id} !== 'batch' --> data-ui-attach-origin-value="@${id}-attachOriginValue"<!-- /if -->
+data-ui-attach-datasource="@${id}-attachDatasource" data-ui-attach-value="@${id}-attachValue"></div>
+
+<!-- target: taskMarkerHead-->
+<h3>标注任务名：${data.task.taskName}</h3>
+<div class="task-info-header-row">
+    <!-- if: ${data.dataTypeAlias} == 'dsp' -->
+    <p>
+        DSP ID：${data.accountId}
+    </p>
+    <p>
+        广告主：${data.companyName}
+    </p>
+    <p>
+        广告主网页：<a id="task-info-company-url" href="${data.companyUrl}" target="_blank" onclick="return openSite(this)">点击查看</a>
+    </p>
+    <!-- else -->
+    <p>
+        帐户ID：${data.accountId}
+    </p>
+    <p>
+        公司名：${data.companyName}
+    </p>
+    <p>
+        公司页：<a id="task-info-company-url" href="${data.companyUrl}" target="_blank" onclick="return openSite(this)">点击查看</a>
+    </p>
+    <!-- /if -->
+    <p>
+        已完成答题：${data.historyGroupNum}
+    </p>
+    <p>
+        已标注创意数：${data.historyAdNum}
+    </p>
+</div>
+
+<!-- target: taskAuditHead-->
+<h3>审核任务名：${data.task.taskName}</h3>
+<div class="task-info-header-row">
+    <p>
+        审核任务ID：${data.task.id}
+    </p>
+    <!-- <p>
+        审核类型：${data.task.reviewTypeDesc}
+    </p>
+    <p>
+        创建时间：${data.task.addTime}
+    </p>
+    <p>
+        任务创建人：${data.task.addUser}
+    </p>
+    <p>
+        任务状态：<span class="task-info-status task-status-${data.task.statusAlias}">${data.task.statusText}</span>
+    </p> -->
+    <p>
+        已审核答题数：${data.groupNumDone} <span>（共 ${data.groupNumAll}）</span>
+    </p>
+    <p>
+        已审核创意数：${data.adNumDone} <span>（共 ${data.adNumAll}）</span>
+    </p>
+</div>
+
+<!-- target: taskAuditBody-->
+<p>
+    标注任务数：${data.task.groupNumActual}
+</p>
+<p>
+    已审核答题数：${data.groupNumDone} <span>（共 ${data.groupNumAll}）</span>
+</p>
+<p>
+    已审核创意数：${data.adNumDone} <span>（共 ${data.adNumAll}）</span>
+</p>
+
+
+
+<!-- target: taskSubmitSection -->
+<!-- var: suffix = ${suffix} -->
+<!-- var: hasValue = ${hasValue} -->
+<!-- if: ${suffix} === 'end' -->
+<div class="batch-operztion-zone">
+    <div class="batch-operztion-zone-container">
+        <div class="batch-operation-body">
+            <h2>批量操作：</h2>
+            <!-- if: ${hasValue} -->
+                <!-- use: operationZone -->
+            <!-- /if -->
+        </div>
+        <div class="batch-operation-footer">
+            <esui-button data-ui-id="batchModifySubmit" data-ui-skin="link">批量修改</esui-button>
+        </div>
+    </div>
+</div>
+<!-- /if -->
+<esui-panel class="task-submit-section" data-ui-id="${suffix}-submit-section">
+    <button type="submit" data-ui-type="Button" data-ui-id="${suffix}-submit" data-ui-group="submit" class="submit-button">提交本题</button>
+    <div data-ui-type="Button" data-ui-id="${suffix}-cancel" data-ui-group="submit" data-ui-skin="link" class="cancel-button">取消答题</div>
+</esui-panel>
+
+<!-- target: scrollToTop -->
+<a data-ui-type="Link" data-ui-id="scroll-to-top" title="返回顶部" class="scroll-button"></a>

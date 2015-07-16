@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("task/config",["require","common/ActionFactory","er/controller"],function(require){var e=require("common/ActionFactory"),t=[{path:"/task/detail",type:new e("task/Detail"),title:"物料详情"}];require("er/controller").registerAction(t)});

@@ -1,0 +1,77 @@
+<!-- target: permissionList(master=listPage) -->
+<!-- content: crumb -->
+<!-- import: permissionListCrumb -->
+<!-- /content -->
+<!-- content: main -->
+<!-- import: permissionListMain -->
+<!-- /content -->
+
+<!-- target : permissionListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <span>权限管理</span>
+<!-- /content -->
+
+<!-- target: permissionListMain(master=listView) -->
+<!-- content: searchbox -->
+    <!-- use: listSearchBox(placeholder = "账户名称") -->
+<!-- /content -->
+<!-- content: actionButtons -->
+    <a data-ui-type="Link" data-ui-id="create" data-ui-skin="add" data-ui-href="#/permission/create">+ 开通账户</a>
+<!-- /content -->
+<!-- content: bacthOperation -->
+    <esui-button class="list-download" data-ui-id="2" data-ui-width="53"
+                 data-ui-group="batch" data-ui-data-status="2"
+                 data-ui-extension-data-type="CustomData" data-ui-skin="link">解冻</esui-button>
+	<esui-button class="list-download" data-ui-id="download" data-ui-width="53"
+                 data-ui-group="batch" data-ui-data-status="0"
+                 data-ui-extension-data-type="CustomData" data-ui-skin="link">删除</esui-button>
+<!-- /content -->
+<!-- content: filter -->
+    <esui-button data-ui-id="filter-switch" data-ui-skin="select">角色</esui-button>
+    <!-- if: !${filter.isDefaultValue} -->
+        <span class="list-filter-show-bar">${filtersInfo.filters.userRoles.text}</span>
+    <!-- /if -->
+
+<!-- /content -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- content: listFilter -->
+    <!-- use: permissionListFilter -->
+<!-- /content -->
+
+<!-- target: permissionListFilter -->
+<form data-ui-type="Form" class="list-filter-panel permission-role-select" data-ui-id="filter"
+      data-ui-hidden="true" novalidata="novalidate">
+    <esui-panel data-ui-id="list-filter-select-panel" data-ui-group="filter-content"
+        class="list-filter-select-fields">
+        <esui-check-box type="checkbox" name="innerMarker" title="内部标注"
+            data-ui-id="innerMarker" data-ui-value="@innerMarker" data-ui-checked="true">
+        </esui-check-box>
+        <esui-check-box type="checkbox" name="innerAudit" title="内部审核"
+            data-ui-id="innerAudit" data-ui-value="@innerAudit" data-ui-checked="true">
+        </esui-check-box>
+        <esui-check-box type="checkbox" name="outerMarker" title="外部标注"
+            data-ui-id="outerMarker" data-ui-value="@outerMarker" data-ui-checked="true">
+        </esui-check-box>
+        <esui-check-box type="checkbox" name="outerAudit" title="外部审核"
+            data-ui-id="outerAudit" data-ui-value="@outerAudit" data-ui-checked="true">
+        </esui-check-box>
+        <esui-check-box type="checkbox" name="manager" title="管理员"
+            data-ui-id="manager" data-ui-value="@manager" data-ui-checked="true">
+        </esui-check-box>
+    </esui-panel>
+    <esui-panel data-ui-id="list-filter-selected-panel" data-ui-group="filter-content"
+        data-ui-hidden="true" class="list-filter-selected-fields">
+        <esui-label class="list-filter-field-label">筛选条件：</esui-label>
+        <!-- contentplaceholder: filterResults --><!-- /contentplaceholder -->
+    </esui-panel>
+    <div class="list-filter-operation">
+        <button type="submit" data-ui-type="Button" data-ui-id="filter-submit" data-ui-group="filter-content">确定
+        </button>
+        <esui-button data-ui-id="filter-modify" data-ui-group="filter-content" data-ui-hidden="true">修改</esui-button>
+        <esui-button data-ui-id="filter-cancel" data-ui-skin="link">取消</esui-button>
+    </div>
+</form>
+

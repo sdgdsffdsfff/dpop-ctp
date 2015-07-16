@@ -1,0 +1,1 @@
+define("echarts/util/coordinates",["require","zrender/tool/math"],function(require){function t(t,e){return[t*i.sin(e),t*i.cos(e)]}function e(t,e){return[Math.sqrt(t*t+e*e),Math.atan(e/t)]}var i=require("zrender/tool/math");return{polar2cartesian:t,cartesian2polar:e}});

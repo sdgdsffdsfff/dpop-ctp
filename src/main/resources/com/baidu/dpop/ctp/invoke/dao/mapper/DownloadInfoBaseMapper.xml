@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.invoke.dao.mapper.DownloadInfoMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.invoke.bo.DownloadInfo">
+			<id     column="id"		jdbcType="BIGINT"		property="id" />
+	 		<result column="file_name"		jdbcType="VARCHAR"		property="fileName" />
+			<result column="file_type"		jdbcType="INTEGER"		property="fileType" />
+			<result column="line_num"		jdbcType="INTEGER"		property="lineNum" />
+			<result column="file_size"		jdbcType="BIGINT"		property="fileSize" />
+			<result column="start_time"		jdbcType="TIMESTAMP"		property="startTime" />
+			<result column="done_time"		jdbcType="TIMESTAMP"		property="doneTime" />
+			<result column="start_user"		jdbcType="VARCHAR"		property="startUser" />
+			<result column="percentage"		jdbcType="INTEGER"		property="percentage" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	id,file_name,file_type,line_num,file_size,start_time,done_time,start_user,percentage  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_download_info
+    where 1=1  and id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_download_info
+    where 1=1 and id = #{id,jdbcType=BIGINT}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.invoke.bo.DownloadInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_download_info 
+	(id, file_name, file_type, line_num, file_size, start_time, done_time, start_user, percentage)
+    values 
+	( #{id,jdbcType=BIGINT},#{fileName,jdbcType=VARCHAR},#{fileType,jdbcType=INTEGER},#{lineNum,jdbcType=INTEGER},#{fileSize,jdbcType=BIGINT},#{startTime,jdbcType=TIMESTAMP},#{doneTime,jdbcType=TIMESTAMP},#{startUser,jdbcType=VARCHAR},#{percentage,jdbcType=INTEGER})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.invoke.bo.DownloadInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_download_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="id != null">
+        id,
+      </if>
+				
+	  <if test="fileName != null">
+        file_name,
+      </if>
+			
+	  <if test="fileType != null">
+        file_type,
+      </if>
+			
+	  <if test="lineNum != null">
+        line_num,
+      </if>
+			
+	  <if test="fileSize != null">
+        file_size,
+      </if>
+			
+	  <if test="startTime != null">
+        start_time,
+      </if>
+			
+	  <if test="doneTime != null">
+        done_time,
+      </if>
+			
+	  <if test="startUser != null">
+        start_user,
+      </if>
+			
+	  <if test="percentage != null">
+        percentage,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="id != null">
+         #{id,jdbcType=BIGINT},
+      </if>
+				
+	  <if test="fileName != null">
+         #{fileName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="fileType != null">
+         #{fileType,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="lineNum != null">
+         #{lineNum,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="fileSize != null">
+         #{fileSize,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="startTime != null">
+         #{startTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="doneTime != null">
+         #{doneTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="startUser != null">
+         #{startUser,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="percentage != null">
+         #{percentage,jdbcType=INTEGER},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.invoke.bo.DownloadInfo">
+    update tb_download_info
+    <set>      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+	        <if test="fileType != null">
+        file_type = #{fileType,jdbcType=INTEGER},
+      </if>
+	        <if test="lineNum != null">
+        line_num = #{lineNum,jdbcType=INTEGER},
+      </if>
+	        <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+	        <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="doneTime != null">
+        done_time = #{doneTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="startUser != null">
+        start_user = #{startUser,jdbcType=VARCHAR},
+      </if>
+	        <if test="percentage != null">
+        percentage = #{percentage,jdbcType=INTEGER},
+      </if>
+	      </set>
+    where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.invoke.bo.DownloadInfo">
+    update tb_download_info
+    set 
+     	file_name = #{fileName,jdbcType=VARCHAR},
+    	file_type = #{fileType,jdbcType=INTEGER},
+    	line_num = #{lineNum,jdbcType=INTEGER},
+    	file_size = #{fileSize,jdbcType=BIGINT},
+    	start_time = #{startTime,jdbcType=TIMESTAMP},
+    	done_time = #{doneTime,jdbcType=TIMESTAMP},
+    	start_user = #{startUser,jdbcType=VARCHAR},
+    	percentage = #{percentage,jdbcType=INTEGER}
+        where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean class="com.baidu.dpop.ctp.common.rpc.McpackRpcServiceFactoryBean">
+        <constructor-arg value="com.baidu.dpop.ctp.common.rpc.service.NewDSPRpcService"/>
+        <constructor-arg value="${outerinvoke.newdsp.host}"/>
+        <constructor-arg value="UTF-8"/>
+    </bean>
+    
+    <bean class="com.baidu.dpop.ctp.common.rpc.McpackAuthRpcServiceFactoryBean">
+        <constructor-arg value="com.baidu.dpop.ctp.common.rpc.service.AccountRemoteService"/>
+        <constructor-arg value="${outerinvoke.account.host}"/>
+        <constructor-arg value="${outerinvoke.account.username}"/>
+        <constructor-arg value="${outerinvoke.account.password}"/>
+        <constructor-arg value="UTF-8"/>
+    </bean>
+    
+</beans>

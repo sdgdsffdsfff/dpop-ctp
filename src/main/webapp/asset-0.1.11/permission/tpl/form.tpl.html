@@ -1,0 +1,89 @@
+<!-- target: permissionFormMain(master=formPage) -->
+<!-- content: crumb -->
+    <!-- import: permissionFormCrumb -->
+<!-- /content -->
+<!-- content: formMain -->
+    <!-- import: permissionFormMainView -->
+<!-- /content -->
+
+<!-- target: permissionFormCrumb(master=crumb) -->
+<!-- content: path -->
+    <span>首页</span>
+    <span>权限管理</span>
+    <!-- if: ${formType} === 'create' -->
+    <span>开通账户</span>
+    <!-- else -->
+    <span>更改账号</span>
+    <!-- /if -->
+<!-- /content -->
+
+
+
+<!-- target: permissionFormMainView(master=formViewWithOwnActionArea) -->
+<!-- content: sections -->
+    <!-- import: permissionFormBasicSection -->
+<!-- /content -->
+<!-- content: formSubmitSection -->
+    <!-- import: permissionFormSubmitSection -->
+<!-- /content -->
+
+<!-- target: permissionFormBasicSection -->
+<!-- if: ${formType} !== 'create' -->
+    <div class="form-field">
+        <esui-label class="form-field-label" >用户名称：</esui-label>
+        <div class="form-field-value">
+            <span>${userName}</span>
+        </div>
+    </div>
+<!-- /if -->
+<div class="form-field">
+    <esui-label class="form-field-label" data-ui-for-target="roleType">账户角色：</esui-label>
+    <!-- if: ${userRoleType} === 'inner' -->
+        <div class="form-field-value">
+            <esui-select data-ui-id="roleType" data-ui-name="roleType"
+                data-ui-datasource="@innerUserRoles" data-ui-value="@roleType">
+            </esui-select>
+        </div>
+    <!-- /if -->
+    <!-- if: ${userRoleType} === 'outer' -->
+        <div class="form-field-value">
+            <esui-select data-ui-id="roleType" data-ui-name="roleType"
+                data-ui-datasource="@outerUserRoles" data-ui-value="@roleType">
+            </esui-select>
+        </div>
+    <!-- /if -->
+    <!-- if: ${formType} === 'create' -->
+        <div class="form-field-value">
+            <esui-select data-ui-id="roleType" data-ui-name="roleType"
+                data-ui-datasource="@userRoles" data-ui-value="@roleType">
+            </esui-select>
+        </div>
+    <!-- /if -->
+    
+</div>
+<!-- if: ${formType} === 'create' -->
+    <!-- use:
+        textareaField(
+            title = '用户名称', field = 'userName', required = true, length = 10, description = '批量添加账号，每行一个账户名；\n账户名仅能使用中英文字符，数字，下划线的组合，区分大小写。'
+        )
+    -->
+    <!-- use:
+        textboxField(
+            title = '初始密码', field = 'password', required = true, length = 10, description = '请输入6~16位半角字符\n（由数字，字母，字符组成）。'
+        )
+    -->
+    <!-- else -->
+    <!-- if: ${password} !== '' -->
+        <!-- use:
+            textboxField(
+                title = '重置密码', field = 'password', required = true, length = 10, description = '请输入6~16位半角字符\n（由数字，字母，字符组成）。'
+            )
+        -->
+    <!-- /if -->
+<!-- /if -->
+
+<!-- target: permissionFormSubmitSection -->
+<esui-panel class="form-submit-section" data-ui-id="submit-section">
+    <button type="submit" data-ui-type="Button" data-ui-id="submit" data-ui-group="submit" class="submit-button">确定</button>
+    <div data-ui-type="Button" data-ui-id="cancel" data-ui-group="submit" data-ui-skin="link">取消</div>
+</esui-panel>

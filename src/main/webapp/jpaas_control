@@ -1,0 +1,3 @@
+sed -i 's/90000/1200000/g' /home/work/conf/server.xml
+cd /home/work && ./bin/catalina.sh run
+

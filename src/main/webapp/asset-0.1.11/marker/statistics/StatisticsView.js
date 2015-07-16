@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("marker/statistics/StatisticsView",["require","tpl!b1c6f6b6.tpl.html","ub-ria/mvc/BaseView","eoo"],function(require){require("tpl!b1c6f6b6.tpl.html");var exports={};exports.template="markerStatisticsView";var e=require("ub-ria/mvc/BaseView"),t=require("eoo").create(e,exports);return t});

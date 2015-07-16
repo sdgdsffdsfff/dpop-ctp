@@ -1,0 +1,2357 @@
+<!-- target: accountForm(master=formPage) -->
+<!-- content: crumb -->
+    <!-- import: accountFormCrumb -->
+<!-- /content -->
+<!-- content: formMain -->
+    <!-- import: accountFormMain -->
+<!-- /content -->
+
+
+<!-- target: accountFormCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <span>修改密码</span>
+<!-- /content -->
+
+
+<!-- target: accountFormMain -->
+<div class="form-view account-form">
+    <form data-ui-type="Form" data-ui-id="form" novalidate="novalidate">
+        <!-- import: accountFormBasicSection -->
+        <!-- import: accountFormSubmitSection -->
+    </form>
+</div>
+
+<!-- target: accountFormBasicSection -->
+<section class="form-section">
+    <div class="form-field">
+        <esui-label class="form-field-label" data-ui-for-target="userName">用户名称：</esui-label>
+        <div class="form-field-value">
+            <esui-label class="form-field-label" data-ui-id="userName"></esui-label>
+        </div>
+    </div>
+    <div class="form-field">
+        <esui-label class="form-field-label" data-ui-for-target="old-password">原密码：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-id="old-password" data-ui-value="@oldPass"
+                name="oldPass" data-ui-placeholder="" data-ui-mode="password">
+            </esui-text-box>
+            <div class="form-field-description">填写你现有的密码</div>
+        </div>
+    </div>
+    <div class="form-field">
+        <esui-label class="form-field-label" data-ui-for-target="new-password">新密码：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-id="new-password" data-ui-value="@newPass"
+                name="newPass" data-ui-placeholder="" data-ui-mode="password">
+            </esui-text-box>
+            <div class="form-field-description">请输入6~16位半角字符（由数字，字母，字符组成）</div>
+        </div>
+    </div>
+    <div class="form-field">
+        <esui-label class="form-field-label" data-ui-for-target="new-again-password">再输一次：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-id="new-again-password" data-ui-value="@newAgainPass"
+                name="newAgainPass"  data-ui-placeholder="" data-ui-mode="password">
+            </esui-text-box>
+            <div class="form-field-description">再次输入新密码</div>
+        </div>
+    </div>
+</section>
+
+<!-- target: accountFormSubmitSection -->
+    <button type="submit" data-ui-type="Button" data-ui-id="submit" class="submit-button">确定</button>
+    <div type="button" data-ui-type="Button" data-ui-id="cancel" class="cancel-button">取消</div>
+<!-- target: auditFormMain(master=formPage) -->
+<!-- content: crumb -->
+    <!-- import: auditFormCrumb -->
+<!-- /content -->
+<!-- content: formMain -->
+    <!-- import: auditFormMainView -->
+<!-- /content -->
+
+<!-- target: auditFormCrumb(master=crumb) -->
+<!-- content: path -->
+    <span>首页</span>
+    <span>审核任务</span>
+    <span>新建审核任务</span>
+<!-- /content -->
+
+
+
+<!-- target: auditFormMainView -->
+<div class="form-view audit-create-form">
+    <form data-ui-type="Form" data-ui-id="form" novalidate="novalidate">
+        <!-- import: auditFormBasicSection -->
+        <!-- import: auditFormSubmitSection -->
+    </form>
+</div>
+
+<!-- target: auditFormBasicSection -->
+    <!-- if: ${role} == 'all' -->
+        <!-- use:
+            textboxField(
+                title = '任务名称', field = 'taskName', required = true, length = 30, description = '请填写标注任务名称，最多30个中文字符。'
+            )
+        -->
+    <!-- else -->
+        <!-- use:
+            textboxField(
+                title = '任务名称', field = 'taskName', required = true, length = 30, description = '请填写标注任务名称，最多30个中文字符。', disabled = true
+            )
+        -->
+    <!-- /if -->
+    
+    <div class="form-field-required">
+        <esui-label class="form-field-label" data-ui-for-target="moduserLevel" data-ui-title="审核人类型">审核人类型：</esui-label>
+        <div class="form-field-value">
+            <span class="form-field-value-required-star">*</span>
+            <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="moduserLevel" data-ui-box-type="radio"
+            data-ui-name="moduserLevel"
+            <!-- if: ${role} == 'inner' -->data-ui-value="0"<!-- /if -->
+            <!-- if: ${role} == 'outer' -->data-ui-value="1"<!-- /if -->
+            <!-- if: ${role} == 'all' -->data-ui-value="2"<!-- /if -->
+            <!-- if: ${role} !== 'all' -->data-ui-disabled="true"<!-- /if -->>
+                <div data-ui-box-type="radio" data-ui-value="2" />全体人员</div>
+                <div data-ui-box-type="radio" data-ui-value="0" />内部人员</div>
+                <div data-ui-box-type="radio" data-ui-value="1" />外部人员</div>
+            </div>
+            <div class="form-field-description">请选择标注人员类型。</div>
+        </div>
+    </div>
+    <div class="form-field-required">
+        <esui-label class="form-field-label" data-ui-for-target="taskDimension" data-ui-title="任务维度">任务维度：</esui-label>
+        <div class="form-field-value">
+            <span class="form-field-value-required-star">*</span>
+            <!-- if: ${role} == 'all' -->
+                <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="taskDimension" data-ui-box-type="radio" data-ui-disabled="true"
+                <!-- if: ${fromPath} == 'create' -->data-ui-value="id"<!-- /if -->
+                <!-- if: ${fromPath} == 'marker' -->data-ui-value="id"<!-- /if -->>
+                    <div data-ui-box-type="radio" data-ui-value="time" />时间维度</div>
+                    <div data-ui-box-type="radio" data-ui-value="id" />标注任务维度</div>
+                </div>
+                <div class="form-field-description">请进行任务维度选择，（暂不支持时间维度）。</div>
+            <!-- else -->
+                <esui-label data-ui-id="selectIdDimesion" data-ui-text="${selectIdDimesion}"></esui-label>
+                <esui-text-box class="state-hidden" data-ui-id="id" data-ui-name="id" data-ui-value="${id}"></esui-text-box>
+            <!-- /if -->
+        </div>
+    </div>
+    <!-- if: ${role} == 'all' -->
+        <esui-panel class="task-operation-panel task-time-dimension-panel" data-ui-id="task-time-dimension">
+            <i></i>
+            <!-- use:
+                rangeCalendarField(
+                    title = '时间维度', name = 'timeDimension',  required = true, description = '请选择标注任务的有效时间范围。'
+                )
+            -->
+        </esui-panel>
+        <esui-panel class="task-operation-panel task-id-dimension-panel" data-ui-id="task-id-dimension">
+            <i></i>
+            <!-- use:
+                treeRichSelectorField(
+                    title = '待审标注任务', name = 'id-dimension',  required = false, fieldClasses='left-float',
+                    treetitle='全部标注任务', classname='rich-tree left-rich-tree', datasource='canUseTasks', ismulti = true, targetTree = 'id-selected-dimension'
+                )
+            -->
+            <!-- use:
+                treeRichSelector(name = 'id-selected-dimension',  required = false,
+                    treetitle='已选标注任务', classname='rich-tree right-rich-tree left-float', datasource='allSelectedTask', ismulti = true, targetTree = 'id-dimension'
+                )
+            -->
+        </esui-panel>
+    <!-- /if -->
+    <div class="form-field-required">
+        <esui-label class="form-field-label" data-ui-for-target="conditionType" data-ui-title="筛选条件">筛选条件：</esui-label>
+        <div class="form-field-value">
+            <span class="form-field-value-required-star">*</span>
+            <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="conditionType" data-ui-box-type="radio" data-ui-value="0"
+            data-ui-name="conditionType"
+            <!-- if: ${role} !== 'all' -->data-ui-disabled="true"<!-- /if -->>
+                <div data-ui-box-type="radio" data-ui-value="0" />随机抽选</div>
+                <div data-ui-box-type="radio" data-ui-value="1" />自定义</div>
+            </div>
+            <div class="form-field-description">请进行物料条件筛选。</div>
+        </div>
+    </div>
+    <!-- if: ${role} == 'all' -->
+        <esui-panel class="task-operation-panel task-custom-condition-panel" data-ui-id="task-custom-condition">
+            <i></i>
+            <div class="form-field">
+                <esui-label class="form-field-label" data-ui-for-target="dataType" data-ui-title="数据来源">数据来源：</esui-label>
+                <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="dataType" data-ui-box-type="radio" data-ui-name="dataType" data-ui-value="0">
+                    <div data-ui-box-type="radio" data-ui-value="0" />北斗</div>
+                    <div data-ui-box-type="radio" data-ui-value="1" />秋实</div>
+                    <div data-ui-box-type="radio" data-ui-value="2" />外部DSP</div>
+                    <div data-ui-box-type="radio" data-ui-value="3" />百度DSP</div>
+                </div>
+            </div>
+            <div class="form-field">
+                <esui-label class="form-field-label"  data-ui-title="物料类型">物料类型：</esui-label>
+                <div class="select-radio-group" data-ui-type="CustomAbstractBoxGroup" data-ui-id="beidouWuliaoType" data-ui-box-type="checkbox" data-ui-name="beidouWuliaoType" data-ui-value="0000" data-ui-hasallvalue="0000" data-ui-hasselfset="0">
+                    <div data-ui-box-type="checkbox" data-ui-value="0000"/>全部类型</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="1"/>文本</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="2"/>图片</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="3"/>FLASH</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="5"/>图文</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="9"/>智能创意</div>
+                </div>
+                <div class="select-radio-group" data-ui-type="CustomAbstractBoxGroup" data-ui-id="qiushiWuliaoType" data-ui-box-type="checkbox" data-ui-name="qiushiWuliaoType" data-ui-value="0000" data-ui-hasallvalue="0000" data-ui-hasselfset="0">
+                    <div data-ui-box-type="checkbox" data-ui-value="0000"/>全部类型</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="1"/>文本</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="2"/>图片</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="4"/>富媒体</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="5"/>图文</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="6"/>视频广告</div>
+                </div>
+                <div class="select-radio-group" data-ui-type="CustomAbstractBoxGroup" data-ui-id="dspWuliaoType" data-ui-box-type="checkbox" data-ui-name="dspWuliaoType" data-ui-value="0000" data-ui-hasallvalue="0000" data-ui-hasselfset="0">
+                    <div data-ui-box-type="checkbox" data-ui-value="0000"/>全部类型</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="2"/>图片</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="3"/>FLASH</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="6"/>视频广告</div>
+                </div>
+                <div class="select-radio-group" data-ui-type="CustomAbstractBoxGroup" data-ui-id="baidudspWuliaoType" data-ui-box-type="checkbox" data-ui-name="baidudspWuliaoType" data-ui-value="0000" data-ui-hasallvalue="0000" data-ui-hasselfset="0">
+                    <div data-ui-box-type="checkbox" data-ui-value="0000"/>全部类型</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="1"/>文本</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="5"/>图文</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="2"/>图片</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="3"/>FLASH</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="9"/>智能创意</div>
+                    <div data-ui-box-type="checkbox" data-ui-value="6"/>视频广告</div>
+                </div>
+            </div>
+            <div class="form-field">
+                <esui-label class="form-field-label" data-ui-for-target="belongTrade" data-ui-title="所属行业">所属行业：</esui-label>
+                <div class="form-field-value form-field-without-padding">
+                    <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="belongTrade" data-ui-name="belongTrade" data-ui-box-type="radio" data-ui-value="0">
+                        <div data-ui-box-type="radio" data-ui-value="0"/>全部行业</div>
+                        <div data-ui-box-type="radio" data-ui-value="1"/>自定义</div>
+                    </div>
+                    <div class="form-field-description">请选择所属行业。</div>
+                </div>
+            </div>
+            <esui-panel class="form-field" data-ui-id="customTrade">
+                <esui-label class="form-field-label field-without-label" data-ui-title=""></esui-label>
+                <!-- use:
+                    treeRichSelector(name = 'trade-id',  required = false,
+                        treetitle='全部行业', classname='rich-tree left-rich-tree  field-without-label left-float',
+                        datasource='tradeList', ismulti = true, targetTree = 'trade-selected-id'
+                    )
+                -->
+                <!-- use:
+                    treeRichSelector(name = 'trade-selected-id',  required = false,
+                        treetitle='已选行业', classname='rich-tree right-rich-tree left-float widthout-margin',
+                        datasource='allSelectedTrade', ismulti = true, targetTree = 'trade-id'
+                    )
+                -->
+            </esui-panel>
+            <div class="form-field">
+                <esui-label class="form-field-label" data-ui-for-target="tagGroup" data-ui-title="物料标签">物料标签：</esui-label>
+                <esui-panel class="ad-tag-value-panel" data-ui-id="adTagValue">
+                    <div class="ad-tag-select-zone" data-ui-type="AttachTagBoxGroup" data-ui-id="tagGroup" data-ui-box-type="checkbox" 
+                        data-ui-datasource="@tagDatasource" data-ui-name="tagGroup" data-ui-hasallvalue="0" data-ui-hasselfset="0"  data-ui-value="@tagValue">
+                    </div>
+                </esui-panel>
+            </div>
+        </esui-panel>
+    <!-- /if -->
+    <div class="form-field-required">
+        <esui-label class="form-field-label" data-ui-for-target="groupNum" data-ui-title="标注数量">标注数量：</esui-label>
+        <div class="form-field-value">
+            <span class="form-field-value-required-star">*</span>
+            <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="groupNum" data-ui-box-type="radio" data-ui-name="groupNum"
+            <!-- if: ${fromPath} == 'create' -->data-ui-value="0"<!-- /if -->
+            <!-- if: ${fromPath} == 'marker' -->data-ui-value="1"<!-- /if -->>
+                <div data-ui-box-type="radio" data-ui-value="0" />全部数量</div>
+                <div data-ui-box-type="radio" data-ui-value="1" />自定义数量</div>
+            </div>
+            <!-- use:
+                textbox(
+                    name = 'customGroupNum', id = 'custom-group-num', width = '75', required = false
+                )
+            -->
+            <div class="form-field-description">请确定标注创意数量有效范围
+                <esui-label class="audit-available-num-des" data-ui-id="availableNum"></esui-label>
+            </div>
+        </div>
+    </div>
+    <div class="form-field-required">
+        <esui-label class="form-field-label" data-ui-for-target="isBlind" data-ui-title="审核方式">审核方式：</esui-label>
+        <div class="form-field-value">
+            <span class="form-field-value-required-star">*</span>
+            <div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="isBlind"
+            data-ui-name="isBlind" data-ui-box-type="radio" data-ui-value="0"
+            <!-- if: ${role} !== 'all' -->data-ui-disabled="true"<!-- /if -->>
+                <div data-ui-box-type="radio" data-ui-value="0" />盲审</div>
+                <div data-ui-box-type="radio" data-ui-value="1" />明审</div>
+            </div>
+            <div class="form-field-description">请进行审核方式的选择。</div>
+        </div>
+    </div>
+
+<!-- target: auditFormSubmitSection -->
+<esui-panel class="form-submit-section" data-ui-id="submit-section">
+    <button type="submit" data-ui-type="Button" data-ui-id="submit" data-ui-group="submit" class="submit-button">新建</button>
+    <!-- if: ${role} == 'all' -->
+        <button type="button" data-ui-type="Button" data-ui-id="download" data-ui-group="submit" class="ui-button">下载</button>
+    <!-- /if -->
+    <div data-ui-type="Button" data-ui-id="cancel" data-ui-group="submit" data-ui-skin="link">取消</div>
+</esui-panel>
+
+
+<!-- target: auditList(master=listPage) -->
+<!-- content: crumb -->
+<!-- import: auditListCrumb -->
+<!-- /content -->
+<!-- content: main -->
+<!-- import: auditListMain -->
+<!-- /content -->
+
+
+<!-- target : auditListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <span>审核任务</span>
+<!-- /content -->
+
+
+<!-- target: auditListMain -->
+<div class="list-view">
+    <div class="list-meta">
+        <!-- if: ${data.canCreateAudit} -->
+            <div class="list-action">
+                <a data-ui-type="Link" data-ui-id="create" data-ui-skin="add" data-ui-href="#/audit/create~fromPath=create">+ 新增审核任务</a>
+            </div>
+        <!-- /if -->
+        <div class="list-filter <!-- if: !${data.canCreateAudit} -->list-filter-without-action<!-- /if -->">
+            <div class="list-batch-operation  <!-- if: !${data.canCreateAudit} -->list-batch-operation-without-action<!-- /if -->">
+                <!-- if: ${data.canBatchDownload} -->
+                <a data-ui-type="Link"
+                    data-ui-id="download"
+                    target="_blank" class="ui-button state-disabled batch-download-link">下载</a>
+                <!-- /if -->
+                <!-- if: ${data.canBatchDelete} -->
+                <esui-button class="list-download" data-ui-id="delete" data-ui-width="53"
+                 data-ui-group="batch" data-ui-data-status="0"
+                 data-ui-extension-data-type="CustomData" data-ui-skin="link">删除</esui-button>
+                <!-- /if -->
+            </div>
+            <div class="list-filter-fields">
+                <esui-button data-ui-id="filter-switch" data-ui-skin="select">查询</esui-button>
+            </div>
+
+        </div>
+    </div>
+    <!-- import: auditListFilter -->
+    <!-- use: listTable(useCommand = true) -->
+    <!-- import: listPager -->
+</div>
+
+
+<!-- target: auditListFilter(master=listFilter) -->
+<!-- content: filters -->
+    <div class="list-filter-field">
+        <esui-label class="form-field-label" data-ui-for-target="time">创建时间：</esui-label>
+        <div class="form-field-value">
+            <esui-range-calendar
+                data-ui-id="time">
+            </esui-range-calendar>
+        </div>
+    </div>
+    <!-- use: listFilterSelect(title = "任务状态：", name = "status", datasource = "statuses", field = "status") -->
+    <div class="list-filter-field">
+        <esui-label class="form-field-label" data-ui-for-target="id">任务ID：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-value="@id"
+                name="id">
+            </esui-text-box>
+        </div>
+    </div>
+    <div class="list-filter-field">
+        <esui-label class="form-field-label" data-ui-for-target="taskName">任务名称：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-value="@taskName"
+                name="taskName">
+            </esui-text-box>
+        </div>
+    </div>
+    <div class="list-filter-field list-filter-add-user">
+        <esui-label class="form-field-label" data-ui-for-target="addUser">创建人：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-value="@addUser"data-ui-id="addUser"
+                name="addUser" data-ui-extension-command-type="Command"
+                data-command="name-fetch" data-ui-extension-command-events="keyup,focus">
+            </esui-text-box>
+        </div>
+        <esui-panel data-ui-id="nameContainer" class="name-panel-container"></esui-panel>
+    </div>
+<!-- /content -->
+<!-- content: filterResults -->    
+    <!-- use: filterResult(title = "开始时间: ", filter = ${filtersInfo.filters.beginTime}) -->
+    <!-- use: filterResult(title = "结束时间: ", filter = ${filtersInfo.filters.endTime}) -->
+    <!-- use: filterResult(title = "任务状态: ", filter = ${filtersInfo.filters.status}) -->
+    <!-- use: filterResult(title = "任务ID: ", filter = ${filtersInfo.filters.id}) -->
+    <!-- use: filterResult(title = "创建名称: ", filter = ${filtersInfo.filters.taskName}) -->
+    <!-- use: filterResult(title = "创建人: ", filter = ${filtersInfo.filters.addUser}) -->
+<!-- /content -->
+
+<!-- target: toBeginListMain -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- import: listPager -->
+
+<!-- target: rightListMain -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- import: listPager -->
+
+<!-- target: wrongListMain -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- import: listPager -->
+<!-- import: auditDetailPanel -->
+
+<!-- target: auditDetailPanel -->
+<esui-panel data-ui-id="auditDetail" class="audit-detail-panel">
+<esui-button class="close-button" data-ui-id="detailCloseButton"></esui-button>
+<esui-panel data-ui-id="allInfoContainer"></esui-panel>
+</esui-panel>
+
+<!-- target: wrongInfo -->
+<!-- var: wrongTradeInfoList = ${wrongTradeInfoList} || null -->
+<!-- var: wrongTagInfoList = ${wrongTagInfoList} || null-->
+<!-- if: ${wrongTradeInfoList} -->
+<div class="tradeInfo">
+	<div class="form-field-label" title="行业">【行业】</div>
+	<div class="info-container">
+		<!-- for: ${wrongTradeInfoList} as ${info} -->
+			<!-- if: ${info.beforeTrade1} != ${info.afterTrade1}-->
+				<p>
+					<span class="before-icon">前</span>
+					<span class="before-color">
+						${info.beforeTrade1}-${info.beforeTrade2}-${info.beforeTrade3}
+					</span>
+				</p>
+				<p>
+					<span class="after-icon">后</span>
+					<span class="after-color">
+						${info.afterTrade1}-${info.afterTrade2}-${info.afterTrade3}
+					</span>
+				</p>
+				<!-- else -->
+				<!-- if: ${info.beforeTrade2} != ${info.afterTrade2}-->
+					<p>
+						<span class="before-color">${info.beforeTrade1}-</span>
+						<span class="before-icon">前</span>
+						<span class="before-color">
+							${info.beforeTrade2}-${info.beforeTrade3}
+						</span>
+					</p>
+					<p>
+						<span class="before-color">${info.afterTrade1}-</span>
+						<span class="after-icon">后</span>
+						<span class="after-color">
+							${info.afterTrade2}-${info.afterTrade3}
+						</span>
+					</p>
+					<!-- else -->
+					<!-- if: ${info.beforeTrade3} != ${info.afterTrade3}-->
+						<p>
+							<span class="before-color">${info.beforeTrade1}-${info.beforeTrade2}-</span>
+							<span class="before-icon">前</span>
+							<span class="before-color">
+								${info.beforeTrade3}
+							</span>
+						</p>
+						<p>
+							<span class="before-color">${info.afterTrade1}-${info.afterTrade2}-</span>
+							<span class="after-icon">后</span>
+							<span class="after-color">
+								${info.afterTrade3}
+							</span>
+						</p>
+					<!-- /if -->
+				<!-- /if -->
+			<!-- /if -->
+		<!-- /for -->
+	</div>
+</div>
+<!-- /if -->
+<!-- if: ${wrongTagInfoList} -->
+<div class="tagInfo">
+	<div class="form-field-label" title="标签">【标签】</div>
+	<div class="info-container">
+		<!-- for: ${wrongTagInfoList} as ${info} -->
+		<p>
+			<span>${info.tagInfo}：</span>
+			<span class="before-icon">前</span>
+			<span class="before-color">${info.before}</span>
+			<span class="after-icon">后</span>
+			<span class="after-color">${info.after}</span>
+		</p>
+		<!-- /for -->
+	</div>
+</div>
+<!-- /if -->
+
+<!-- target: auditDimensionViewMain -->
+<h2>任务准确率</h2>
+<div class="bar-chart-cell-container">
+	<div class="bar-chart-cell bar-chart-cell-left">
+		<esui-panel class="bar-chart-title" data-ui-datasource="@reviewTaskAccuracy">
+			<div class="bar-chart-title-row">
+				<p>创意标注准确率</p>
+				<p>文字类准确率</p>
+				<p>非文字类准确率</p>
+			</div>
+			<div class="bar-chart-title-row">
+				<p>${reviewTaskAccuracy.taskAccuracy}</p>
+				<p>${reviewTaskAccuracy.textAdAccuracy}</p>
+				<p>${reviewTaskAccuracy.otherAdAccuracy}</p>
+			</div>
+		</esui-panel>
+		<div data-ui-type="BarChart" data-ui-id="tradeRate" data-ui-height="140px"
+			data-ui-datasource="@reviewTaskAccuracy.wuliao" data-ui-color="#fcb893, #8ed9ff, #9baefb"></div>
+	</div>
+	<div class="bar-chart-cell bar-chart-cell-right">
+		<esui-panel class="bar-chart-title" data-ui-datasource="@reviewTaskAccuracy">
+			<div class="bar-chart-title-row">
+				<p>所属行业准确率</p>
+				<p>美观准确率</p>
+				<p>低俗度准确率</p>
+				<p>欺诈度准确率</p>
+				<p>高危度准确率</p>
+			</div>
+			<div class="bar-chart-title-row">
+				<p>${reviewTaskAccuracy.tradeAccuracy}</p>
+				<p>${reviewTaskAccuracy.beautyAccuracy}</p>
+				<p>${reviewTaskAccuracy.vulgarAccuracy}</p>
+				<p>${reviewTaskAccuracy.cheatAccuracy}</p>
+				<p>${reviewTaskAccuracy.highDangerAccuracy}</p>
+			</div>
+		</esui-panel>
+		<div data-ui-type="BarChart" data-ui-id="tagRate" data-ui-height="140px"
+			data-ui-datasource="@reviewTaskAccuracy.tag" data-ui-color="#abdd96, #65c3f9, #ffc86b, #dbb1d5, #ffad97"></div>
+	</div>	
+</div>
+<h2>标签统计</h2>
+<esui-panel class="statistics-dimension-row"  data-ui-datasource="@reviewTagAccuracy">
+	<div class="statistics-single-dimension">
+		<h3>创意美观度:</h3>
+        <!-- use:
+            auditCheckbox(id = 'beautyShowBefore', targetChart = 'beautyChart', targetTable = 'beauty-table')
+        -->
+		<div class="statistics-single-dimension-body"
+		data-ui-type="PieChart" data-ui-id="beautyChart" data-ui-prefix="beauty"
+		data-ui-title="创意美观度" data-ui-height="300px" data-ui-color="#38b1e0,#65c3f9,#8ed9ff"
+		data-ui-subTitle="数据统计" data-ui-datasource="@reviewTagAccuracy.beauty"></div>
+		<!-- use:
+            compareTable(
+                id = 'beauty-table', beforeData = ${reviewTagAccuracy.beautyRate.before}, afterData = ${reviewTagAccuracy.beautyRate.after}
+            )
+        -->
+	</div>
+	<div class="statistics-single-dimension statistics-single-separate"></div>
+	<div class="statistics-single-dimension">
+		<h3>创意低俗度:</h3>
+        <!-- use:
+            auditCheckbox(id = 'vulgarShowBefore', targetChart = 'vulgarChart', targetTable = 'vulgar-table')
+        -->
+		<div class="statistics-single-dimension-body"
+		data-ui-type="PieChart" data-ui-id="vulgarChart" data-ui-prefix="vulgar"
+		data-ui-title="创意低俗度" data-ui-height="300px" data-ui-color="#ffb03f,#ffc86b,#ffdeb5"
+		data-ui-subTitle="数据统计" data-ui-datasource="@reviewTagAccuracy.vulgar"></div>
+		<!-- use:
+            compareTable(
+                id = 'vulgar-table', beforeData = ${reviewTagAccuracy.vulgarRate.before}, afterData = ${reviewTagAccuracy.vulgarRate.after}
+            )
+        -->
+	</div>
+</div>
+<div class="statistics-dimension-row">
+	<div class="statistics-single-dimension">
+		<h3>创意高危度:</h3>
+        <!-- use:
+            auditCheckbox(id = 'dangerShowBefore', targetChart = 'dangerChart', targetTable = 'danger-table')
+        -->
+		<div class="statistics-single-dimension-body"
+		data-ui-type="PieChart" data-ui-id="dangerChart" data-ui-prefix="danger"
+		data-ui-title="创意高危度" data-ui-height="300px" data-ui-color="#ff7546,#ffad97"
+		data-ui-subTitle="数据统计" data-ui-datasource="@reviewTagAccuracy.danger"></div>
+		<!-- use:
+            compareTable(
+                id = 'danger-table', beforeData = ${reviewTagAccuracy.dangerRate.before}, afterData = ${reviewTagAccuracy.dangerRate.after}, titleData = ['是', '否']
+            )
+        -->
+	</div>
+	<div class="statistics-single-dimension statistics-single-separate"></div>
+	<div class="statistics-single-dimension">
+		<h3>创意欺诈度:</h3>
+        <!-- use:
+            auditCheckbox(id = 'cheatShowBefore', targetChart = 'cheatChart', targetTable = 'cheat-table')
+        -->
+		<div class="statistics-single-dimension-body"
+		data-ui-type="PieChart" data-ui-id="cheatChart" data-ui-prefix="cheat"
+		data-ui-title="创意欺诈度" data-ui-height="300px" data-ui-color="#b562aa,#dbb1d5"
+		data-ui-subTitle="数据统计" data-ui-datasource="@reviewTagAccuracy.cheat"></div>
+		<!-- use:
+            compareTable(
+                id = 'cheat-table', beforeData = ${reviewTagAccuracy.cheatRate.before}, afterData = ${reviewTagAccuracy.cheatRate.after}, titleData = ['是', '否']
+            )
+        -->
+	</div>
+</esui-panel>
+
+<!-- target: auditCheckbox-->
+<!-- var: id = ${id} -->
+<!-- var: targetChart = ${targetChart} -->
+<!-- var: targetTable = ${targetTable} -->
+<div class="select-radio-group" data-ui-type="AbstractBoxGroup" data-ui-id="${id}" data-ui-box-type="checkbox"
+data-ui-name="${id}" data-ui-value="1" data-ui-target-chart="${targetChart}"  data-ui-target-table="${targetTable}">
+    <div data-ui-box-type="checkbox" data-ui-value="1"/>显示审核对比数据</div>
+</div>
+
+
+<!-- target: compareTable-->
+<!-- var: id= ${id} -->
+<!-- var: beforeData = ${beforeData} || []-->
+<!-- var: afterData = ${afterData} || []-->
+<!-- var: titleData = ${titleData} || ['高', '中', '低']-->
+<esui-panel class="compare-table" data-ui-id="${id}">
+	<div class="compare-row compare-table-title">
+		<span class="compare-cell">维度</span>
+		<!-- for: ${titleData} as ${data} -->
+		<span class="compare-cell">${data}</span>
+		<!-- /for -->
+	</div>
+	<div class="compare-row">
+		<span class="compare-cell">审核后</span>
+		<!-- for: ${afterData} as ${data} -->
+		<span class="compare-cell">${data}%</span>
+		<!-- /for -->
+	</div>
+	<div class="compare-row">
+		<span class="compare-cell">审核前</span>
+		<!-- for: ${beforeData} as ${data} -->
+		<span class="compare-cell">${data}%</span>
+		<!-- /for -->
+	</div>
+</esui-panel>
+
+
+<!-- target: auditStatisticsView -->
+<div class="page-crumb">
+    <!-- content: crumb -->
+    <!-- import: auditStatisticsListCrumb -->
+    <!-- /content -->
+</div>
+<div class="statistics-list-page-content audit-list-page-content">
+    <!-- content: main -->
+    <!-- import: auditStatisticsListMain -->
+    <!-- /content -->
+</div>
+
+<!-- target : auditStatisticsListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <a href="#/audit/list">审核任务</a>
+    <span>任务详情</span>
+<!-- /content -->
+
+<!-- target: auditStatisticsListMain -->
+<div class="statistics-title">
+    <h2>审核任务详情</h2>
+    <a data-ui-type="Link" data-ui-href="#/audit/list">返回任务列表</a>
+</div>
+<esui-panel class="statistics-basic-info" data-ui-id="statisticsBasicInfo" data-ui-datasource="@basicInfo">
+    <!-- import: auditStatisticstaskInfo -->
+    <!-- import: auditTaskProgress-->
+</esui-panel>
+<esui-tab
+ data-ui-id="statisticsTab" data-ui-orientation="horizontal" class="statistics-tab">
+    <ul data-role="navigator">
+        <li data-for="toAudited">未审核</li>
+        <li data-for="rightAudited">审核正确</li>
+        <li data-for="wrongAudited">审核有误</li>
+        <li data-for="dimensions">维度统计</li>
+    </ul>
+    <div data-ui-id="panel" id="toAudited" data-ui-type="ActionPanel" data-ui-url="/audit/statistics/tobegin~reviewTaskId=${basicInfo.reviewTaskId}&tabType=1"></div>
+    <div data-ui-id="panel" id="rightAudited" data-ui-type="ActionPanel" data-ui-url="/audit/statistics/right~reviewTaskId=${basicInfo.reviewTaskId}&tabType=2"></div>
+    <div data-ui-id="panel" id="wrongAudited" data-ui-type="ActionPanel" data-ui-url="/audit/statistics/wrong~reviewTaskId=${basicInfo.reviewTaskId}&tabType=3"></div>
+    <div data-ui-id="panel" id="dimensions" data-ui-type="ActionPanel" data-ui-url="/audit/statistics/dimension~reviewTaskId=${basicInfo.reviewTaskId}"></div>
+</esui-tab>
+
+<!-- target: auditStatisticstaskInfo -->
+<div class="statistics-audit-info">
+    <h2>任务名：${basicInfo.reviewTaskName}</h2>
+    <div class="statistics-single-row">
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="审核任务ID">审核任务ID：</esui-label>
+            <span>${basicInfo.reviewTaskId}</span>
+        </div>
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="审核类型">审核类型：</esui-label>
+            <span>${basicInfo.taskTypeDesc}/${basicInfo.reviewTypeDesc}</span>
+        </div>
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="创建时间">创建时间：</esui-label>
+            <span>${basicInfo.addTime}</span>
+        </div>
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="任务创建人">任务创建人：</esui-label>
+            <span>${basicInfo.addUser}</span>
+        </div>
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="任务状态">任务状态：</esui-label>
+            <span class="statistics-basic-info-status status-${basicInfo.statusPrefix}">${basicInfo.taskStatusDesc}</span>
+        </div>
+    </div>
+</div>
+
+<!-- target: auditTaskProgress -->
+<div class="statistics-audit-progress-container">
+    <div class="statistics-audit-progress-info">
+        <h2>任务进度</h2>
+        <div class="statistics-single-row">
+            <div class="statistics-single-info">
+                <esui-label data-ui-title="包含标注任务数">包含标注任务数：</esui-label>
+                <span>${basicInfo.taskCount}</span>
+            </div>
+            <div class="statistics-single-info">
+                <esui-label data-ui-title="已审核答题数">已审核答题数：</esui-label>
+                <span>${basicInfo.isReviewedGroups}（共 ${basicInfo.totalGroups}）</span>
+            </div>
+            <div class="statistics-single-info">
+                <esui-label data-ui-title="已审核创意数">已审核创意数：</esui-label>
+                <span>${basicInfo.isReviewedAds}（共 ${basicInfo.totalAds}）</span>
+            </div>
+            <esui-button data-ui-id="toggle-detail-button" data-ui-need-open="1"
+            class="toggle-detail-button">展开详情</esui-button>
+        </div>
+    </div>
+    <esui-panel class="statistics-progress statistics-audit-progress" data-ui-id="auditProgressBar">
+        <div class="statistics-progress-info">
+            <h3 class="left-header">审核推广组进度（总数：${basicInfo.totalGroups}）</h3>
+            <div class="statistics-progress-content statistics-groups-content">
+                <div class="statistics-content-info">
+                    <div class="left-info">
+                        <p class="dark-blue">已标注推广组：${basicInfo.isReviewedGroups}</p>
+                        <p class="light-blue">未标注推广组：${basicInfo.notReviewedGroups}</p>
+                        <p>总推广组：${basicInfo.totalGroups}</p>
+                    </div>
+                    <div class="right-info">
+                        <p class="dark-blue complete-title">完成度</p>
+                        <p class="dark-blue complete-num">${basicInfo.doneGroupsRate}</p>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-left" style="width: ${basicInfo.doneGroupsRate}">${basicInfo.isReviewedGroups}</div>
+                    <div class="progress-bar-right" style="width: ${basicInfo.notDoneGroupsRate}">${basicInfo.notReviewedGroups}</div>
+                </div>
+            </div>
+        </div>
+        <div class="statistics-progress-info">
+            <h3 class="right-header">审核创意进度（总数：${basicInfo.totalAds}）</h3>
+            <div class="statistics-progress-content statistics-ads-content">
+                <div class="statistics-content-info">
+                   <div class="left-info">
+                        <p class="dark-blue">已标记创意：${basicInfo.isReviewedAds}</p>
+                        <p class="light-blue">未标注创意：${basicInfo.notReviewedAds}</p>
+                        <p>总创意数：${basicInfo.totalAds}</p>
+                    </div>
+                    <div class="right-info">
+                        <p class="dark-blue complete-title">完成度</p>
+                        <p class="dark-blue complete-num">${basicInfo.doneAdsRate}</p>
+                    </div> 
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-left" style="width: ${basicInfo.doneAdsRate}">${basicInfo.isReviewedAds}</div>
+                    <div class="progress-bar-right" style="width: ${basicInfo.notDoneAdsRate}">${basicInfo.notReviewedAds}</div>
+                </div>
+            </div>
+        </div>
+    </esui-panel>
+</div>
+
+<!-- target:auditSuccessMain(master=successPage) -->
+<!-- content: crumb -->
+    <!-- import: auditFormCrumb -->
+<!-- /content -->
+<!-- content: main -->
+    <!-- import: auditSuccessMainView -->
+<!-- /content -->
+
+<!-- target: auditSuccessMainView(master=successMain) -->
+<!-- content: successMessage -->
+	<!-- if: ${error} -->
+	<div class="success-error-message success-message">
+	<!-- else -->
+	<div class="success-message">
+	<!-- /if -->
+	    <div class="success-text">
+		<!-- if: ${type} === "create" -->
+		<!-- if: ${error} -->
+			<span class="success-text-words success-text-words-fail">${resultInfo}，新${entityDescription}创建失败！</span>
+		<!-- else -->
+			<span class="success-text-words">恭喜你，新${entityDescription}已经创建成功！</span>
+			<span class="success-text-sub-words">审核任务ID：${id}</span>
+			<span class="success-text-sub-words">审核任务名称：${taskName}</span>
+			<span class="success-text-sub-words">审核数量：${groupNumActual}组<!-- if: ${groupNum} -->（数量受限）<!-- /if --></span>
+		<!-- /if -->
+	    <!-- else -->
+	    	<span class="success-text-words">恭喜你，${entityDescription}已经修改成功！</span>
+	    <!-- /if -->
+	    </div>
+	 </div>
+<!-- /content -->
+<!-- content: successButton -->
+<!-- if: ${error} -->
+    <esui-button data-ui-id="backToHistory" data-ui-skin="button-link">返回新建审核任务</esui-button >
+<!-- /if -->
+	<a data-ui-type="Link" data-ui-id="back" id="back" data-redirect="global force" data-ui-skin="button-link"
+        data-ui-href="#/${entityName}/list">返回</a>
+<!-- /content -->
+
+<!-- master: crumb -->
+<div data-ui-type="Crumb" data-ui-id="crumb">
+    <!-- contentplaceholder: path --><!-- /contentplaceholder -->
+</div>
+
+<!-- target: homePagePath -->
+
+<!-- target: autoName -->
+<!-- var: list = ${list} || [] -->
+<ul class="auto-name-list">
+    <!-- for: ${list} as ${entity} -->
+        <li><span class="auto-name-list-name">${entity.userName}</span>（ID：${entity.id}）</li>
+    <!-- /for -->
+</ul>
+
+<!-- target: listSearchBox -->
+<!-- var: field = ${field} || 'keyword' -->
+<!-- var: name = ${name} || ${field} -->
+<!-- var: id = ${id} || ${name} -->
+<!-- var: width = ${width} || 180 -->
+<!-- var: height = ${height} || 19 -->
+<!-- var: maxlength = ${maxlength} || 100 -->
+<div data-ui-type="SearchBox" class="list-keyword" name="${name}"
+    data-ui-max-length="${maxlength}" data-ui-id="${id}"
+    data-ui-extension-submit-form="filter" data-ui-height="${height}"
+    data-ui-width="${width}" data-ui-text="@${field}"
+    data-ui-placeholder="${placeholder}" data-ui-extension-submit-type="AutoSubmit">
+</div>
+
+<!-- target: listSearchInfo -->
+<p>搜索文字：
+    <span class="list-search-keyword" title="${keyword}">${keyword}</span>
+    <esui-label class="list-search-clear link-like" data-ui-id="list-search-clear">
+    清空
+    </esui-label>
+</p>
+
+<!-- target: listTable -->
+<esui-table data-ui-id="table" data-ui-datasource="@data.list"
+    data-ui-order-by="@orderBy" data-ui-order="@order" data-ui-select="@selectMode" data-ui-skin="noGrid"
+<!-- if: ${useExtensionEvent} -->data-ui-extension-command-events="mouseout mouseover click"<!-- /if -->
+<!-- if: ${useCommand} -->data-ui-extension-command-type="Command"<!-- /if -->
+<!-- if: ${useCustomData} -->data-ui-extension-data-type="CustomData" data-ui-data="${data}"<!-- /if -->
+<!-- if: ${useSubrow} -->data-ui-extension-tablesubrow-type="TableSubrow"<!-- /if -->
+>
+</esui-table>
+
+<!-- target: listPager -->
+<div class="list-pager">
+    <esui-pager data-ui-id="pager" data-ui-count="@data.total" data-ui-page="@page"
+    data-ui-page-size="@data.pageSize" data-ui-page-type="plain" data-ui-layout="alignRight">
+    </esui-pager>
+    <span class="pager-count">共 ${data.total} 条</span>
+</div>
+
+<!-- master: listPage -->
+<div class="list-page">
+    <div class="page-crumb">
+        <!-- contentplaceholder: crumb --><!-- /contentplaceholder -->
+        <!-- contentplaceholder: tip --><!-- /contentplaceholder -->
+    </div>
+    <div class="list-page-content">
+        <!-- contentplaceholder: main --><!-- /contentplaceholder -->
+    </div>
+</div>
+
+<!-- master: listView -->
+<div class="list-view">
+    <div class="list-summary">
+        <!-- contentplaceholder: summary --><!-- /contentplaceholder -->
+    </div>
+    <div class="list-meta">
+        <div class="list-action">
+            <!-- contentplaceholder: actionButtons --><!-- /contentplaceholder -->
+        </div>
+        <div class="list-filter">
+            <!-- contentplaceholder: searchbox --><!-- /contentplaceholder -->
+            <!-- contentplaceholder: calender --><!-- /calender -->
+            <div class="list-batch-operation">
+                <!-- contentplaceholder: bacthOperation --><!-- /contentplaceholder -->
+            </div>
+            <div class="list-filter-fields">
+                <!-- contentplaceholder: filter --><!-- /contentplaceholder -->
+            </div>
+
+        </div>
+    </div>
+    <!-- contentplaceholder: listFilter --><!-- /contentplaceholder -->
+    <!-- contentplaceholder: batchOperateArea --><!-- /contentplaceholder -->
+    <!-- contentplaceholder: table --><!-- /contentplaceholder -->
+    <!-- import: listPager -->
+</div>
+
+<!-- master: listViewWithoutBatchOperation -->
+<div class="list-view">
+    <div class="list-summary">
+        <!-- contentplaceholder: summary --><!-- /contentplaceholder -->
+    </div>
+    <div class="list-meta">
+        <div class="list-action">
+            <!-- contentplaceholder: actionButtons --><!-- /contentplaceholder -->
+        </div>
+        <div class="list-filter">
+            <!-- contentplaceholder: searchbox --><!-- /contentplaceholder -->
+            <div class="list-filter-fields">
+                <!-- contentplaceholder: filter --><!-- /contentplaceholder -->
+            </div>
+        </div>
+    </div>
+    <!-- contentplaceholder: listFilter --><!-- /contentplaceholder -->
+    <!-- contentplaceholder: table --><!-- /contentplaceholder -->
+    <!-- import: listPager -->
+</div>
+
+<!-- master: listFilter -->
+<form data-ui-type="Form" class="list-filter-panel" data-ui-id="filter"
+      data-ui-hidden="true" novalidata="novalidate">
+    <esui-panel data-ui-id="list-filter-select-panel" data-ui-group="filter-content"
+        class="list-filter-select-fields">
+        <!-- contentplaceholder: filters --><!-- /contentplaceholder -->
+    </esui-panel>
+    <esui-panel data-ui-id="list-filter-selected-panel" data-ui-group="filter-content"
+        data-ui-hidden="true" class="list-filter-selected-fields">
+        <esui-label class="list-filter-field-label">筛选条件：</esui-label>
+        <!-- contentplaceholder: filterResults --><!-- /contentplaceholder -->
+    </esui-panel>
+    <div class="list-filter-operation">
+        <button type="submit" data-ui-type="Button" data-ui-id="filter-submit" data-ui-group="filter-content">确定
+        </button>
+        <esui-button data-ui-id="filter-modify" data-ui-group="filter-content" data-ui-hidden="true">修改</esui-button>
+        <esui-button data-ui-id="filter-cancel" data-ui-skin="link">取消</esui-button>
+    </div>
+</form>
+
+<!-- target: listFilterSelect -->
+<!-- var: id = ${id} || ${name} -->
+<!-- var: title = ${title} -->
+<!-- var: datasource = ${datasource} -->
+<!-- var: field = ${field} -->
+<div class="list-filter-field">
+    <esui-label class="list-filter-field-label">${title}</esui-label>
+    <div class="form-field-value">
+        <esui-select
+            data-ui-id="${id}" data-ui-name="${name}"
+            data-ui-datasource="@${datasource}" data-ui-value="@${field}"
+            <!-- if: ${disabled} --> data-ui-disabled="${disabled}"<!-- /if -->></esui-select>
+    </div>
+</div>
+
+<!-- target: filterResult -->
+<!-- if: !${filter.isDefaultValue} -->
+<a data-ui-type="Button" href="${filter.clearURL}" data-ui-skin="delete-block">${title}${filter.text}</a>
+<!-- /if -->
+
+
+<!-- target: batchButton -->
+<esui-button class="list-${statusName}" data-ui-skin="link"
+    data-ui-type="Button" data-ui-id="${statusName}"
+    data-ui-group="batch" data-ui-data-status="${status}"
+    data-ui-extension-data-type="CustomData">${command}</esui-button>
+
+<!-- target: batchStopButton -->
+<!-- use: batchButton(status = 2, statusName = "stop", command = "停用") -->
+
+<!-- target: batchRestoreButton -->
+<!-- use: batchButton(status = 1, statusName = "restore", command = "启用") -->
+
+<!-- target: batchRemoveButton -->
+<!-- use: batchButton(status = 0, statusName = "remove", command = "删除") -->
+
+
+<!-- target: defaultBatchButtons -->
+<!-- import: batchRestoreButton -->
+<!-- import: batchRemoveButton -->
+
+<!-- target: listStatusFilter -->
+<!-- use:
+    listFilterSelect(
+        title = '状态：',
+        name = 'status',
+        datasource = 'statuses',
+        field = 'status'
+    )
+-->
+
+<!-- target: formSubmitSection -->
+<esui-panel class="form-submit-section" data-ui-id="submit-section">
+    <button type="submit" data-ui-type="Button" data-ui-id="submit" data-ui-group="submit" class="submit-button"><!-- if: ${formType} === 'update' -->完成<!-- else -->新建<!-- /if --></button>
+    <div data-ui-type="Button" data-ui-id="cancel" data-ui-group="submit" data-ui-skin="link">取消</div>
+</esui-panel>
+
+<!-- 由label + value + tip组成的表单field模板，content可以是任意内容 -->
+<!-- master: formLabelValueField -->
+<!-- var: label = ${label} || ${title} -->
+<!-- var: id = ${id} || ${name} || ${field} -->
+<!-- var: commonFieldClass = ${required} ? 'form-field-required' : 'form-field' -->
+<!-- if: ${fieldClasses} -->
+<div class="${commonFieldClass} ${fieldClasses}">
+<!-- else -->
+<div class="${commonFieldClass}">
+<!-- /if -->
+    <esui-label class="form-field-label" data-ui-for-target="${id | dasherize}" data-ui-title="${label}">${label}：</esui-label>
+    <div class="form-field-value">
+        <!-- if: ${required} -->
+        <span class="form-field-value-required-star">*</span>
+        <!-- /if -->
+        <!-- contentplaceholder: value --><!-- /contentplaceholder-->
+        <!-- if: ${tipTitle} && ${tip} -->
+        <esui-tip class="form-field-tip" title="${tipTitle}">${tip}</esui-tip>
+        <!-- /if -->
+    </div>
+</div>
+
+<!-- 由label + boxgroup + tip组成的表单field模板，content可以是任意内容 -->
+<!-- master: formLabelBoxGroupField -->
+<!-- var: id = ${id} || ${name} -->
+<!-- if: ${fieldClasses} -->
+<div class="form-field ${fieldClasses}">
+<!-- else -->
+<div class="form-field">
+<!-- /if -->
+    <esui-label class="form-field-label" data-ui-for-target="${id | dasherize}">${title}：</esui-label>
+    <div class="form-field-value">
+        <esui-box-group data-ui-id="${id | dasherize}" data-ui-skin="flat"
+        data-ui-box-type="radio" data-ui-name="${name}" data-ui-value="${value}">
+            <!-- contentplaceholder: radioGroup --><!-- /contentplaceholder-->
+        </esui-box-group>
+        <!-- if: ${tipTitle} && ${tip} -->
+        <esui-tip class="form-field-tip" title="${tipTitle}">${tip}</esui-tip>
+        <!-- /if -->
+        <!-- contentplaceholder: content --><!-- /contentplaceholder-->
+        </esui-panel>
+    </div>
+</div>
+
+<!-- master: formPage -->
+<esui-panel data-ui-id="form-page" class="form-page">
+    <div class="page-crumb">
+        <!-- contentplaceholder: crumb --><!-- /contentplaceholder -->
+        <!-- contentplaceholder: tip --><!-- /contentplaceholder -->
+    </div>
+    <!-- contentplaceholder: formMain --><!-- /contentplaceholder-->
+</esui-panel>
+
+<!-- master: formView -->
+<div class="form-view">
+    <form data-ui-type="Form" data-ui-id="form" novalidate="novalidate">
+        <esui-panel class="content-main" data-ui-id="form-content-main"
+            data-ui-extension-command-type="Command" data-command="form-content-click">
+            <!-- contentplaceholder: sections --><!-- /contentplaceholder -->
+        </esui-panel>
+        <!-- import: formSubmitSection -->
+    </form>
+</div>
+
+<!-- master: formViewWithOwnActionArea -->
+<div class="form-view">
+    <form data-ui-type="Form" data-ui-id="form" novalidate="novalidate">
+        <esui-panel class="content-main" data-ui-id="form-content-main"
+            data-ui-extension-command-type="Command" data-command="form-content-click"
+        >
+            <!-- contentplaceholder: sections --><!-- /contentplaceholder -->
+        </esui-panel>
+            <!-- contentplaceholder: formSubmitSection --><!-- /contentplaceholder -->
+    </form>
+</div>
+
+<!-- target: formToggleSectionHead -->
+<esui-toggle-panel
+    class="form-section form-toggle-section" data-ui-id="${id}"
+    <!-- if: ${expanded} -->data-ui-expanded="true"<!-- /if --> >
+    <h3>
+        ${title}
+        <!-- if: ${hint} -->
+        <em class="form-section-title-hint">${hint}</em>
+        <!-- /if -->
+    </h3>
+    <section class="form-section">
+
+<!-- target: formToggleSectionTail -->
+    </section>
+</esui-toggle-panel>
+
+<!-- target: textbox -->
+<!-- var: name = ${name} || ${field} -->
+<!-- var: id = ${id} || ${name} -->
+<!-- var: width = ${width} || 230 -->
+<!-- var: length = ${length} || 100 -->
+<!-- var: trim = !${notTrim} -->
+<esui-text-box data-ui-id="${id | dasherize}" data-ui-value="@${field}"
+    name="${name}" title="${title}" data-ui-max-length="-1"
+    data-ui-validity-label="${id | dasherize}-validity-label"
+    <!-- if: ${mode} -->data-ui-mode="${mode}"<!-- /if -->
+    <!-- if: ${required} -->data-ui-required="required"<!-- /if -->
+    <!-- if: ${width} -->data-ui-width="${width}"<!-- /if -->
+    <!-- if: ${length} -->data-ui-length="${length}"<!-- /if -->
+    <!-- if: ${minLength} --> data-ui-min-length="${minLength}"<!-- /if -->
+    <!-- if: ${min} || ${min} === 0 -->data-ui-min="${min}"<!-- /if -->
+    <!-- if: ${minErrorMessage} -->data-ui-min-error-message="${minErrorMessage}"<!-- /if -->
+    <!-- if: ${max} || ${max} === 0 -->data-ui-max="${max}"<!-- /if -->
+    <!-- if: ${maxErrorMessage} -->data-ui-max-error-message="${maxErrorMessage}"<!-- /if -->
+    <!-- if: ${pattern} -->data-ui-pattern="${pattern}"<!-- /if -->
+    <!-- if: ${patternErrorMessage} -->data-ui-pattern-error-message="${patternErrorMessage}"<!-- /if -->
+    <!-- if: ${countWord} -->data-ui-extension-count-type="WordCount"<!-- /if -->
+    <!-- if: ${prefixHint} -->data-ui-hint="${prefixHint}" data-ui-hint-type="prefix" <!-- /if -->
+    <!-- if: ${group} -->data-ui-group="${group}"<!-- /if -->
+    <!-- if: ${compare} -->data-ui-compare="${compare}"<!-- /if -->
+    <!-- if: ${placeholder} -->data-ui-placeholder="${placeholder}"<!-- /if -->
+    <!-- if: ${disabled} -->data-ui-disabled="true"<!-- /if --> >
+</esui-text-box>
+<!-- if: ${suffixHint} -->
+<esui-label class="suffix-hint" data-ui-id="${id | dasherize}-suffix-hint">${suffixHint}</esui-label>
+<label data-ui-type="Validity" data-ui-id="${id | dasherize}-validity-label"></label>
+<!-- /if -->
+<!-- if: ${description} -->
+<div class="form-field-description">${description}</div>
+<!-- /if -->
+
+<!-- target: textarea -->
+<!-- var: name = ${name} || ${field} -->
+<!-- var: id = ${id} || ${name} -->
+<!-- var: width = ${width} || 360 -->
+<!-- var: height = ${height} || 130 -->
+<!-- var: trim = !${notTrim} -->
+<!-- var: value = ${value} || '@'+${field} -->
+<div class="form-field-frame">
+    <div data-ui-type="Validity" data-ui-id="${id | dasherize}-validity-label"></div>
+    <div class="form-field-description-block">${description}</div>
+    <esui-text-box name="${name}" title="${title}"
+        data-ui-id="${id | dasherize}" data-ui-value="${value}" data-ui-mode="textarea"
+        data-ui-validity-label="${id | dasherize}-validity-label"
+        <!-- if: ${required} -->data-ui-required="required"<!-- /if -->
+        <!-- if: ${width} -->data-ui-width="${width}"<!-- /if -->
+        <!-- if: ${height} -->data-ui-height="${height}"<!-- /if -->
+        <!-- if: ${length} -->data-ui-length="${length}"<!-- /if -->
+        <!-- if: ${countWord} -->data-ui-extension-count-type="WordCount"<!-- /if -->
+        <!-- if: ${group} -->data-ui-group="${group}"<!-- /if --> >
+    </esui-text-box>
+</div>
+
+<!-- target: checkbox -->
+<!-- var: name = ${name} || ${field} -->
+<!-- var: id = ${id} || ${name} -->
+<esui-check-box type="checkbox" name="${name}" title="${text}"
+    data-ui-id="${id | dasherize}" data-ui-value="@${field}" >
+</esui-check-box>
+
+<!-- target: calendar -->
+<!-- var: name = ${name} || ${field} -->
+<!-- var: id = ${id} || ${name} -->
+<esui-calendar data-ui-id="${id | dasherize}" data-ui-name="${name}"
+    data-ui-value="@${field}" data-ui-auto-hide-layer="true"
+    <!-- if: ${range} -->data-ui-range="${range}"<!-- /if -->
+    <!-- if: ${validityLabel} -->data-ui-validity-label="${validityLabel}"<!-- /if --> >
+</esui-calendar>
+
+
+<!-- target: rangeCalender -->
+<!-- var: name = ${name} || ${field} -->
+<!-- var: id = ${id} || ${name} -->
+<esui-range-calendar data-ui-id="${id | dasherize}" data-ui-name="${name}"
+    data-ui-value="@${field}">
+</esui-range-calendar>
+
+
+<!-- target: treeRichSelector -->
+<!-- var: classname = ${classname} -->
+<!-- var: name = ${name} || ${field} -->
+<!-- var: id = ${id} || ${name} -->
+<!-- var: treetitle = ${treetitle} -->
+<!-- var: datasource = ${datasource} -->
+<!-- var: selectedvalue = ${selectedvalue} -->
+<!-- var: ismulti = ${ismulti} -->
+<!-- var: targetTree = ${targetTree} -->
+<div class="${classname}" data-ui-type="TreeRichSelector" data-ui-id="${id | dasherize}" data-ui-name="${name}"
+    data-ui-title="${treetitle}" data-ui-datasource="@${datasource}" data-ui-selected-data="${selectedvalue}" data-ui-need-sync-parent-child="true"
+    data-ui-multi="${ismulti}" data-ui-has-foot="false" data-ui-only-leaf-select="false" data-ui-orient-expand="false"
+    data-ui-width="240" data-ui-height="250" data-ui-required-error-message="请进行选择"
+    <!-- if: ${targetTree} -->data-ui-target-tree="${targetTree}"<!-- /if -->
+    <!-- if: ${group} -->data-ui-group="${group}"<!-- /if --> <!-- if: ${required} -->data-ui-required="required"<!-- /if -->>
+</div>
+
+
+
+<!-- target: abstractGroupBox -->
+<!-- var: name = ${name} || ${field} -->
+<!-- var: id = ${id} || ${name} -->
+<!-- var: datasource = ${datasource} -->
+<!-- var: boxtype = ${boxtype} || 'radio' -->
+<!-- var: group = ${group} -->
+<div class="select-radio-group" data-ui-type="AbstractBoxGroup"
+data-ui-id="${id | dasherize}" data-ui-box-type="${boxtype}" data-ui-value="${field}"
+data-ui-datasource="@${datasource}"
+<!-- if: ${group} -->data-ui-group="${group}"<!-- /if -->>
+</div>
+<!-- if: ${description} -->
+<div class="form-field-description">${description}</div>
+<!-- /if -->
+
+
+<!-- target: moneyTextboxField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- var: prefixHint = ${prefixHint} || '¥' -->
+    <!-- var: pattern = '@rule.money.pattern' -->
+    <!-- import: textbox -->
+<!-- /content -->
+
+<!-- target: urlTextboxField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- var: prefixHint = ${prefixHint} || 'http://' -->
+    <!-- var: hintType = ${textboxHintType} || 'prefix' -->
+    <!-- import: textbox -->
+<!-- /content -->
+
+<!-- target: sizeTextboxField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- var: suffixHint = ${suffixHint} || 'px' -->
+    <!-- import: textbox -->
+<!-- /content -->
+
+<!-- target: frequencyTextboxField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- var: suffixHint = ${suffixHint} || '次' -->
+    <!-- var: pattern = '@rule.positiveInteger.pattern' -->
+    <!-- import: textbox -->
+<!-- /content -->
+
+<!-- target: secondTextboxField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- var: suffixHint = ${suffixHint} || '秒' -->
+    <!-- var: pattern = '@rule.positiveInteger.pattern' -->
+    <!-- import: textbox -->
+<!-- /content -->
+
+<!-- target: percentTextboxField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- var: suffixHint = ${suffixHint} || ' %' -->
+    <!-- var: pattern = '@rule.money.pattern' -->
+    <!-- import: textbox -->
+<!-- /content -->
+
+<!-- target: textboxField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- import: textbox -->
+<!-- /content -->
+
+
+<!-- target: textareaField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- import: textarea -->
+<!-- /content -->
+
+<!-- target: checkboxField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- var: title = '@dictionary.percent.hint' || ' %' -->
+    <!-- var: hintType =  '@dictionary.percent.hintType' || 'suffix' -->
+    <!-- var: pattern = '@rule.money.pattern' -->
+    <!-- import: checkbox -->
+<!-- /content -->
+
+<!-- target: calendarField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- import: calendar -->
+<!-- /content -->
+
+<!-- target: rangeCalendarField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- import: rangeCalender -->
+<!-- /content -->
+
+
+<!-- target: abstractGroupBoxField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- import: abstractGroupBox -->
+<!-- /content -->
+
+<!-- target: treeRichSelectorField(master = formLabelValueField) -->
+<!-- content: value -->
+    <!-- import: treeRichSelector -->
+<!-- /content -->
+
+
+<!-- target: formCrumb -->
+<!-- if: ${formType} === 'create' -->
+<span>新建${title}</span>
+<!-- elif: ${formType} === 'update' -->
+<span>修改${title}</span>
+<!-- else -->
+<span>查看${title}</span>
+<!-- /if -->
+
+<!-- master: successPage -->
+<div class="form-page">
+    <div class="page-crumb">
+        <!-- contentplaceholder: crumb --><!-- /contentplaceholder -->
+        <!-- contentplaceholder: tip --><!-- /contentplaceholder -->
+    </div>
+    <!-- contentplaceholder: main --><!-- /contentplaceholder -->
+</div>
+
+<!-- master: successMain -->
+<section class="success-main">
+    <div class="success-upper-panel">
+        <!-- contentplaceholder: successMessage --><!-- /contentplaceholder-->
+        <!-- contentplaceholder: buttons --><!-- /contentplaceholder-->
+    </div>
+    <esui-panel class="success-submit-section" data-ui-id="submit-section">
+        <!-- contentplaceholder: successButton --><!-- /contentplaceholder-->
+    </esui-panel>
+</section>
+
+<!-- target: genericError -->
+<article id="generic-error" class="global-error">
+    <h2>系统出现未知错误</h2>
+    <footer>
+        您可以尝试
+        <a href="#">返回首页</a>
+        或
+        <span data-ui-type="Label" data-ui-id="reload" class="link-like">重新加载当前页</span>
+    </footer>
+</article>
+
+<!-- target: notFound -->
+<article id="not-found" class="global-error">
+    <h2>您访问的页面不存在</h2>
+    <section>
+        <p>我们无法找到您需要的页面，这可能是由于：</p>
+        <ul>
+            <li>您进入了错误的地址</li>
+            <li>所访问的地址已经更新</li>
+            <li>该内容已经被删除</li>
+        </ul>
+    </section>
+    <footer><a href="#">返回首页</a></footer>
+</article>
+
+<!-- target: logList -->
+<div class="list-page">
+    <div class="page-crumb">
+        <!-- content: crumb -->
+        <!-- import: logListCrumb -->
+        <!-- /content -->
+    </div>
+    <div class="list-view">
+        <div class="log-list-page-content">
+            <!-- content: main -->
+            <ul class="tab-choose-panel">
+                <li <!-- if: ${logType} ==='user' -->class="active-item"<!-- /if -->><a href="#/log/user/list">权限日志</a></li>
+                <li <!-- if: ${logType} ==='review' -->class="active-item"<!-- /if -->><a href="#/log/audit/list">审核日志</a></li>
+            </ul>
+            <!-- import: logListMain -->
+            <!-- /content -->
+            <!-- import: listPager -->
+        </div>
+    </div>
+</div>
+
+<!-- target : logListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <span>操作日志</span>
+    <span><!-- if: ${logType} ==='user' -->权限操作日志<!-- else -->审核操作日志<!-- /if --></span>
+<!-- /content -->
+
+<!-- target: logListMain -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+
+<!-- target: markerList(master=listPage) -->
+<!-- content: crumb -->
+<!-- import: markerListCrumb -->
+<!-- /content -->
+<!-- content: main -->
+<!-- import: markerListMain -->
+<!-- /content -->
+
+<!-- target : markerListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <span>标注任务</span>
+<!-- /content -->
+
+<!-- target: markerListMain(master=listView) -->
+<!-- content: actionButtons -->
+    <!-- if: ${data.canCreateMarker} -->
+    <!-- <a data-ui-type="Link" data-ui-disabled="disabled" data-ui-skin="add" data-ui-href="#/marker/create">+ 新增标注任务</a> -->
+    <!-- /if -->
+<!-- /content -->
+<!-- content: bacthOperation -->
+    <!-- if: ${data.canBatchDownload} -->
+    <a data-ui-type="Link"
+        data-ui-id="download"
+        target="_blank" class="ui-button state-disabled batch-download-link">下载</a>
+    <!-- /if -->
+    <!-- if: ${data.canBatchClose} -->
+    <esui-button class="list-close" data-ui-id="close" data-ui-width="53"
+                 data-ui-group="batch" data-ui-data-status="3"
+                 data-ui-extension-data-type="CustomData" data-ui-skin="link">关闭</esui-button>
+    <esui-button class="list-restore" data-ui-id="restore" data-ui-width="53"
+                 data-ui-group="batch" data-ui-data-status="0"
+                 data-ui-extension-data-type="CustomData" data-ui-skin="link">开启</esui-button>
+    <!-- /if -->
+    
+<!-- /content -->
+<!-- content: filter -->
+    <esui-button data-ui-id="filter-switch" data-ui-skin="select">查询</esui-button>
+<!-- /content -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- content: listFilter -->
+    <!-- import: markerListFilter -->
+<!-- /content -->
+
+
+<!-- target: markerListFilter(master=listFilter) -->
+<!-- content: filters -->
+    <div class="list-filter-field">
+        <esui-label class="form-field-label" data-ui-for-target="time">创建时间：</esui-label>
+        <div class="form-field-value">
+            <esui-range-calendar
+                data-ui-id="time">
+            </esui-range-calendar>
+        </div>
+    </div>
+    <!-- use: listFilterSelect(title = "任务状态：", name = "status", datasource = "statuses", field = "status") -->
+    <div class="list-filter-field">
+        <esui-label class="form-field-label" data-ui-for-target="id">任务ID：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-value="@id"
+                name="id">
+            </esui-text-box>
+        </div>
+    </div>
+    <div class="list-filter-field">
+        <esui-label class="form-field-label" data-ui-for-target="taskName">任务名称：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-value="@taskName"
+                name="taskName">
+            </esui-text-box>
+        </div>
+    </div>
+    <div class="list-filter-field list-filter-add-user">
+        <esui-label class="form-field-label" data-ui-for-target="addUser">创建人：</esui-label>
+        <div class="form-field-value">
+            <esui-text-box data-ui-value="@addUser" data-ui-id="addUser"
+                name="addUser" data-ui-extension-command-type="Command"
+                data-command="name-fetch" data-ui-extension-command-events="keyup,focus">
+            </esui-text-box>
+        </div>
+        <esui-panel data-ui-id="nameContainer" class="name-panel-container"></esui-panel>
+    </div>
+<!-- /content -->
+<!-- content: filterResults -->    
+    <!-- use: filterResult(title = "开始时间: ", filter = ${filtersInfo.filters.beginTime}) -->
+    <!-- use: filterResult(title = "结束时间: ", filter = ${filtersInfo.filters.endTime}) -->
+    <!-- use: filterResult(title = "任务状态: ", filter = ${filtersInfo.filters.status}) -->
+    <!-- use: filterResult(title = "任务ID: ", filter = ${filtersInfo.filters.id}) -->
+    <!-- use: filterResult(title = "创建名称: ", filter = ${filtersInfo.filters.taskName}) -->
+    <!-- use: filterResult(title = "创建人: ", filter = ${filtersInfo.filters.addUser}) -->
+<!-- /content -->
+
+<!-- target: dimensionViewMain -->
+<esui-panel data-ui-datasource="@dimensionInfo">
+	<esui-panel data-ui-id="dimesionSelect">
+		<ul class="dimension-select-container">
+			<!-- for: ${dimensionInfo.tabData} as ${data} -->
+			<li <!-- if: ${data.value} === ${dimensionInfo.index}-->class="active-dimension"<!-- /if --> data-index="${data.value}">${data.text}</li>
+			<!-- /for -->
+		</ul>
+	</esui-panel>
+	<!-- for: ${dimensionInfo.showData.data} as ${data} -->
+		<div class="statistics-dimension-row">
+			<!-- for: ${data} as ${singleData} -->
+					<div class="statistics-single-dimension">
+						<h3>创意${singleData.text}:</h3>
+						<div class="statistics-single-dimension-body"
+						data-ui-type="PieChart"
+						data-ui-title="创意${singleData.text}" data-ui-height="440px" data-ui-color="${singleData.color}"
+						data-ui-subTitle="数据统计" data-ui-datasource="@dimensionInfo.${singleData.name}"></div>
+					</div>
+					<div class="statistics-single-dimension statistics-single-separate"></div>
+			<!-- /for -->
+		</div>
+    <!-- /for -->
+</esui-panel>
+
+<!-- target: memberRankListMain -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- import: listPager -->
+<esui-panel data-ui-id="member-chart" class="member-chart-panel">
+	<div class="member-panel-header">
+		<h3>趋势图</h3>
+		<div class="form-field-value">
+	        <esui-label class="form-field-label" data-ui-for-target="memberName" data-ui-title="人员维度">人员维度：</esui-label>
+	        <esui-select data-ui-id="memberName" data-ui-name="memberName" data-ui-datasource="@data.memberList"  data-ui-value=""></esui-select>
+	    </div>
+	</div>
+	<div class="member-panel-body" data-ui-type="LineChart" data-ui-id="memberChart" data-ui-width="1000px" data-ui-height="300px" data-ui-datasource="@memberDimenson"></div>
+</esui-panel>
+
+<!-- target: markerStatisticsView -->
+<div class="page-crumb">
+    <!-- content: crumb -->
+    <!-- import: markerStatisticsListCrumb -->
+    <!-- /content -->
+</div>
+<div class="statistics-list-page-content">
+    <!-- content: main -->
+    <!-- import: markerStatisticsListMain -->
+    <!-- /content -->
+</div>
+
+<!-- target : markerStatisticsListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <a href="#/marker/list">标注任务</a>
+    <span>任务统计</span>
+<!-- /content -->
+
+<!-- target: markerStatisticsListMain -->
+<div class="statistics-title">
+    <h2>标注任务统计</h2>
+    <a data-ui-type="Link" data-ui-href="#/marker/list">返回任务列表</a>
+</div>
+<esui-panel class="statistics-basic-info" data-ui-id="statisticsBasicInfo" data-ui-datasource="@basicInfo">
+    <!-- import: markerStatisticsTaskInfo -->
+    <!-- import: markerTaskProgress-->
+</esui-panel>
+<esui-tab
+ data-ui-id="statisticsTab" data-ui-orientation="horizontal" class="statistics-tab">
+    <ul data-role="navigator">
+        <li data-for="dimensions">维度统计</li>
+        <li data-for="members">人员统计</li>
+    </ul>
+    <div data-ui-id="dimensions" id="dimensions" data-ui-type="ActionPanel" data-ui-url="/marker/statistics/dimension~taskId=${basicInfo.taskId}"></div>
+    <div data-ui-id="members" id="members" data-ui-type="ActionPanel" data-ui-url="/marker/statistics/rank~taskId=${basicInfo.taskId}"></div>
+</esui-tab>
+
+<!-- target: markerStatisticsTaskInfo -->
+<div class="statistics-task-info">
+    <div class="statistics-basic-info-row">
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="任务名称">任务名称：</esui-label>
+            <span class="statistics-basic-info-name">${basicInfo.taskName}</span>
+        </div>
+    </div>
+    <div class="statistics-basic-info-row">
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="任务状态">任务状态：</esui-label>
+            <span class="statistics-basic-info-status status-${basicInfo.statusPrefix}">${basicInfo.taskStatusDesc}</span>
+        </div>
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="任务ID">任务ID：</esui-label>
+            <span>${basicInfo.taskId}</span>
+        </div>
+    </div>
+    <div class="statistics-basic-info-row">
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="创建时间">创建时间：</esui-label>
+            <span>${basicInfo.addTime}</span>
+        </div>
+        <div class="statistics-single-info">
+            <esui-label data-ui-title="创建人">创建人：</esui-label>
+            <span>${basicInfo.addUser}</span>
+        </div>
+    </div>
+</div>
+
+<!-- target: markerTaskProgress -->
+<div class="statistics-progress statistics-task-progress">
+    <div class="statistics-progress-info">
+        <h3 class="left-header">标注推广组进度（总数：${basicInfo.totalGroups}）</h3>
+        <div class="statistics-progress-content statistics-groups-content">
+            <div class="statistics-content-info">
+                <div class="left-info">
+                    <p class="dark-blue">已完成推广组：${basicInfo.isDoneGroups}</p>
+                    <p class="light-blue">未完成推广组：${basicInfo.notDoneGroups}</p>
+                    <p>总推广组：${basicInfo.totalGroups}</p>
+                </div>
+                <div class="right-info">
+                    <p class="dark-blue complete-title">完成度</p>
+                    <p class="dark-blue complete-num">${basicInfo.doneGroupsRate}</p>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar-left" style="width: ${basicInfo.doneGroupsRate}">${basicInfo.isDoneGroups}</div>
+                <div class="progress-bar-right" style="width: ${basicInfo.notDoneGroupsRate}">${basicInfo.notDoneGroups}</div>
+            </div>
+        </div>
+    </div>
+    <div class="statistics-progress-info">
+        <h3 class="right-header">标注创意进度（总数：${basicInfo.totalAds}）</h3>
+        <div class="statistics-progress-content statistics-ads-content">
+            <div class="statistics-content-info">
+               <div class="left-info">
+                    <p class="dark-blue">已标记创意：${basicInfo.isDoneAds}</p>
+                    <p class="light-blue">未标注创意：${basicInfo.notDoneAds}</p>
+                    <p>总创意数：${basicInfo.totalAds}</p>
+                </div>
+                <div class="right-info">
+                    <p class="dark-blue complete-title">完成度</p>
+                    <p class="dark-blue complete-num">${basicInfo.doneAdsRate}</p>
+                </div> 
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar-left" style="width: ${basicInfo.doneAdsRate}">${basicInfo.isDoneAds}</div>
+                <div class="progress-bar-right" style="width: ${basicInfo.notDoneAdsRate}">${basicInfo.notDoneAds}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- target: permissionFormMain(master=formPage) -->
+<!-- content: crumb -->
+    <!-- import: permissionFormCrumb -->
+<!-- /content -->
+<!-- content: formMain -->
+    <!-- import: permissionFormMainView -->
+<!-- /content -->
+
+<!-- target: permissionFormCrumb(master=crumb) -->
+<!-- content: path -->
+    <span>首页</span>
+    <span>权限管理</span>
+    <!-- if: ${formType} === 'create' -->
+    <span>开通账户</span>
+    <!-- else -->
+    <span>更改账号</span>
+    <!-- /if -->
+<!-- /content -->
+
+
+
+<!-- target: permissionFormMainView(master=formViewWithOwnActionArea) -->
+<!-- content: sections -->
+    <!-- import: permissionFormBasicSection -->
+<!-- /content -->
+<!-- content: formSubmitSection -->
+    <!-- import: permissionFormSubmitSection -->
+<!-- /content -->
+
+<!-- target: permissionFormBasicSection -->
+<!-- if: ${formType} !== 'create' -->
+    <div class="form-field">
+        <esui-label class="form-field-label" >用户名称：</esui-label>
+        <div class="form-field-value">
+            <span>${userName}</span>
+        </div>
+    </div>
+<!-- /if -->
+<div class="form-field">
+    <esui-label class="form-field-label" data-ui-for-target="roleType">账户角色：</esui-label>
+    <!-- if: ${userRoleType} === 'inner' -->
+        <div class="form-field-value">
+            <esui-select data-ui-id="roleType" data-ui-name="roleType"
+                data-ui-datasource="@innerUserRoles" data-ui-value="@roleType">
+            </esui-select>
+        </div>
+    <!-- /if -->
+    <!-- if: ${userRoleType} === 'outer' -->
+        <div class="form-field-value">
+            <esui-select data-ui-id="roleType" data-ui-name="roleType"
+                data-ui-datasource="@outerUserRoles" data-ui-value="@roleType">
+            </esui-select>
+        </div>
+    <!-- /if -->
+    <!-- if: ${formType} === 'create' -->
+        <div class="form-field-value">
+            <esui-select data-ui-id="roleType" data-ui-name="roleType"
+                data-ui-datasource="@userRoles" data-ui-value="@roleType">
+            </esui-select>
+        </div>
+    <!-- /if -->
+    
+</div>
+<!-- if: ${formType} === 'create' -->
+    <!-- use:
+        textareaField(
+            title = '用户名称', field = 'userName', required = true, length = 10, description = '批量添加账号，每行一个账户名；\n账户名仅能使用中英文字符，数字，下划线的组合，区分大小写。'
+        )
+    -->
+    <!-- use:
+        textboxField(
+            title = '初始密码', field = 'password', required = true, length = 10, description = '请输入6~16位半角字符\n（由数字，字母，字符组成）。'
+        )
+    -->
+    <!-- else -->
+    <!-- if: ${password} !== '' -->
+        <!-- use:
+            textboxField(
+                title = '重置密码', field = 'password', required = true, length = 10, description = '请输入6~16位半角字符\n（由数字，字母，字符组成）。'
+            )
+        -->
+    <!-- /if -->
+<!-- /if -->
+
+<!-- target: permissionFormSubmitSection -->
+<esui-panel class="form-submit-section" data-ui-id="submit-section">
+    <button type="submit" data-ui-type="Button" data-ui-id="submit" data-ui-group="submit" class="submit-button">确定</button>
+    <div data-ui-type="Button" data-ui-id="cancel" data-ui-group="submit" data-ui-skin="link">取消</div>
+</esui-panel>
+
+<!-- target: permissionList(master=listPage) -->
+<!-- content: crumb -->
+<!-- import: permissionListCrumb -->
+<!-- /content -->
+<!-- content: main -->
+<!-- import: permissionListMain -->
+<!-- /content -->
+
+<!-- target : permissionListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <span>权限管理</span>
+<!-- /content -->
+
+<!-- target: permissionListMain(master=listView) -->
+<!-- content: searchbox -->
+    <!-- use: listSearchBox(placeholder = "账户名称") -->
+<!-- /content -->
+<!-- content: actionButtons -->
+    <a data-ui-type="Link" data-ui-id="create" data-ui-skin="add" data-ui-href="#/permission/create">+ 开通账户</a>
+<!-- /content -->
+<!-- content: bacthOperation -->
+    <esui-button class="list-download" data-ui-id="2" data-ui-width="53"
+                 data-ui-group="batch" data-ui-data-status="2"
+                 data-ui-extension-data-type="CustomData" data-ui-skin="link">解冻</esui-button>
+	<esui-button class="list-download" data-ui-id="download" data-ui-width="53"
+                 data-ui-group="batch" data-ui-data-status="0"
+                 data-ui-extension-data-type="CustomData" data-ui-skin="link">删除</esui-button>
+<!-- /content -->
+<!-- content: filter -->
+    <esui-button data-ui-id="filter-switch" data-ui-skin="select">角色</esui-button>
+    <!-- if: !${filter.isDefaultValue} -->
+        <span class="list-filter-show-bar">${filtersInfo.filters.userRoles.text}</span>
+    <!-- /if -->
+
+<!-- /content -->
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- content: listFilter -->
+    <!-- use: permissionListFilter -->
+<!-- /content -->
+
+<!-- target: permissionListFilter -->
+<form data-ui-type="Form" class="list-filter-panel permission-role-select" data-ui-id="filter"
+      data-ui-hidden="true" novalidata="novalidate">
+    <esui-panel data-ui-id="list-filter-select-panel" data-ui-group="filter-content"
+        class="list-filter-select-fields">
+        <esui-check-box type="checkbox" name="innerMarker" title="内部标注"
+            data-ui-id="innerMarker" data-ui-value="@innerMarker" data-ui-checked="true">
+        </esui-check-box>
+        <esui-check-box type="checkbox" name="innerAudit" title="内部审核"
+            data-ui-id="innerAudit" data-ui-value="@innerAudit" data-ui-checked="true">
+        </esui-check-box>
+        <esui-check-box type="checkbox" name="outerMarker" title="外部标注"
+            data-ui-id="outerMarker" data-ui-value="@outerMarker" data-ui-checked="true">
+        </esui-check-box>
+        <esui-check-box type="checkbox" name="outerAudit" title="外部审核"
+            data-ui-id="outerAudit" data-ui-value="@outerAudit" data-ui-checked="true">
+        </esui-check-box>
+        <esui-check-box type="checkbox" name="manager" title="管理员"
+            data-ui-id="manager" data-ui-value="@manager" data-ui-checked="true">
+        </esui-check-box>
+    </esui-panel>
+    <esui-panel data-ui-id="list-filter-selected-panel" data-ui-group="filter-content"
+        data-ui-hidden="true" class="list-filter-selected-fields">
+        <esui-label class="list-filter-field-label">筛选条件：</esui-label>
+        <!-- contentplaceholder: filterResults --><!-- /contentplaceholder -->
+    </esui-panel>
+    <div class="list-filter-operation">
+        <button type="submit" data-ui-type="Button" data-ui-id="filter-submit" data-ui-group="filter-content">确定
+        </button>
+        <esui-button data-ui-id="filter-modify" data-ui-group="filter-content" data-ui-hidden="true">修改</esui-button>
+        <esui-button data-ui-id="filter-cancel" data-ui-skin="link">取消</esui-button>
+    </div>
+</form>
+
+
+<!-- target: taskDetailMain -->
+<esui-panel class="task-detail-container" data-ui-datasource="@detailInfo" data-ui-id="detailView">
+	<div class="detail-container-header">
+		物料预览
+	</div>
+	<!-- if: !${detailInfo.adId} -->
+		<esui-panel class="refresh-area">
+			<h1>获取物料详情失败</h1>
+		</esui-panel>
+	<!-- else -->
+		<div class="detail-container-body">
+			<esui-panel class="task-detail-title">
+				<div class="task-detail-info-row">
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="创意ID">创意ID：</esui-label>
+						<esui-label class="form-field-label" data-ui-title="创意ID">${detailInfo.adId}</esui-label>
+					</div>
+					<div class="task-detail-single-info">
+						<!-- if: ${detailInfo.dataTypeAlias} == 'dsp' -->
+						<esui-label class="form-field-label" data-ui-title="参考行业">参考行业：</esui-label>
+						<!-- else -->
+						<esui-label class="form-field-label" data-ui-title="二级行业">二级行业：</esui-label>
+						<!-- /if -->
+						<esui-label class="form-field-label form-field-trade" data-ui-title="${detailInfo.adTradeNameLevel2}">
+						<!-- if: ${detailInfo.adTradeNameLevel2} -->
+						${detailInfo.adTradeNameLevel2}
+						<!-- else -->
+						无
+						<!-- /if -->
+						</esui-label>
+					</div>
+					<!-- if: ${detailInfo.flash} -->
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="Flash类型">Flash类型：</esui-label>
+						<esui-label class="form-field-label" data-ui-title="Flash类型">${detailInfo.flash.flashType}</esui-label>
+					</div>
+					<!-- /if -->
+				</div>
+				<div class="task-detail-info-row">
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="创意类型">创意类型：</esui-label>
+						<esui-label class="form-field-label" data-ui-title="创意类型">${detailInfo.wuliaoTypeText}</esui-label>
+					</div>
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="物料尺寸">物料尺寸：</esui-label>
+						<esui-label class="form-field-label" data-ui-title="物料尺寸">${detailInfo.width}x${detailInfo.height}</esui-label>
+					</div>
+					<div class="task-detail-single-info">
+						<!-- if: ${detailInfo.dataTypeAlias} == 'dsp' -->
+						<esui-label class="form-field-label" data-ui-title="落地页">落地页：</esui-label>
+						<a class="form-field-label" href="${detailInfo.landingPage}" target="_blank" onclick="return openSite(this)">点击查看</a>
+						<!-- else -->
+						<esui-label class="form-field-label" data-ui-title="落地页URL">落地页URL：</esui-label>
+						<a class="form-field-label" href="${detailInfo.targetUrl}" target="_blank" onclick="return openSite(this)">${detailInfo.showUrl}</a>
+						<!-- /if -->
+					</div>
+				</div>
+				<!-- <div class="task-detail-info-row">
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="地域切换">地域切换：</esui-label>
+						<esui-select data-ui-id="region" data-ui-name="region" data-ui-value="region" data-ui-disabled="true"></esui-select>
+					</div>
+					<div class="task-detail-single-info">
+						<esui-label class="form-field-label" data-ui-title="设备切换">设备切换：</esui-label>
+						<esui-select data-ui-id="device" data-ui-name="device" data-ui-value="device" data-ui-disabled="true"></esui-select>
+					</div>
+				</div> -->
+			</esui-panel>
+		</div>
+		<div class="detail-container-body detail-with-tag">
+			<esui-panel class="task-detail-body">
+				<!-- if: ${detailInfo.wuliaoTypeAlias} === 'picture' -->
+					<!-- for: ${detailInfo.imgUrl} as ${image} -->
+						<img src="${image}" alt="图片">
+					<!-- /for -->
+			    <!-- /if -->
+			    <!-- if: ${detailInfo.wuliaoTypeAlias} === 'flv' -->
+			    <embed type="application/x-shockwave-flash" src="dep-0.1.11/playerLite/PlayerLite.swf" id="CuPlayerV4" name="CuPlayerV4" bgcolor="#000000" quality="high" allowfullscreen="true" allowscriptaccess="always" wmode="opaque" salign="lt" flashvars="videoDefault=${detailInfo.imgUrl}&autoHide=true&hideType=fade&autoStart=false&startVol=60&hideDelay=60&bgAlpha=75" height="220" width="520">
+			    <!-- /if -->
+				<!-- if: ${detailInfo.wuliaoTypeAlias} === 'video' -->
+			    <video src="${detailInfo.imgUrl}" controls="controls" autoplay="autoplay" width="${detailInfo.width}" height="220">
+						your browser does not support the video tag
+						</video>
+			    <!-- /if -->
+			    <!-- if: ${detailInfo.wuliaoTypeAlias} === 'html' -->
+			            <iframe src='${detailInfo.imgUrl}' width="${detailInfo.width}" height="${detailInfo.height}"></iframe>
+			    <!-- /if -->
+			    <!-- if: ${detailInfo.wuliaoTypeAlias} === 'text' -->
+				    <div class="task-info-text-container">
+				    	<p class="task-info-text-title">${detailInfo.title}</p>
+					    <p class="task-info-text-desc">${detailInfo.description1} </p>
+					    <p class="task-info-text-desc">${detailInfo.description2} </p>
+				    </div>
+			    <!-- /if -->
+			    <!-- if: ${detailInfo.wuliaoTypeAlias} === 'picText' -->
+			            <div class="task-info-picText-container">
+						    <p class="task-info-picText-title">${detailInfo.title}</p>
+						    <div class="task-info-picText-content">
+						    	<!-- for: ${detailInfo.imgUrl} as ${image} -->
+									<img src="${image}" alt="图片">
+								<!-- /for -->
+						        <p class="task-info-text-desc">${detailInfo.description1} </p>
+						        <p class="task-info-text-desc">${detailInfo.description2} </p>
+						    </div>
+						</div>
+			    <!-- /if -->
+				<!-- if: ${detailInfo.wuliaoTypeAlias} === 'flash' -->
+				<esui-panel class="task-detail-flash-info">
+					<embed src="${detailInfo.imgUrl}" width="${detailInfo.width}" height="${detailInfo.height}"/>
+				</esui-panel>
+				<!-- if: ${detailInfo.flash.flashType} === '解析失败' -->
+				<esui-panel class="task-detail-flash-detail">
+					<esui-button data-ui-id="refresh" class="refresh-button">重新加载</esui-button>
+				</esui-panel>
+				<!-- /if -->
+				<!-- if: ${detailInfo.flash.image_files} && ${detailInfo.flash.image_files.length} -->
+				<esui-panel class="task-detail-flash-detail">
+				<p class="flash-detail-title">图片：</p>
+				<!-- for: ${detailInfo.flash.image_files} as ${image} -->
+					<img src="${image}" alt="解析图">
+				<!-- /for -->
+				</esui-panel>
+				<!-- /if -->
+				<!-- if: ${detailInfo.flash.text_list} && ${detailInfo.flash.text_list.length} -->
+				<esui-panel class="task-detail-flash-detail">
+				<p class="flash-detail-title">文本：</p>
+				<!-- for: ${detailInfo.flash.text_list} as ${text} -->
+					<p>${text}</p>
+				<!-- /for -->
+				</esui-panel>
+				<!-- /if -->
+				<!-- /if -->
+			</esui-panel>
+			<div data-ui-id="tagCtrl" data-ui-wuliao-id="${detailInfo.tagInfo.id}" data-ui-type="TagAssembeArea" data-ui-is-audit="${detailInfo.tagInfo.isAudit}" data-ui-third="${detailInfo.tagInfo.third}" data-ui-taged-third="${detailInfo.tagInfo.tagedThird}" data-ui-comment="${detailInfo.tagInfo.comment}" data-ui-trade-list="@tradeList" data-ui-trade-id="${detailInfo.tagInfo.tradeId}" class="tag-control-area" data-ui-sample="${detailInfo.tagInfo.sample}"
+			<!-- if: ${detailInfo.tagInfo.isAudit} === 'true' && ${detailInfo.tagInfo.tagedThird} --> data-ui-attach-origin-value="@attachOriginValue"<!-- /if -->
+			data-ui-attach-datasource="@attachDatasource" data-ui-attach-value="@attachValue"></div>
+		</div>
+	<!-- /if -->
+</esui-panel>
+<!-- target: taskList -->
+<div class="list-page">
+    <esui-panel class="page-crumb" data-ui-group="headerInfo">
+        <!-- content: crumb -->
+        <!-- import: taskListCrumb -->
+        <!-- /content -->  
+    </esui-panel>
+    <esui-panel class="task-info" data-ui-group="headerInfo">
+        <div class="task-info-container">
+            <div class="task-info-header">
+                <!--if: ${inType} === 'marker' -->
+                    <!-- import: taskMarkerHead -->
+                
+                <!-- else -->
+                    <!-- import: taskAuditHead -->
+                <!-- /if -->
+                
+            </div>
+        </div>
+    </esui-panel>
+    <div class="task-list-page-content">
+        <!-- content: main -->
+        <!-- import: taskListMain -->
+        <!-- /content -->
+    </div>
+    <!-- use: scrollToTop -->
+</div>
+
+<!-- target : taskListCrumb(master=crumb) -->
+<!-- content: path -->
+    <!-- import: homePagePath -->
+    <!--if: ${inType} === 'marker' -->
+    <a href="#/marker/list">标注任务</a>
+    <span>任务详情</span>
+    <!-- else -->
+    <a href="#/audit/list">审核任务</a>
+    <span>审核任务详情</span>
+    <!-- /if -->
+<!-- /content -->
+
+<!-- target: taskListMain-->
+    <esui-panel <!--if: ${inType} === 'marker' -->class="operation-bar operation-zero-bar"<!-- else -->class="operation-bar operation-zero-bar operation-audit-bar"<!-- /if --> data-ui-id="operationBar">
+        <!--if: ${inType} === 'marker' -->
+        <esui-panel data-ui-group="headerInfo">
+            <esui-button class="history-toggle" data-ui-skin="link" data-ui-id="historyToggle">
+            </esui-button>
+            <div class="operation-bar-info">
+                <!-- if: ${data.dataTypeAlias} == 'dsp' -->
+                <!-- use:
+                    groupInfoContent(
+                        firstName = '当前广告主ID', id = ${data.group.groupId}, adNum = ${data.group.adNum}, time=${data.group.doneTime}, dataType='外部DSP'
+                    )
+                -->
+                <!-- /if -->
+                <!-- if: ${data.dataTypeAlias} == 'baidudsp' -->
+                <!-- use:
+                    groupInfoContent(
+                        firstName = '当前账户ID', id = ${data.group.groupId}, adNum = ${data.group.adNum}, time=${data.group.doneTime}, dataType=${data.dataTypeText}
+                    )
+                -->
+                <!-- /if -->
+                <!-- if: ${data.dataTypeAlias} == 'qiushi' || ${data.dataTypeAlias} == 'beidou' -->
+                <!-- use:
+                    groupInfoContent(
+                        firstName = '当前推广组ID', id = ${data.group.groupId}, adNum = ${data.group.adNum}, time=${data.group.doneTime}, dataType=${data.dataTypeText}
+                    )
+                -->
+                <!-- /if -->
+            </div>
+            <div class="operation-zone">
+                <!-- if: ${data.hasPrevious} === true -->
+                <esui-button class="operation-zone-icon" id="operation-zone-previous-icon" data-ui-id="previous" data-ui-skin="link">上一题</esui-button>
+                <!-- /if -->
+                <!-- if: ${data.hasNext} === true -->
+                <esui-button class="operation-zone-icon" id="operation-zone-next-icon" data-ui-id="next" data-ui-skin="link">下一题</esui-button>
+                <!-- /if -->
+            </div>
+            <esui-panel class="operation-bar-info historyGroup" data-ui-id="historyGroup">
+                <ul>
+                    <!-- for: ${data.historyGroup} as ${history} -->
+                    <li class="operation-bar-info">
+                        <a href="#/marker/task/list~id=${history.id}">
+                            <!-- if: ${data.dataTypeAlias} == 'dsp' -->
+                            <!-- use:
+                                groupInfoContent(
+                                    firstName = '广告主ID', id = ${history.groupId}, adNum = ${history.adNum}, time=${history.doneTime}
+                                )
+                            -->
+                            <!-- /if -->
+                            <!-- if: ${data.dataTypeAlias} == 'baidudsp' -->
+                            <!-- use:
+                                groupInfoContent(
+                                    firstName = '账户ID', id = ${history.groupId}, adNum = ${history.adNum}, time=${history.doneTime}
+                                )
+                            -->
+                            <!-- /if -->
+                            <!-- if: ${data.dataTypeAlias} == 'qiushi' || ${data.dataTypeAlias} == 'beidou' -->
+                            <!-- use:
+                                groupInfoContent(
+                                    firstName = '推广组ID', id = ${history.groupId}, adNum = ${history.adNum}, time=${history.doneTime}
+                                )
+                            -->
+                            <!-- /if -->
+                        </a>
+                        
+                    </li>
+                    <!-- /for -->
+                </ul>
+            </esui-panel>
+        </esui-panel>
+        <!-- else -->
+        <esui-panel data-ui-group="headerInfo">
+            <div class="operation-audit-info">
+                <div class="operation-audit-info-row">
+                    <p>
+                        该题目ID：${data.group.groupId}
+                    </p>
+                    <p>
+                        标注人：${data.group.modifyUserName}
+                    </p>
+                    <p>
+                        公司名称：${data.companyName}
+                    </p>
+                </div>
+                <div class="operation-audit-info-row">
+                    <p>
+                        创意数：${data.group.adNum}
+                    </p>
+                    <p>
+                        审核人：${data.group.modifyUserNameReview}
+                    </p>
+                    <p>
+                        广告库名：<!-- if: ${data.dataTypeAlias} == 'dsp' -->外部DSP<!-- else -->${data.dataTypeText}<!-- /if -->
+                    </p>
+                    <p>
+                        公司网址：<a href="${data.companyUrl}" target="_blank" onclick="return openSite(this)">${data.companyUrl}</a>
+                    </p>
+                </div>
+            </div>
+            <div class="operation-zone">
+                <div class="toggle-container">
+                    <esui-button class="list-toggle" data-ui-skin="link"></esui-button>
+                    <esui-button class="back-layer" data-ui-id="backToAuditDetail">返回任务详情</esui-button>
+                </div>
+                <div class="button-container">
+                    <!-- if: ${data.hasPrevious} === true -->
+                    <esui-button class="operation-zone-icon" id="operation-zone-previous-icon" data-ui-id="previous" data-ui-skin="link">上一题</esui-button>
+                    <!-- /if -->
+                    <!-- if: ${data.hasNext} === true -->
+                    <esui-button class="operation-zone-icon" id="operation-zone-next-icon" data-ui-id="next" data-ui-skin="link">下一题</esui-button>
+                    <!-- /if -->
+                </div>
+            </div>
+        </esui-panel>
+        <!-- /if -->
+        <esui-button class="header-toggle" data-ui-skin="link" data-ui-id="headerToggle">展开头部信息</esui-button>
+    </esui-panel>
+<!-- content: table -->
+    <!-- use: listTable(useCommand = true) -->
+<!-- /content -->
+<!-- use: taskSubmitSection(suffix = 'end', hasValue= ${data.hasValue}) -->
+
+<!-- target: groupInfoContent -->
+<!-- var: firstName = ${firstName} || '' -->
+<!-- var: id = ${id} -->
+<!-- var: adNum = ${adNum} -->
+<!-- var: time = ${time} || '未标注' -->
+<!-- var: dataType = ${dataType} || null -->
+<p class="fist-show-info">
+    ${firstName}：<span id="task-info-id">${id}</span>
+</p>
+<p>
+    创意数：<span id="task-info-ad-num">${adNum}</span>
+</p>
+<!-- if: ${dataType} -->
+<p>
+    广告库名：<span id="task-info-data-type">${dataType}</span>
+</p>
+<!-- /if -->
+<p>
+    最后修改日期：<span id="task-info-company-url">${time}</span>
+</p>
+
+
+
+<!-- target: taskInfo -->
+<!-- var: id = ${id} || '' -->
+<!-- var: adId = ${adId} || '' -->
+<!-- var: wuliaoType = ${wuliaoType} || '' -->
+<!-- var: wuliaoTypeAlias = ${wuliaoTypeAlias} || '' -->
+<!-- var: adTradeNameLevel2 = ${adTradeNameLevel2} || '' -->
+<!-- var: targetUrl = ${targetUrl} || '' -->
+<!-- var: showUrl = ${showUrl} || '' -->
+<!-- var: imgUrl = ${imgUrl} || '' -->
+<!-- var: flash = ${flash} || '' -->
+<!-- var: title = ${title} || '' -->
+<!-- var: description1 = ${description1} || '' -->
+<!-- var: description2 = ${description2} || '' -->
+<!-- var: dataTypeAlias = ${dataTypeAlias} || 'beidou' -->
+<div class="single-task-info-content">
+    <p>
+        创意ID：<span>${adId}</span>
+        <!-- if: ${wuliaoType} !== '' -->
+        （<span <!-- if: ${wuliaoType} === 'FLASH' && ${dataTypeAlias} !== 'dsp' -->id="${id}-flashClass"<!-- /if -->><!-- if: ${wuliaoType} === 'FLASH' -->FLASH<!-- if: ${dataTypeAlias} !== 'dsp' -->请求中<!-- /if --><!-- else -->${wuliaoType}<!-- /if --></span>）
+        <!-- /if -->
+    </p>
+    <!-- if: ${wuliaoTypeAlias} !== '' -->
+        <esui-panel data-ui-id="${id}-showDetail" class="single-task-info-container" data-command="showDetail" data-command-args="${id}">
+            <!-- if: ${wuliaoTypeAlias} == 'picText' -->
+                <!-- use: textPicContent(imgUrl = ${imgUrl}, id = ${id}, title = ${title}, description1 = ${description1}, description2 = ${description2} ) -->
+            <!-- /if -->
+            <!-- if: ${wuliaoTypeAlias} == 'picture'  -->
+                <!-- use: imgSingleContent(id = ${id}, imgUrl = ${imgUrl}) -->
+            <!-- /if -->
+            <!-- if: ${wuliaoTypeAlias} == 'text' -->
+            <!-- use: textSingleContent(title = ${title}, description1 = ${description1}, description2 = ${description2}) -->
+            <!-- /if -->
+            <!-- if: ${wuliaoTypeAlias} == 'flash' -->
+            <!-- use: flashSingleContent(id = ${id}, imgUrl = ${imgUrl}) -->
+            <!-- /if -->
+            <!-- if: ${wuliaoTypeAlias} == 'video' -->
+            <!-- use: videoSingleContent(imgUrl = ${imgUrl}) -->
+            <!-- /if -->
+            <!-- if: ${wuliaoTypeAlias} == 'html' -->
+            <!-- use: htmlSingleContent() -->
+            <!-- /if -->
+        </esui-panel>
+    <!-- /if -->
+    <!-- if: ${adTradeNameLevel2} !== '' -->
+        <!-- if: ${dataTypeAlias} == 'dsp' -->
+        <p>
+            参考行业：<span id="single-task-info-trade">${adTradeNameLevel2}</span>
+        </p>
+        <!-- else -->
+        <p>
+            二级行业：<span id="single-task-info-trade">${adTradeNameLevel2}</span>
+        </p>
+        <!-- /if -->
+    <!-- /if -->
+    <!-- if: ${targetUrl} !== '' -->
+        <!-- if: ${dataTypeAlias} == 'dsp' -->
+            <p>
+                落地页：<a id="single-task-info-url" href="${targetUrl}" target="_blank" onclick="return openSite(this)">点击查看</a>
+            </p>
+            <!-- else -->
+            <p>
+                落地页URL：<a id="single-task-info-url" href="${targetUrl}" target="_blank" onclick="return openSite(this)">${showUrl}</a>
+            </p>
+        <!-- /if -->
+    <!-- /if -->
+    
+</div>
+
+<!-- target: imgSingleContent -->
+<!-- var: id = ${id} || '' -->
+<esui-panel class="single-task-info-img-container" id="${id}-imgContainerPanel">
+    <img class="loading-picture">
+</esui-panel>
+
+<!-- target: videoSingleContent -->
+<!-- var: imgUrl = ${imgUrl} || '' -->
+<div class="single-task-info-video-container">
+    点击播放视频
+</div>
+
+<!-- target: htmlSingleContent -->
+<div class="single-task-info-html-container">
+    智能创意
+</div>
+
+<!-- target: flashSingleContent -->
+<!-- var: id = ${id} || '' -->
+<esui-panel class="single-task-info-flash-container">
+    <div id="${id}-flashContainerPanel">
+        <img class="loading-picture">
+    </div>
+    <div class="over-stop"></div>
+</esui-panel>
+
+
+<!-- target: textSingleContent -->
+<!-- var: title = ${title} || '' -->
+<!-- var: description1 = ${description1} || '' -->
+<!-- var: description2 = ${description2} || '' -->
+<div class="single-task-info-text-container">
+    <p class="single-task-info-text-title">${title}</p>
+    <p class="single-task-info-text-desc">${description1} </p>
+    <p class="single-task-info-text-desc">${description2} </p>
+</div>
+
+
+<!-- target: textPicContent -->
+<!-- var: id = ${id} || '' -->
+<!-- var: title = ${title} || '' -->
+<!-- var: description1 = ${description1} || '' -->
+<!-- var: description2 = ${description2} || '' -->
+<div class="single-task-info-picText-container">
+    <p class="single-task-info-picText-title">${title}</p>
+    <div class="single-task-info-picText-content">
+        <div class="picText-img-container" id="${id}-imgContainerPanel">
+            <img class="loading-picture">
+        </div>
+        <p class="single-task-info-text-desc">${description1} </p>
+        <p class="single-task-info-text-desc">${description2} </p>
+    </div>
+</div>
+
+
+<!-- target: operationZone -->
+<!-- var: isAudit = ${isAudit} || false -->
+<!-- var: id = ${id} || 'batch' -->
+<!-- var: sample = ${sample} || '' -->
+<!-- var: third = ${third} || null-->
+<!-- var: comment = ${comment} || ''-->
+<!-- var: tradeId = ${tradeId} -->
+<!-- var: tagedThird = ${tagedThird} || null-->
+<!-- var: attachTagGroup = ${attachTagGroup} || null-->
+<div data-ui-id="${id}-tagCtr" data-ui-wuliao-id="${id}" data-ui-type="TagAssembeArea" data-ui-is-audit="${isAudit}" data-ui-third="${third}" data-ui-taged-third="${tagedThird}" data-ui-comment="${comment}" data-ui-trade-list="@tradeList" data-ui-trade-id="${tradeId}" class="tag-control-area" data-ui-sample="${sample}"
+<!-- if: ${isAudit} && ${tagedThird} && ${id} !== 'batch' --> data-ui-attach-origin-value="@${id}-attachOriginValue"<!-- /if -->
+data-ui-attach-datasource="@${id}-attachDatasource" data-ui-attach-value="@${id}-attachValue"></div>
+
+<!-- target: taskMarkerHead-->
+<h3>标注任务名：${data.task.taskName}</h3>
+<div class="task-info-header-row">
+    <!-- if: ${data.dataTypeAlias} == 'dsp' -->
+    <p>
+        DSP ID：${data.accountId}
+    </p>
+    <p>
+        广告主：${data.companyName}
+    </p>
+    <p>
+        广告主网页：<a id="task-info-company-url" href="${data.companyUrl}" target="_blank" onclick="return openSite(this)">点击查看</a>
+    </p>
+    <!-- else -->
+    <p>
+        帐户ID：${data.accountId}
+    </p>
+    <p>
+        公司名：${data.companyName}
+    </p>
+    <p>
+        公司页：<a id="task-info-company-url" href="${data.companyUrl}" target="_blank" onclick="return openSite(this)">点击查看</a>
+    </p>
+    <!-- /if -->
+    <p>
+        已完成答题：${data.historyGroupNum}
+    </p>
+    <p>
+        已标注创意数：${data.historyAdNum}
+    </p>
+</div>
+
+<!-- target: taskAuditHead-->
+<h3>审核任务名：${data.task.taskName}</h3>
+<div class="task-info-header-row">
+    <p>
+        审核任务ID：${data.task.id}
+    </p>
+    <!-- <p>
+        审核类型：${data.task.reviewTypeDesc}
+    </p>
+    <p>
+        创建时间：${data.task.addTime}
+    </p>
+    <p>
+        任务创建人：${data.task.addUser}
+    </p>
+    <p>
+        任务状态：<span class="task-info-status task-status-${data.task.statusAlias}">${data.task.statusText}</span>
+    </p> -->
+    <p>
+        已审核答题数：${data.groupNumDone} <span>（共 ${data.groupNumAll}）</span>
+    </p>
+    <p>
+        已审核创意数：${data.adNumDone} <span>（共 ${data.adNumAll}）</span>
+    </p>
+</div>
+
+<!-- target: taskAuditBody-->
+<p>
+    标注任务数：${data.task.groupNumActual}
+</p>
+<p>
+    已审核答题数：${data.groupNumDone} <span>（共 ${data.groupNumAll}）</span>
+</p>
+<p>
+    已审核创意数：${data.adNumDone} <span>（共 ${data.adNumAll}）</span>
+</p>
+
+
+
+<!-- target: taskSubmitSection -->
+<!-- var: suffix = ${suffix} -->
+<!-- var: hasValue = ${hasValue} -->
+<!-- if: ${suffix} === 'end' -->
+<div class="batch-operztion-zone">
+    <div class="batch-operztion-zone-container">
+        <div class="batch-operation-body">
+            <h2>批量操作：</h2>
+            <!-- if: ${hasValue} -->
+                <!-- use: operationZone -->
+            <!-- /if -->
+        </div>
+        <div class="batch-operation-footer">
+            <esui-button data-ui-id="batchModifySubmit" data-ui-skin="link">批量修改</esui-button>
+        </div>
+    </div>
+</div>
+<!-- /if -->
+<esui-panel class="task-submit-section" data-ui-id="${suffix}-submit-section">
+    <button type="submit" data-ui-type="Button" data-ui-id="${suffix}-submit" data-ui-group="submit" class="submit-button">提交本题</button>
+    <div data-ui-type="Button" data-ui-id="${suffix}-cancel" data-ui-group="submit" data-ui-skin="link" class="cancel-button">取消答题</div>
+</esui-panel>
+
+<!-- target: scrollToTop -->
+<a data-ui-type="Link" data-ui-id="scroll-to-top" title="返回顶部" class="scroll-button"></a>

@@ -1,0 +1,1 @@
+define("ub-ria/mvc/checker/maxChecker",["require"],function(){function e(e,t){if(!e&&0!==e)return!0;var n=t[2].max;return n>=e}var t={name:"max",errorMessage:"${title}不能大于${max}",priority:20,check:e};return t});

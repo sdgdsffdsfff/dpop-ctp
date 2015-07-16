@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.dpop.ctp.user.dao.mapper.UserMapper">
+
+	<resultMap id="NameAndDeleteResultMap" type="com.baidu.dpop.ctp.user.bo.User">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+		<result column="role_type" jdbcType="TINYINT" property="roleType" />
+	</resultMap>
+
+	<select id="getUserByName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_user
+		where 1=1 and user_name = #{userName,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getUserNames" resultType="java.lang.String">
+		SELECT user_name
+		FROM
+		tb_user where 1=1 AND delete_flag=0
+	</select>
+
+	<select id="getUserListByType" parameterType="java.lang.Byte"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_user
+		where 1=1 and role_type = #{roleType,jdbcType=TINYINT}
+	</select>
+
+	<update id="updateByUserName" parameterType="com.baidu.dpop.ctp.user.bo.User">
+		update tb_user
+		set
+		user_name = #{user.userName,jdbcType=VARCHAR},
+		role_type =
+		#{user.roleType,jdbcType=TINYINT},
+		password =
+		#{user.password,jdbcType=VARCHAR}
+		where 1=1 and user_name =
+		#{user.userName,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getPageUserList" parameterType="com.baidu.dpop.ctp.user.vo.UserQueryVo"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_user
+		where 1=1 AND delete_flag=0
+		<if test="queryVo.roleTypeList != null">
+			and role_type in
+			<foreach item="roleType" collection="queryVo.roleTypeList"
+				open="(" separator="," close=")">
+				#{roleType, jdbcType=TINYINT}
+			</foreach>
+		</if>
+		<if test="queryVo.userName != null">
+			AND user_name like '%${queryVo.userName}%'
+		</if>
+		<if test='queryVo.orderBy != null and queryVo.orderBy.equals("isFreezed")'>
+			ORDER BY login_try_times
+		</if>
+		<if test='queryVo.orderBy != null and queryVo.orderBy.equals("addTime")'>
+			ORDER BY add_time
+		</if>
+		<if test='queryVo.order != null and queryVo.order.equals("desc")'>
+			desc
+		</if>
+	</select>
+
+	<insert id="batchInsertUser">
+		INSERT INTO tb_user
+		(user_name, role_type, password, add_time,
+		update_time, update_user, delete_flag)
+		VALUES
+		<foreach collection="users" item="item" index="index"
+			separator=",">
+			(#{item.userName,jdbcType=VARCHAR},#{item.roleType,jdbcType=TINYINT},#{item.password,jdbcType=VARCHAR},#{item.addTime,jdbcType=TIMESTAMP},#{item.updateTime,jdbcType=TIMESTAMP},#{item.updateUser,jdbcType=INTEGER},
+			#{item.deleteFlag,jdbcType=BIT})
+		</foreach>
+		ON DUPLICATE KEY UPDATE
+		role_type=VALUES(role_type),
+		password=VALUES(password),
+		add_time=VALUES(add_time),
+		update_time=VALUES(update_time),
+		update_user=VALUES(update_user),
+		delete_flag=VALUES(delete_flag)
+	</insert>
+
+	<update id="deleteUsersByIdList">
+		UPDATE tb_user
+		set delete_flag = 1
+		where id in
+		<foreach item="item" index="index" collection="userIdList"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<select id="getUserByIdList" parameterType="java.util.List"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_user
+		where id in
+		<foreach item="item" index="index" collection="idList"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="selectByUserNameLike" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT id, user_name
+		FROM tb_user
+		WHERE user_name LIKE "%"#{name}"%"
+	</select>
+	
+	<update id="thawByIdList">
+		UPDATE tb_user
+		SET login_try_times=0
+		WHERE id IN
+		<foreach collection="list" open="(" close=")" item="item" index="index"
+			separator=",">
+			#{item}
+		</foreach>
+	</update>
+</mapper>

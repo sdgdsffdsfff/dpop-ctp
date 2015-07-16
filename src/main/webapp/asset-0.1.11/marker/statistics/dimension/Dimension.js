@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("marker/statistics/dimension/Dimension",["require","ub-ria/mvc/BaseAction","eoo"],function(require){var exports={};exports.entityDescription="维度统计饼图",exports.initBehavior=function(){if(this.$super(arguments),"change"===this.model.get("change"))document.body.scrollTop=600;this.view.on("dimensionChange",function(e){this.redirect("/marker/statistics/dimension~taskId="+e.taskId+"&index="+e.index+"&change=change")},this)};var e=require("ub-ria/mvc/BaseAction"),t=require("eoo").create(e,exports);return t});

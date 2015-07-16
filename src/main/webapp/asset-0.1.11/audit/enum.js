@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("audit/enum",["require","er/Enum"],function(require){var e=require("er/Enum"),exports={};return exports.Status=new e({alias:"toBegin",text:"未开始",value:0},{alias:"doing",text:"进行中",value:1},{alias:"done",text:"已完成",value:2}),exports.ModUserLevel=new e({alias:"inner",text:"内部人员",value:0},{alias:"outter",text:"外部人员",value:1},{alias:"all",text:"全体人员",value:2}),exports.Blind=new e({alias:"blind",text:"明审",value:0},{alias:"noBlind",text:"盲审",value:1}),exports});

@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("account/Form",["require","common/extension/PasswordHandler","common/FormAction","eoo"],function(require){function e(){this.redirect("/marker")}var t=require("common/extension/PasswordHandler"),exports={};exports.group="resource",exports.entityDescription="修改密码",exports.initBehavior=function(){this.$super(arguments);var i=new t;this.setSubmitHandler(i),this.on("handlefinish",e)},exports.redirectAfterCancel=function(){this.redirect("/marker")};var i=require("common/FormAction"),n=require("eoo").create(i,exports);return n});

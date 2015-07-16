@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.mainTask.dao.mapper.TaskMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.mainTask.bo.Task">
+			<id     column="id"		jdbcType="INTEGER"		property="id" />
+	 		<result column="task_name"		jdbcType="VARCHAR"		property="taskName" />
+			<result column="add_user"		jdbcType="VARCHAR"		property="addUser" />
+			<result column="add_time"		jdbcType="TIMESTAMP"		property="addTime" />
+			<result column="status"		jdbcType="TINYINT"		property="status" />
+			<result column="moduser_level"		jdbcType="INTEGER"		property="moduserLevel" />
+			<result column="task_type"		jdbcType="TINYINT"		property="taskType" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	id,task_name,add_user,add_time,status,moduser_level,task_type  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_task
+    where 1=1  and id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_task
+    where 1=1 and id = #{id,jdbcType=INTEGER}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.mainTask.bo.Task" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_task 
+	(id, task_name, add_user, add_time, status, moduser_level, task_type)
+    values 
+	( #{id,jdbcType=INTEGER},#{taskName,jdbcType=VARCHAR},#{addUser,jdbcType=VARCHAR},#{addTime,jdbcType=TIMESTAMP},#{status,jdbcType=TINYINT},#{moduserLevel,jdbcType=INTEGER},#{taskType,jdbcType=TINYINT})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.mainTask.bo.Task" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="id != null">
+        id,
+      </if>
+				
+	  <if test="taskName != null">
+        task_name,
+      </if>
+			
+	  <if test="addUser != null">
+        add_user,
+      </if>
+			
+	  <if test="addTime != null">
+        add_time,
+      </if>
+			
+	  <if test="status != null">
+        status,
+      </if>
+			
+	  <if test="moduserLevel != null">
+        moduser_level,
+      </if>
+			
+	  <if test="taskType != null">
+        task_type,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="id != null">
+         #{id,jdbcType=INTEGER},
+      </if>
+				
+	  <if test="taskName != null">
+         #{taskName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="addUser != null">
+         #{addUser,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="addTime != null">
+         #{addTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="status != null">
+         #{status,jdbcType=TINYINT},
+      </if>
+			
+	  <if test="moduserLevel != null">
+         #{moduserLevel,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="taskType != null">
+         #{taskType,jdbcType=TINYINT},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.mainTask.bo.Task">
+    update tb_task
+    <set>      <if test="taskName != null">
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+	        <if test="addUser != null">
+        add_user = #{addUser,jdbcType=VARCHAR},
+      </if>
+	        <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+	        <if test="moduserLevel != null">
+        moduser_level = #{moduserLevel,jdbcType=INTEGER},
+      </if>
+	        <if test="taskType != null">
+        task_type = #{taskType,jdbcType=TINYINT},
+      </if>
+	      </set>
+    where 1=1 and id = #{id,jdbcType=INTEGER}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.mainTask.bo.Task">
+    update tb_task
+    set 
+     	task_name = #{taskName,jdbcType=VARCHAR},
+    	add_user = #{addUser,jdbcType=VARCHAR},
+    	add_time = #{addTime,jdbcType=TIMESTAMP},
+    	status = #{status,jdbcType=TINYINT},
+    	moduser_level = #{moduserLevel,jdbcType=INTEGER},
+    	task_type = #{taskType,jdbcType=TINYINT}
+        where 1=1 and id = #{id,jdbcType=INTEGER}  
+  </update>
+
+</mapper>

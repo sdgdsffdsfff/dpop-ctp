@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("permission/enum",["require","er/Enum"],function(require){var e=require("er/Enum"),exports={};return exports.UserRole=new e({alias:"manager",text:"管理员",value:0},{alias:"innerMarker",text:"内部标注",value:1},{alias:"innerAudit",text:"内部审核",value:2},{alias:"outerMarker",text:"外部标注",value:10},{alias:"outerAudit",text:"外部审核",value:11}),exports.FreezedState=new e({alias:"noFreezed",text:"未冻结",value:2},{alias:"freezed",text:"已冻结",value:3}),exports});

@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("common/FormModel",["require","common/rule","eoo","ub-ria/mvc/FormModel"],function(require){var e=require("common/rule"),exports={};exports.constructor=function(){this.$super(arguments),this.set("rule",e)},exports.setGlobalData=function(e){this.addData("global",e)};var t=require("eoo").create(require("ub-ria/mvc/FormModel"),exports);return t});

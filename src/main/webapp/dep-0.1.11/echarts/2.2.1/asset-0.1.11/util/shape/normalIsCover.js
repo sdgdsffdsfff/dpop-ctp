@@ -1,0 +1,1 @@
+define("echarts/util/shape/normalIsCover",[],function(){return function(e,t){var i=this.transformCoordToLocal(e,t);return e=i[0],t=i[1],this.isCoverRect(e,t)}});

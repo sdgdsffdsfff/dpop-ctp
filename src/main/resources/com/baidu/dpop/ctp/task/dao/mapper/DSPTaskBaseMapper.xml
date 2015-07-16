@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.task.dao.mapper.DSPTaskMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.task.bo.DSPTask">
+			<id     column="id"		jdbcType="BIGINT"		property="id" />
+	 		<result column="ad_id"		jdbcType="BIGINT"		property="adId" />
+			<result column="user_id"		jdbcType="BIGINT"		property="userId" />
+			<result column="dsp_id"		jdbcType="BIGINT"		property="dspId" />
+			<result column="wuliao_type"		jdbcType="INTEGER"		property="wuliaoType" />
+			<result column="nickname"		jdbcType="VARCHAR"		property="nickname" />
+			<result column="website"		jdbcType="VARCHAR"		property="website" />
+			<result column="landing_page"		jdbcType="VARCHAR"		property="landingPage" />
+			<result column="dspname"		jdbcType="VARCHAR"		property="dspname" />
+			<result column="width"		jdbcType="INTEGER"		property="width" />
+			<result column="height"		jdbcType="INTEGER"		property="height" />
+			<result column="ad_trade_id_level2"		jdbcType="INTEGER"		property="adTradeIdLevel2" />
+			<result column="ad_trade_id_level3"		jdbcType="INTEGER"		property="adTradeIdLevel3" />
+			<result column="ad_tag"		jdbcType="VARCHAR"		property="adTag" />
+			<result column="mc_id"		jdbcType="INTEGER"		property="mcId" />
+			<result column="mc_version_id"		jdbcType="INTEGER"		property="mcVersionId" />
+			<result column="priority"		jdbcType="INTEGER"		property="priority" />
+			<result column="moduser_level"		jdbcType="INTEGER"		property="moduserLevel" />
+			<result column="task_name"		jdbcType="VARCHAR"		property="taskName" />
+			<result column="task_id"		jdbcType="INTEGER"		property="taskId" />
+			<result column="chatime"		jdbcType="TIMESTAMP"		property="chatime" />
+			<result column="add_time"		jdbcType="TIMESTAMP"		property="addTime" />
+			<result column="add_user"		jdbcType="VARCHAR"		property="addUser" />
+			<result column="second_priority"		jdbcType="INTEGER"		property="secondPriority" />
+			<result column="task_type"		jdbcType="TINYINT"		property="taskType" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	id,ad_id,user_id,dsp_id,wuliao_type,nickname,website,landing_page,dspname,width,height,ad_trade_id_level2,ad_trade_id_level3,ad_tag,mc_id,mc_version_id,priority,moduser_level,task_name,task_id,chatime,add_time,add_user,second_priority,task_type  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_dsp_task
+    where 1=1  and id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_dsp_task
+    where 1=1 and id = #{id,jdbcType=BIGINT}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.task.bo.DSPTask" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_dsp_task 
+	(id, ad_id, user_id, dsp_id, wuliao_type, nickname, website, landing_page, dspname, width, height, ad_trade_id_level2, ad_trade_id_level3, ad_tag, mc_id, mc_version_id, priority, moduser_level, task_name, task_id, chatime, add_time, add_user, second_priority, task_type)
+    values 
+	( #{id,jdbcType=BIGINT},#{adId,jdbcType=BIGINT},#{userId,jdbcType=BIGINT},#{dspId,jdbcType=BIGINT},#{wuliaoType,jdbcType=INTEGER},#{nickname,jdbcType=VARCHAR},#{website,jdbcType=VARCHAR},#{landingPage,jdbcType=VARCHAR},#{dspname,jdbcType=VARCHAR},#{width,jdbcType=INTEGER},#{height,jdbcType=INTEGER},#{adTradeIdLevel2,jdbcType=INTEGER},#{adTradeIdLevel3,jdbcType=INTEGER},#{adTag,jdbcType=VARCHAR},#{mcId,jdbcType=INTEGER},#{mcVersionId,jdbcType=INTEGER},#{priority,jdbcType=INTEGER},#{moduserLevel,jdbcType=INTEGER},#{taskName,jdbcType=VARCHAR},#{taskId,jdbcType=INTEGER},#{chatime,jdbcType=TIMESTAMP},#{addTime,jdbcType=TIMESTAMP},#{addUser,jdbcType=VARCHAR},#{secondPriority,jdbcType=INTEGER},#{taskType,jdbcType=TINYINT})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.task.bo.DSPTask" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_dsp_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="id != null">
+        id,
+      </if>
+				
+	  <if test="adId != null">
+        ad_id,
+      </if>
+			
+	  <if test="userId != null">
+        user_id,
+      </if>
+			
+	  <if test="dspId != null">
+        dsp_id,
+      </if>
+			
+	  <if test="wuliaoType != null">
+        wuliao_type,
+      </if>
+			
+	  <if test="nickname != null">
+        nickname,
+      </if>
+			
+	  <if test="website != null">
+        website,
+      </if>
+			
+	  <if test="landingPage != null">
+        landing_page,
+      </if>
+			
+	  <if test="dspname != null">
+        dspname,
+      </if>
+			
+	  <if test="width != null">
+        width,
+      </if>
+			
+	  <if test="height != null">
+        height,
+      </if>
+			
+	  <if test="adTradeIdLevel2 != null">
+        ad_trade_id_level2,
+      </if>
+			
+	  <if test="adTradeIdLevel3 != null">
+        ad_trade_id_level3,
+      </if>
+			
+	  <if test="adTag != null">
+        ad_tag,
+      </if>
+			
+	  <if test="mcId != null">
+        mc_id,
+      </if>
+			
+	  <if test="mcVersionId != null">
+        mc_version_id,
+      </if>
+			
+	  <if test="priority != null">
+        priority,
+      </if>
+			
+	  <if test="moduserLevel != null">
+        moduser_level,
+      </if>
+			
+	  <if test="taskName != null">
+        task_name,
+      </if>
+			
+	  <if test="taskId != null">
+        task_id,
+      </if>
+			
+	  <if test="chatime != null">
+        chatime,
+      </if>
+			
+	  <if test="addTime != null">
+        add_time,
+      </if>
+			
+	  <if test="addUser != null">
+        add_user,
+      </if>
+			
+	  <if test="secondPriority != null">
+        second_priority,
+      </if>
+			
+	  <if test="taskType != null">
+        task_type,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="id != null">
+         #{id,jdbcType=BIGINT},
+      </if>
+				
+	  <if test="adId != null">
+         #{adId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="userId != null">
+         #{userId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="dspId != null">
+         #{dspId,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="wuliaoType != null">
+         #{wuliaoType,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="nickname != null">
+         #{nickname,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="website != null">
+         #{website,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="landingPage != null">
+         #{landingPage,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="dspname != null">
+         #{dspname,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="width != null">
+         #{width,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="height != null">
+         #{height,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adTradeIdLevel2 != null">
+         #{adTradeIdLevel2,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adTradeIdLevel3 != null">
+         #{adTradeIdLevel3,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="adTag != null">
+         #{adTag,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="mcId != null">
+         #{mcId,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="mcVersionId != null">
+         #{mcVersionId,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="priority != null">
+         #{priority,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="moduserLevel != null">
+         #{moduserLevel,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="taskName != null">
+         #{taskName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="taskId != null">
+         #{taskId,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="chatime != null">
+         #{chatime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="addTime != null">
+         #{addTime,jdbcType=TIMESTAMP},
+      </if>
+			
+	  <if test="addUser != null">
+         #{addUser,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="secondPriority != null">
+         #{secondPriority,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="taskType != null">
+         #{taskType,jdbcType=TINYINT},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.task.bo.DSPTask">
+    update tb_dsp_task
+    <set>      <if test="adId != null">
+        ad_id = #{adId,jdbcType=BIGINT},
+      </if>
+	        <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+	        <if test="dspId != null">
+        dsp_id = #{dspId,jdbcType=BIGINT},
+      </if>
+	        <if test="wuliaoType != null">
+        wuliao_type = #{wuliaoType,jdbcType=INTEGER},
+      </if>
+	        <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+	        <if test="website != null">
+        website = #{website,jdbcType=VARCHAR},
+      </if>
+	        <if test="landingPage != null">
+        landing_page = #{landingPage,jdbcType=VARCHAR},
+      </if>
+	        <if test="dspname != null">
+        dspname = #{dspname,jdbcType=VARCHAR},
+      </if>
+	        <if test="width != null">
+        width = #{width,jdbcType=INTEGER},
+      </if>
+	        <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
+      </if>
+	        <if test="adTradeIdLevel2 != null">
+        ad_trade_id_level2 = #{adTradeIdLevel2,jdbcType=INTEGER},
+      </if>
+	        <if test="adTradeIdLevel3 != null">
+        ad_trade_id_level3 = #{adTradeIdLevel3,jdbcType=INTEGER},
+      </if>
+	        <if test="adTag != null">
+        ad_tag = #{adTag,jdbcType=VARCHAR},
+      </if>
+	        <if test="mcId != null">
+        mc_id = #{mcId,jdbcType=INTEGER},
+      </if>
+	        <if test="mcVersionId != null">
+        mc_version_id = #{mcVersionId,jdbcType=INTEGER},
+      </if>
+	        <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+	        <if test="moduserLevel != null">
+        moduser_level = #{moduserLevel,jdbcType=INTEGER},
+      </if>
+	        <if test="taskName != null">
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+	        <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+	        <if test="chatime != null">
+        chatime = #{chatime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+	        <if test="addUser != null">
+        add_user = #{addUser,jdbcType=VARCHAR},
+      </if>
+	        <if test="secondPriority != null">
+        second_priority = #{secondPriority,jdbcType=INTEGER},
+      </if>
+	        <if test="taskType != null">
+        task_type = #{taskType,jdbcType=TINYINT},
+      </if>
+	      </set>
+    where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.task.bo.DSPTask">
+    update tb_dsp_task
+    set 
+     	ad_id = #{adId,jdbcType=BIGINT},
+    	user_id = #{userId,jdbcType=BIGINT},
+    	dsp_id = #{dspId,jdbcType=BIGINT},
+    	wuliao_type = #{wuliaoType,jdbcType=INTEGER},
+    	nickname = #{nickname,jdbcType=VARCHAR},
+    	website = #{website,jdbcType=VARCHAR},
+    	landing_page = #{landingPage,jdbcType=VARCHAR},
+    	dspname = #{dspname,jdbcType=VARCHAR},
+    	width = #{width,jdbcType=INTEGER},
+    	height = #{height,jdbcType=INTEGER},
+    	ad_trade_id_level2 = #{adTradeIdLevel2,jdbcType=INTEGER},
+    	ad_trade_id_level3 = #{adTradeIdLevel3,jdbcType=INTEGER},
+    	ad_tag = #{adTag,jdbcType=VARCHAR},
+    	mc_id = #{mcId,jdbcType=INTEGER},
+    	mc_version_id = #{mcVersionId,jdbcType=INTEGER},
+    	priority = #{priority,jdbcType=INTEGER},
+    	moduser_level = #{moduserLevel,jdbcType=INTEGER},
+    	task_name = #{taskName,jdbcType=VARCHAR},
+    	task_id = #{taskId,jdbcType=INTEGER},
+    	chatime = #{chatime,jdbcType=TIMESTAMP},
+    	add_time = #{addTime,jdbcType=TIMESTAMP},
+    	add_user = #{addUser,jdbcType=VARCHAR},
+    	second_priority = #{secondPriority,jdbcType=INTEGER},
+    	task_type = #{taskType,jdbcType=TINYINT}
+        where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+
+</mapper>

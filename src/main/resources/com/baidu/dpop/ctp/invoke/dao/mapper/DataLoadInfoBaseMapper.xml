@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baidu.dpop.ctp.invoke.dao.mapper.DataLoadInfoMapper">
+
+  <resultMap id="BaseResultMap" type="com.baidu.dpop.ctp.invoke.bo.DataLoadInfo">
+			<id     column="id"		jdbcType="BIGINT"		property="id" />
+	 		<result column="file_name"		jdbcType="VARCHAR"		property="fileName" />
+			<result column="file_size"		jdbcType="BIGINT"		property="fileSize" />
+			<result column="data_type"		jdbcType="TINYINT"		property="dataType" />
+			<result column="status"		jdbcType="TINYINT"		property="status" />
+			<result column="scan_record"		jdbcType="INTEGER"		property="scanRecord" />
+			<result column="insert_record"		jdbcType="INTEGER"		property="insertRecord" />
+			<result column="md5_value"		jdbcType="VARCHAR"		property="md5Value" />
+			<result column="add_time"		jdbcType="TIMESTAMP"		property="addTime" />
+	  </resultMap>
+  
+  <sql id="Base_Column_List">
+	id,file_name,file_size,data_type,status,scan_record,insert_record,md5_value,add_time  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_data_load_info
+    where 1=1  and id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_data_load_info
+    where 1=1 and id = #{id,jdbcType=BIGINT}  </delete>
+  
+  <insert id="insert" parameterType="com.baidu.dpop.ctp.invoke.bo.DataLoadInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_data_load_info 
+	(id, file_name, file_size, data_type, status, scan_record, insert_record, md5_value, add_time)
+    values 
+	( #{id,jdbcType=BIGINT},#{fileName,jdbcType=VARCHAR},#{fileSize,jdbcType=BIGINT},#{dataType,jdbcType=TINYINT},#{status,jdbcType=TINYINT},#{scanRecord,jdbcType=INTEGER},#{insertRecord,jdbcType=INTEGER},#{md5Value,jdbcType=VARCHAR},#{addTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.baidu.dpop.ctp.invoke.bo.DataLoadInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_data_load_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+		
+	  <if test="id != null">
+        id,
+      </if>
+				
+	  <if test="fileName != null">
+        file_name,
+      </if>
+			
+	  <if test="fileSize != null">
+        file_size,
+      </if>
+			
+	  <if test="dataType != null">
+        data_type,
+      </if>
+			
+	  <if test="status != null">
+        status,
+      </if>
+			
+	  <if test="scanRecord != null">
+        scan_record,
+      </if>
+			
+	  <if test="insertRecord != null">
+        insert_record,
+      </if>
+			
+	  <if test="md5Value != null">
+        md5_value,
+      </if>
+			
+	  <if test="addTime != null">
+        add_time,
+      </if>
+	    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+	  <if test="id != null">
+         #{id,jdbcType=BIGINT},
+      </if>
+				
+	  <if test="fileName != null">
+         #{fileName,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="fileSize != null">
+         #{fileSize,jdbcType=BIGINT},
+      </if>
+			
+	  <if test="dataType != null">
+         #{dataType,jdbcType=TINYINT},
+      </if>
+			
+	  <if test="status != null">
+         #{status,jdbcType=TINYINT},
+      </if>
+			
+	  <if test="scanRecord != null">
+         #{scanRecord,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="insertRecord != null">
+         #{insertRecord,jdbcType=INTEGER},
+      </if>
+			
+	  <if test="md5Value != null">
+         #{md5Value,jdbcType=VARCHAR},
+      </if>
+			
+	  <if test="addTime != null">
+         #{addTime,jdbcType=TIMESTAMP},
+      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.baidu.dpop.ctp.invoke.bo.DataLoadInfo">
+    update tb_data_load_info
+    <set>      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+	        <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+	        <if test="dataType != null">
+        data_type = #{dataType,jdbcType=TINYINT},
+      </if>
+	        <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+	        <if test="scanRecord != null">
+        scan_record = #{scanRecord,jdbcType=INTEGER},
+      </if>
+	        <if test="insertRecord != null">
+        insert_record = #{insertRecord,jdbcType=INTEGER},
+      </if>
+	        <if test="md5Value != null">
+        md5_value = #{md5Value,jdbcType=VARCHAR},
+      </if>
+	        <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+	      </set>
+    where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+  
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.baidu.dpop.ctp.invoke.bo.DataLoadInfo">
+    update tb_data_load_info
+    set 
+     	file_name = #{fileName,jdbcType=VARCHAR},
+    	file_size = #{fileSize,jdbcType=BIGINT},
+    	data_type = #{dataType,jdbcType=TINYINT},
+    	status = #{status,jdbcType=TINYINT},
+    	scan_record = #{scanRecord,jdbcType=INTEGER},
+    	insert_record = #{insertRecord,jdbcType=INTEGER},
+    	md5_value = #{md5Value,jdbcType=VARCHAR},
+    	add_time = #{addTime,jdbcType=TIMESTAMP}
+        where 1=1 and id = #{id,jdbcType=BIGINT}  
+  </update>
+
+</mapper>
